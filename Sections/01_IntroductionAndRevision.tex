@@ -1,0 +1,272 @@
+\section{Introduction and revision}
+
+Formally, a \emph{logic} consists of three components:
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Component} & \textbf{This component describes...}\\
+        \hline
+        Syntax & The language and grammar used to write formulas down\\
+        \hline
+        Semantics & How formulas are to be interpreted\\
+        \hline
+        Inference system (or proof system) & A syntactic device for proving true statements\\
+        \hline
+    \end{tabular}
+
+    \caption{The three key components of a logic.}
+    \label{tab:Ch01-components-of-a-logic}
+\end{table}
+
+This module concerns algorithms that automatically parse and determine the validity of a formula.
+
+
+\subsection{Propositional logic}
+
+\subsubsection{Syntax}
+
+Formulas are constructed by applying negation, conjunction and disjunction to propositions. 
+%
+\begin{align*}
+    \text{proposition} &\coloneq p \;\vert\; q \;\vert\; r \;\vert\; \cdots\\
+    \text{formula} &\coloneq \text{proposition} \;\vert\; \neg \text{formula} \;\vert\; (\text{formula} \;\circ\; \text{formula})  \tag{where \(\circ\) is \(\land\), \(\lor\) or \(\rightarrow\)}
+\end{align*}
+%
+A proposition or its negation is called a \emph{literal}.
+
+For any formula that isn't a proposition, we define the \emph{main connective} as the connective with the largest scope (i.e. the one that is not in the scope of any other connective).
+%
+\[((p \land q) \;{\color{BrickRed} \lor}\; \neg (q \rightarrow r))\]
+%
+This is the connective wth which evaluation begins. This is especially important when building parsers for algorithmically evaluating formulas.
+
+
+\subsubsection{Semantics}
+
+A valuation is a function \(v\) that maps each proposition to a truth value in \(\{\top, \bot\}\).
+    
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \draw[rounded corners] (-3, 0) rectangle (-1, -4) {};
+        \draw[rounded corners] (1, 0) rectangle (3, -4) {};
+
+        \node[align=center, anchor=center] at (-2, -1) {\(p\)};
+        \node[align=center, anchor=center] at (-2, -2) {\(q\)};
+        \node[align=center, anchor=center] at (-2, -3) {\(r\)};
+
+        \node[align=center, anchor=center] at (2, -1.5) {\(\top\)};
+        \node[align=center, anchor=center] at (2, -2.5) {\(\bot\)};
+
+        \draw[-Latex, very thick, BrickRed] (-1.75, -1) -- (1.75, -1.5) node[pos=0.5, anchor=south] {\(v\)};
+
+        \draw[-Latex, very thick, BrickRed] (-1.75, -2) -- (1.75, -2.4);
+
+        \draw[-Latex, very thick, BrickRed] (-1.75, -3) -- (1.75, -2.6);
+
+        \node[anchor=north] at (-2, -4) {Propositions};
+
+        \node[anchor=north] at (2, -4) {Truth values};
+        
+    \end{tikzpicture}
+    \caption{A valuation maps propositions to truth values.}
+    \label{fig:Ch01-valuation}
+\end{figure}
+
+A valuation \(v\) can be extended to a unique \emph{truth function} defined on all possible formulas. A truth function \(v'\) must satisfy
+%
+\begin{align*}
+    v'(\neg \phi) = \top &\iff v'(\phi) = \bot\\
+    v'(\phi \lor \psi) = \top &\iff v'(\phi) = \top \text{ or } v'(\psi) = \top\\
+    v'(\phi \land \psi) = \top &\iff v'(\phi) = \top \text{ and } v'(\psi) = \top\\
+    v'(\phi \rightarrow \psi) = \top &\iff v'(\phi) = \bot \text{ or } v'(\psi) = \top\\
+    v'(\phi \leftrightarrow \psi) = \top &\iff v'(\phi) = v'(\psi)
+\end{align*}
+%
+for all formulas \(\phi\) and \(\psi\). From now on we use \(v\) to denote the more general truth function.
+
+The result of applying a valuation \(v\) to a formula \(\phi\) depends only on the propositional letters that occur in \(\phi\). 
+
+A formula \(\phi\) is \emph{valid} if \(v(\phi) = \top\) for all valuations \(v\), which we denote as \(\models \phi\). A formula \(\phi\) is \emph{satisfiable} if \(v(\phi) = \top\) for at least one valuation \(v\). All valid formulas are satisfiable, but \emph{not} the other way around.
+
+Two formulas \(\phi\) and \(\psi\) are \emph{logically equivalent}, written as \(\phi \equiv \psi\), if and only if for every \(v\) we have \(v(\phi) = v(\psi)\).
+
+
+
+\subsection{First-order logic}
+
+\subsubsection{Syntax}
+
+A first-order language \(L(C, F, P)\) is determined by a set \(C\) of constant symbols, a set \(F\) of function symbols and a non-empty set \(P\) of predicate symbols.
+    
+Each function symbol and predicate symbol has an associated \emph{arity} \(n \in \mathbb{N}\). We write \(f^n\) and \(p^n\) to represent an \(n\)-ary function symbol and an \(n\)-ary predicate symbol respectively.
+
+Let \(V\) be a countably infinite set of variable symbols.
+%
+\begin{align*}
+    \text{term} &\coloneq c \;\vert\; v \;\vert\; f^n (\text{term}_0, \text{term}_1, \cdots, \text{term}_{n-1}) \tag{where \(c \in C\), \(v \in V\) and \(f^n \in F\)}\\
+    \text{atom} &\coloneq p^n (\text{term}_0, \text{term}_1, \cdots, \text{term}_{n-1}) \tag{where \(p^n \in P\)}\\
+    \text{formula} &\coloneq \text{atom} \;\vert\; \neg \text{formula} \;\vert\; (\text{formula}_0 \lor \text{formula}_1) \;\vert\; \exists v\; \text{formula}  \tag{where \(v \in V\)}
+\end{align*}
+%
+A \emph{closed term} is a term with no variable symbols. A \emph{sentence} is a formula with no free variables.
+
+
+
+\subsubsection{Semantics}
+
+For a first-order language \(L(C, F, P)\), we may construct a corresponding first-order structure \(S = (D, I)\) where \(I = (I_c, I_f, I_p)\).
+%
+{\large
+    \[
+        S = (
+            {\color{BrickRed}
+                \underbrace{D}_{\substack{
+                    \text{non-empty}\\
+                    \text{domain}
+                }}
+            }
+            ,
+            {\color{MidnightBlue}
+                \overbrace{(
+                    I_c,
+                    I_f,
+                    I_p
+                )}^{\text{interpretation } I}
+            }
+        )
+    \]
+}
+
+Here,
+\begin{itemize}
+    \item \(I_c\) maps constant symbols in \(C\) to elements of \(D\).
+    \item \(I_f\) maps an \(n\)-ary function symbol in \(F\) to an \(n\)-ary function over \(D\).
+    \item \(I_p\) maps an \(n\)-ary predicate symbol \(p \in P\) to an \(n\)-ary relation over \(D\) (i.e. a subset of \(D^n\)).
+\end{itemize}
+
+If \(P\) includes the equality symbol \(=\), then the symbol is always binary and is always interpreted as true equality, i.e. \(I_p (=) = \{(d, d) : d \in D\}\).
+
+Given a structure \(S = (D, I)\), a variable assignment \(A\) is a map from \(V\) to \(D\). For any variable \(v \in V\), two variable assignments \(A\) and \(A^{*}\) are said to be \(v\)-equivalent if \(A(x) = A^{*}(x)\) for all \(x \in V \setminus \{v\}\). In other words, two variable assignments are said to be \(v\)-equivalent if they are completely identical except possibly for the element in \(D\) assigned to \(v\). This is written as \(A \equiv_v A^{*}\).
+
+Given a structure \(S\) and a variable assignment \(A\), we may interpret any term as follows.
+%
+\begin{align*}
+    c^{S, A} &= I_c (c)\\
+    v^{S, A} &= A(v)\\
+    f^n (t_0, t_1, \cdots, t_{n-1})^{S, A} &= \underbrace{(I_f (f^n))}_{\substack{\text{interpreted}\\\text{function}}} (t_0^{S, A}, t_1^{S, A}, \cdots, t_{n-1}^{S, A})
+\end{align*}
+
+Formulas are evaluated as follows.
+%
+\begin{align*}
+    S \models_A p^n (t_0, t_1, \cdots, t_{n-1}) &\iff (t_0^{S, A}, t_1^{S, A}, \cdots, t_{n-1}^{S, A}) \in I_p (p^n)\\
+    S \models_A \neg \text{formula} &\iff S \not\models_A \text{formula}\\
+    S \models_A (\text{formula}_0 \lor \text{formula}_1) &\iff S \models_A \text{formula}_0 \text{ or } S \models_A \text{formula}_1\\
+    % S \models_A (\text{formula}_0 \land \text{formula}_1) &\iff S \models_A \text{formula}_0 \text{ and } S \models_A \text{formula}_1\\
+    % S \models_A (\text{formula}_0 \rightarrow \text{formula}_1) &\iff S \not\models_A \text{formula}_0 \text{ or } S \models_A \text{formula}_1\\
+    S \models_A \exists v\; \text{formula} &\iff S \models_{A[x \mapsto d]} \text{formula for some } d \in D
+\end{align*}
+
+Given a structure \(S\) and a formula \(\phi\), we say that
+%
+\begin{itemize}
+    \item \(\phi\) is ``valid in \(S\)'' if \(S \models_A \phi\) for every variable assignment \(A\). This is written as \(S \models \phi\).
+    \item \(\phi\) is ``satisfiable in \(S\)'' if \(S \models_A \phi\) for some variable assignment \(A\).
+    \item \(\phi\) is ``valid'' if \(\phi\) is valid in all possible structures. This is written as \(\models \phi\).
+    \item \(\phi\) is ``satisfiable'' if there exists some structure in which \(\phi\) is satisfiable.
+\end{itemize}
+%
+A formula \(\phi\) is not valid if and only if \(\neg \phi\) is satisfiable.
+
+If \(\phi\) is a sentence, then \(\phi\) is valid in \(S\) if and only if it is also satisfiable in \(S\).
+
+
+
+\subsubsection{Example: Arithmetic in the set of natural numbers}
+
+Consider the first-order language \(L(C, F, P)\) defined as follows. Also assume a countably infinite set \(V\) of variable symbols.
+%
+\begin{align*}
+    C &= 1, 2, 3, \cdots \tag{constant symbols}\\
+    F &= \{+, \times\} \tag{function symbols, both binary}\\
+    P &= \{=, <\} \tag{predicate symbols, both binary}\\
+    V &= \{x, y, z, \cdots\} \tag{variable symbols}
+\end{align*}
+%
+A term is a string of symbols that represents a ``thing'' or an ``object'' --- this could be a constant, a variable, or anything outputted by a function.
+%
+\begin{itemize}
+    \item \(2\)
+    \item \(x\)
+    \item \(1 + 3\)
+    \item \(2 \times x + 1\)
+\end{itemize}
+%
+Of the four terms shown above, only the first and third ones are closed terms because they contain no variable symbols.
+
+An atom is a string of symbols that represents the output of a predicate, which is a truth value.
+%
+\begin{itemize}
+    \item \(1 = 2\)
+    \item \(y < 3\)
+    \item \(x + 1 < 2 \times z + 3\)
+\end{itemize}
+%
+Finally, a formula is constructed by applying conjunctions, disjunctions, negations and quantifiers to atoms.
+%
+\begin{itemize}
+    \item \(1 = 2 \;\land\; y < 3\)
+    \item \(\neg \forall x\; \exists z\;\; x + 1 < 2 \times z + 3\)
+\end{itemize}
+%
+The latter example is a sentence because all of its variable symbols are bounded.
+
+For this particular first-order language, we may define the first-order structure \(N = \{\mathbb{N}, \{I_c, I_f, I_p\}\}\) where
+%
+\begin{itemize}
+    \item \(I_c\) is a function that maps numerical symbols to the corresponding natural number.
+    %
+    \begin{align*}
+        I_c (1) &= 1\\
+        I_c (2) &= 2\\
+        I_c (3) &= 3\\
+        &\;\;\vdots
+    \end{align*}
+
+    \item \(I_f\) is a function such that \(I_f (+)\) and \(I_f (\times)\) returns the addition and multiplication operations in arithmetic respectively.
+    
+    \item \(I_p\) is a function such that \(I_p (=)\) is the relation given by \(\{(n, n) : n \in \mathbb{N}\}\) while \(I_p (<)\) is the relation given by \(\{(m, n) \in \mathbb{N}^2 : m < n\}\).
+\end{itemize}
+%
+This structure \(N\) is the structure of ordinary arithmetic\footnote{There is also a similar structure \(R = (\mathbb{R}, I)\) where the domain is the set of real numbers.}.
+
+
+
+\subsubsection{First-order structures and directed graphs}
+
+Consider a first-order language with only one binary predicate symbol \(p\).
+%
+\[L(C, F, {\color{BrickRed} \{p\}})\]
+%
+Any first-order structure \(S = \{D, \{I_c, I_f, I_p\}\}\) for this language can be represented as a directed graph, where each vertex is an element of \(D\) and each directed edge represents an element of the relation \(I_p (p)\).
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \node (d0) at (0,0)[circle, draw=MidnightBlue, very thick, MidnightBlue, fill=MidnightBlue!20] {\(d_0\)};
+        \node (d1) at (-2,-2)[circle, draw=MidnightBlue, very thick, MidnightBlue, fill=MidnightBlue!20] {\(d_1\)};
+        \node (d2) at (2,-2)[circle, draw=MidnightBlue, very thick, MidnightBlue, fill=MidnightBlue!20] {\(d_2\)};
+
+        \draw[-Latex, thick, BrickRed] (d0) -- (d1) node[pos=0.5, left]{\((d_0, d_1) \in I_p (p)\)};
+
+        \draw[-Latex, thick, BrickRed] (d0) -- (d2) node[pos=0.5, right]{\((d_0, d_2) \in I_p (p)\)};
+
+        \draw[-Latex, thick, BrickRed] (d1) -- (d2) node[pos=0.5, below]{\((d_1, d_2) \in I_p (p)\)};
+        
+    \end{tikzpicture}
+    \caption{The first-order structure \(S\) can be visualised as a directed graph.}
+    \label{fig:Ch01-first-order-structure-as-directed-graph}
+\end{figure}
