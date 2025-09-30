@@ -1,0 +1,80 @@
+\documentclass{article}
+
+% PACKAGES --------------------------------------------
+
+% For layouts
+
+\usepackage[english]{babel}
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+\usepackage[skip=10pt plus1pt, indent=0pt]{parskip}
+\usepackage{float}
+% \usepackage[page]{appendix}
+
+
+% For mathematical symbols
+\usepackage{amsmath, amsfonts, amsthm, amssymb, gensymb}
+
+
+% For images, diagrams, boxed text and tables
+\usepackage[usenames,dvipsnames, x11names, rgb]{xcolor}
+\usepackage{graphicx}
+\usepackage[]{mdframed}  % For boxed text
+\usepackage{easytable}
+\usepackage{tikz, pgfplots}
+\pgfplotsset{compat=1.18}
+% \usepackage{tikz-3dplot}
+% \usetikzlibrary{calc}
+% \usetikzlibrary{decorations.pathreplacing,calligraphy}  % Braces
+
+
+% For links
+\PassOptionsToPackage{hyphens}{url}\usepackage[hidelinks]{hyperref}
+
+
+% Font
+
+% \usepackage{mathptmx}  % Times New Roman
+% \usepackage{bookman}  % Bookman
+% \usepackage{fourier}  % Fourier
+\usepackage{tgpagella}  % TeX Gyre Pagella
+
+
+% -----------------------------------------------------
+
+% Custom commands, environments, operators and other settings
+
+\newcommand{\abs}[1]{|#1|}
+
+\counterwithin*{equation}{section}
+
+
+% -----------------------------------------------------
+
+% Color scheme for TikZ diagrams:
+% MidnightBlue
+% OliveGreen
+% BrickRed
+% BurntOrange
+% Fuchsia
+
+% -----------------------------------------------------
+
+\title{Course name goes here}
+\author{Author goes here}
+\date{Date goes here}
+
+
+\begin{document}
+\maketitle
+
+\vspace{1em}
+\hrule
+\vspace{1em}
+
+
+\tableofcontents
+
+\newpage
+\input{Sections/01_FirstSection.tex}
+
+\end{document}
