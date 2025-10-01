@@ -6,11 +6,11 @@ Formally, a \emph{logic} consists of three components:
     \centering
     \begin{tabular}{|c|c|}
         \hline
-        \textbf{Component} & \textbf{This component describes...}\\
+        \textbf{Component} & \textbf{Describes...}\\
         \hline
-        Syntax & The language and grammar used to write formulas down\\
+        Syntax & The language and grammar for writing formulas\\
         \hline
-        Semantics & How formulas are to be interpreted\\
+        Semantics & How formulas are interpreted\\
         \hline
         Inference system (or proof system) & A syntactic device for proving true statements\\
         \hline
@@ -31,16 +31,16 @@ Formulas are constructed by applying negation, conjunction and disjunction to pr
 %
 \begin{align*}
     \text{proposition} &\coloneq p \;\vert\; q \;\vert\; r \;\vert\; \cdots\\
-    \text{formula} &\coloneq \text{proposition} \;\vert\; \neg \text{formula} \;\vert\; (\text{formula} \;\circ\; \text{formula})  \tag{where \(\circ\) is \(\land\), \(\lor\) or \(\rightarrow\)}
+    \text{formula} &\coloneq \text{proposition} \;\vert\; \neg \text{formula} \;\vert\; (\text{formula} \circ \text{formula})  \tag{where \(\circ\) is \(\land\), \(\lor\) or \(\rightarrow\)}
 \end{align*}
 %
-A proposition or its negation is called a \emph{literal}.
+A proposition or its negation is called a \emph{literal}\footnote{For example, \(p\) and \(\neg p\) are both literals, but \(\neg\neg q\) is not.}.
 
-For any formula that isn't a proposition, we define the \emph{main connective} as the connective with the largest scope (i.e. the one that is not in the scope of any other connective).
+For any formula that isn't a proposition, the \emph{main connective} is the one with the largest scope. In other words, it is not in the scope of any other connective.
 %
 \[((p \land q) \;{\color{BrickRed} \lor}\; \neg (q \rightarrow r))\]
 %
-This is the connective wth which evaluation begins. This is especially important when building parsers for algorithmically evaluating formulas.
+This is the connective with which evaluation begins. This is especially important when building parsers for algorithmically evaluating formulas.
 
 
 \subsubsection{Semantics}
@@ -49,7 +49,7 @@ A valuation is a function \(v\) that maps each proposition to a truth value in \
     
 \begin{figure}[H]
     \centering
-    \begin{tikzpicture}
+    \begin{tikzpicture}[scale=0.9]
         \draw[rounded corners] (-3, 0) rectangle (-1, -4) {};
         \draw[rounded corners] (1, 0) rectangle (3, -4) {};
 
@@ -89,9 +89,9 @@ for all formulas \(\phi\) and \(\psi\). From now on we use \(v\) to denote the m
 
 The result of applying a valuation \(v\) to a formula \(\phi\) depends only on the propositional letters that occur in \(\phi\). 
 
-A formula \(\phi\) is \emph{valid} if \(v(\phi) = \top\) for all valuations \(v\), which we denote as \(\models \phi\). A formula \(\phi\) is \emph{satisfiable} if \(v(\phi) = \top\) for at least one valuation \(v\). All valid formulas are satisfiable, but \emph{not} the other way around.
+A formula \(\phi\) is \emph{valid} if \(v(\phi) = \top\) for all valuations \(v\), which we denote as \(\models \phi\). A formula \(\phi\) is \emph{satisfiable} if \(v(\phi) = \top\) for at least one valuation \(v\). All valid formulas are satisfiable, but \emph{not} vice versa.
 
-Two formulas \(\phi\) and \(\psi\) are \emph{logically equivalent}, written as \(\phi \equiv \psi\), if and only if for every \(v\) we have \(v(\phi) = v(\psi)\).
+Two formulas \(\phi\) and \(\psi\) are \emph{logically equivalent}, written as \(\phi \equiv \psi\), if and only if for every valuation \(v\) we have \(v(\phi) = v(\psi)\).
 
 
 
@@ -99,11 +99,7 @@ Two formulas \(\phi\) and \(\psi\) are \emph{logically equivalent}, written as \
 
 \subsubsection{Syntax}
 
-A first-order language \(L(C, F, P)\) is determined by a set \(C\) of constant symbols, a set \(F\) of function symbols and a non-empty set \(P\) of predicate symbols.
-    
-Each function symbol and predicate symbol has an associated \emph{arity} \(n \in \mathbb{N}\). We write \(f^n\) and \(p^n\) to represent an \(n\)-ary function symbol and an \(n\)-ary predicate symbol respectively.
-
-Let \(V\) be a countably infinite set of variable symbols.
+A first-order language \(L(C, F, P)\) is determined by a set \(C\) of constant symbols, a set \(F\) of function symbols and a non-empty set \(P\) of predicate symbols. Each function symbol and predicate symbol has an associated \emph{arity} \(n \in \mathbb{N}\). We write \(f^n\) and \(p^n\) to represent an \(n\)-ary function symbol and an \(n\)-ary predicate symbol respectively. Moreover, let \(V\) be a countably infinite set of variable symbols.
 %
 \begin{align*}
     \text{term} &\coloneq c \;\vert\; v \;\vert\; f^n (\text{term}_0, \text{term}_1, \cdots, \text{term}_{n-1}) \tag{where \(c \in C\), \(v \in V\) and \(f^n \in F\)}\\
@@ -117,7 +113,7 @@ A \emph{closed term} is a term with no variable symbols. A \emph{sentence} is a 
 
 \subsubsection{Semantics}
 
-For a first-order language \(L(C, F, P)\), we may construct a corresponding first-order structure \(S = (D, I)\) where \(I = (I_c, I_f, I_p)\).
+For a first-order language \(L(C, F, P)\), we may construct a corresponding first-order structure\footnote{Also known as an \(L\)-structure.} \(S = (D, I)\) where \(I = (I_c, I_f, I_p)\).
 %
 {\large
     \[
@@ -139,15 +135,24 @@ For a first-order language \(L(C, F, P)\), we may construct a corresponding firs
         )
     \]
 }
-
+%
 Here,
 \begin{itemize}
-    \item \(I_c\) maps constant symbols in \(C\) to elements of \(D\).
-    \item \(I_f\) maps an \(n\)-ary function symbol in \(F\) to an \(n\)-ary function over \(D\).
-    \item \(I_p\) maps an \(n\)-ary predicate symbol \(p \in P\) to an \(n\)-ary relation over \(D\) (i.e. a subset of \(D^n\)).
+    \item \(I_c\) maps each constant symbol in \(C\) to an element of \(D\).
+    \item \(I_f\) maps each \(n\)-ary function symbol in \(F\) to an \(n\)-ary function over \(D\).
+    \item \(I_p\) maps each \(n\)-ary predicate symbol \(p \in P\) to an \(n\)-ary relation over \(D\) (i.e. a subset of \(D^n\)).
+    \item We may occasionally use \(I\) to denote an interpretation function where
+    %
+    \begin{align*}
+        I(c) &= I_c (c) \tag{for all \(c \in C\)}\\
+        I(f) &= I_f (f) \tag{for all \(f \in F\)}\\
+        I(p) &= I_p (p) \tag{for all \(p \in P\)}
+    \end{align*}
 \end{itemize}
 
-If \(P\) includes the equality symbol \(=\), then the symbol is always binary and is always interpreted as true equality, i.e. \(I_p (=) = \{(d, d) : d \in D\}\).
+If \(P\) includes the equality symbol \(=\), then it is always interpreted as the binary relation of true equality.
+%
+\[I_p (=) = \{(d, d) : d \in D\}\]
 
 Given a structure \(S = (D, I)\), a variable assignment \(A\) is a map from \(V\) to \(D\). For any variable \(v \in V\), two variable assignments \(A\) and \(A^{*}\) are said to be \(v\)-equivalent if \(A(x) = A^{*}(x)\) for all \(x \in V \setminus \{v\}\). In other words, two variable assignments are said to be \(v\)-equivalent if they are completely identical except possibly for the element in \(D\) assigned to \(v\). This is written as \(A \equiv_v A^{*}\).
 
@@ -199,13 +204,12 @@ Consider the first-order language \(L(C, F, P)\) defined as follows. Also assume
 A term is a string of symbols that represents a ``thing'' or an ``object'' --- this could be a constant, a variable, or anything outputted by a function.
 %
 \begin{itemize}
-    \item \(2\)
     \item \(x\)
     \item \(1 + 3\)
     \item \(2 \times x + 1\)
 \end{itemize}
 %
-Of the four terms shown above, only the first and third ones are closed terms because they contain no variable symbols.
+Of the terms shown above, only the second one is a closed terms because it has no variable symbols.
 
 An atom is a string of symbols that represents the output of a predicate, which is a truth value.
 %
@@ -219,12 +223,12 @@ Finally, a formula is constructed by applying conjunctions, disjunctions, negati
 %
 \begin{itemize}
     \item \(1 = 2 \;\land\; y < 3\)
-    \item \(\neg \forall x\; \exists z\;\; x + 1 < 2 \times z + 3\)
+    \item \(\neg \exists z\;\; x + 1 < 2 \times z + 3\)
 \end{itemize}
 %
 The latter example is a sentence because all of its variable symbols are bounded.
 
-For this particular first-order language, we may define the first-order structure \(N = \{\mathbb{N}, \{I_c, I_f, I_p\}\}\) where
+For this particular first-order language, we may use the structure of ordinary arithmetic\footnote{There is also a similar structure \(R = (\mathbb{R}, I)\) where the domain is the set of real numbers.}, defined as \(N = \{\mathbb{N}, \{I_c, I_f, I_p\}\}\) where
 %
 \begin{itemize}
     \item \(I_c\) is a function that maps numerical symbols to the corresponding natural number.
@@ -236,12 +240,15 @@ For this particular first-order language, we may define the first-order structur
         &\;\;\vdots
     \end{align*}
 
-    \item \(I_f\) is a function such that \(I_f (+)\) and \(I_f (\times)\) returns the addition and multiplication operations in arithmetic respectively.
+    \item \(I_f\) maps \(+\) and \(\times\) to the addition and multiplication operations in arithmetic respectively.
     
-    \item \(I_p\) is a function such that \(I_p (=)\) is the relation given by \(\{(n, n) : n \in \mathbb{N}\}\) while \(I_p (<)\) is the relation given by \(\{(m, n) \in \mathbb{N}^2 : m < n\}\).
+    \item \(I_p\) maps \(=\) and \(<\) to the following relations.
+    %
+    \begin{align*}
+        I_p (=) &= \{(n, n) : n \in \mathbb{N}\}\\
+        I_p (<) &= \{(m, n) \in \mathbb{N}^2 : m < n\}
+    \end{align*}
 \end{itemize}
-%
-This structure \(N\) is the structure of ordinary arithmetic\footnote{There is also a similar structure \(R = (\mathbb{R}, I)\) where the domain is the set of real numbers.}.
 
 
 
