@@ -107,6 +107,8 @@ A first-order language \(L(C, F, P)\) is determined by a set \(C\) of constant s
     \text{formula} &\coloneq \text{atom} \;\vert\; \neg \text{formula} \;\vert\; (\text{formula}_0 \lor \text{formula}_1) \;\vert\; \exists v\; \text{formula}  \tag{where \(v \in V\)}
 \end{align*}
 %
+This definition is functionally complete. Formulas involving universal quantifiers, implications and equivalence symbols can always be rewritten using only symbols defined above.
+
 A \emph{closed term} is a term with no variable symbols. A \emph{sentence} is a formula with no free variables.
 
 
@@ -161,7 +163,7 @@ Given a structure \(S\) and a variable assignment \(A\), we may interpret any te
 \begin{align*}
     c^{S, A} &= I_c (c)\\
     v^{S, A} &= A(v)\\
-    f^n (t_0, t_1, \cdots, t_{n-1})^{S, A} &= \underbrace{(I_f (f^n))}_{\substack{\text{interpreted}\\\text{function}}} (t_0^{S, A}, t_1^{S, A}, \cdots, t_{n-1}^{S, A})
+    f^n (t_0, t_1, \cdots, t_{n-1})^{S, A} &= {\color{MidnightBlue} \underbrace{(I_f (f^n))}_{\substack{\text{interpreted}\\\text{function}}}} (t_0^{S, A}, t_1^{S, A}, \cdots, t_{n-1}^{S, A})
 \end{align*}
 
 Formulas are evaluated as follows.
@@ -184,7 +186,20 @@ Given a structure \(S\) and a formula \(\phi\), we say that
     \item \(\phi\) is ``satisfiable'' if there exists some structure in which \(\phi\) is satisfiable.
 \end{itemize}
 %
-A formula \(\phi\) is not valid if and only if \(\neg \phi\) is satisfiable.
+A formula \(\phi\) is valid if and only if \(\neg \phi\) is not satisfiable.
+%
+\begin{quote}
+    \textbf{Proof.} Let \(\neg\phi\) be a formula that is not satisfiable. Hence we have
+    %
+    \begin{align*}
+        \neg \exists S\; \exists A\;\;\; S \models_A \neg\phi &\iff \neg \exists S\; \exists A\;\;\; S \not\models_A \phi\\
+        &\iff \forall S\; \neg \exists A\;\;\; S \not\models_A \phi\\
+        &\iff \forall S\; \forall A\;\;\;  \neg S \not\models_A \phi\\
+        &\iff \forall S\; \forall A\;\;\; S \models_A \phi
+    \end{align*}
+    %
+    which means \(S\) is valid.
+\end{quote}
 
 If \(\phi\) is a sentence, then \(\phi\) is valid in \(S\) if and only if it is also satisfiable in \(S\).
 
@@ -201,7 +216,7 @@ Consider the first-order language \(L(C, F, P)\) defined as follows. Also assume
     V &= \{x, y, z, \cdots\} \tag{variable symbols}
 \end{align*}
 %
-A term is a string of symbols that represents a ``thing'' or an ``object'' --- this could be a constant, a variable, or anything outputted by a function.
+A term is a string of symbols that represents a ``thing'' or an ``object'' --- this could be a constant, a variable, or a function output.
 %
 \begin{itemize}
     \item \(x\)
@@ -219,7 +234,7 @@ An atom is a string of symbols that represents the output of a predicate, which 
     \item \(x + 1 < 2 \times z + 3\)
 \end{itemize}
 %
-Finally, a formula is constructed by applying conjunctions, disjunctions, negations and quantifiers to atoms.
+Finally, a formula is constructed by applying negations, disjunctions, and existential quantifiers to atoms.
 %
 \begin{itemize}
     \item \(1 = 2 \;\land\; y < 3\)
