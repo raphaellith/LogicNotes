@@ -1,0 +1,71 @@
+\section{Axiomatic Proofs for Propositional Logic}
+
+A \emph{proof system} is a system for determining the validity of formulas.
+
+An obvious system would be to construct a truth table and check that all rows give a true result. However, this naive approach has an exponential time complexity\footnote{Using this system, checking the validity of a formula with \(n\) proposition symbols requires \(2^n\) computations.}, meaning that it will become increasingly impractical as more and more propositions are introduced. To alleviate this issue, we will introduce a different approach below.
+
+
+
+\subsection{Axiomatic proof system}
+
+Firstly, we limit our propositional language to only use the connectives \(\neg\) and \(\rightarrow\). Double negations are prohibited.
+
+Moreover, we will note some \emph{axioms} that are known to be valid, and then try to derive other valid formulas from the axioms. Below we list three different \emph{schemas}, from which axioms may be obtained by substituting any formulas in place of \(p\), \(q\) and \(r\).
+%
+\begin{enumerate}[I.]
+    \item \(p \rightarrow (q \rightarrow p)\)
+    \item \((p \rightarrow (q \rightarrow r)) \rightarrow ((p \rightarrow q) \rightarrow (p \rightarrow r))\)
+    \item \((\neg p \rightarrow \neg q) \rightarrow (q \rightarrow p)\)
+\end{enumerate}
+
+Axioms on their own are insufficient in establishing a proof system. We also need \emph{inference rules}, which stipulate how conclusions can be derived from premises. One of the main inference rules is \emph{modus ponens}, which states that if you have proved both the formula \(\phi\) and the implication \((\phi\rightarrow\psi)\), then you may deduce the conclusion \(\psi\).
+%
+\[
+    \infer{\psi}{
+        \phi
+        &
+        (\phi\rightarrow\psi)
+    }
+    %
+    \tag{modus ponens}
+\]
+
+In this system, a \emph{proof} is a sequence of formulas
+%
+\[\phi_0,\; \phi_1,\; \phi_2,\; \cdots \phi_n\]
+%
+such that for each \(i \leq n\), the formula \(\phi_i\) is either
+%
+\begin{itemize}
+    \item an axiom; or
+    \item obtained from two previous formulas \(\phi_j\) and \(\phi_k\) in the sequence via modus ponens (for some \(j, k < i\)).
+\end{itemize}
+%
+If such a proof exists, then the final formula \(\phi_n\) is called a \emph{theorem} and we may write \(\vdash \phi_n\).
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \foreach \i in {0,1,3} {
+            \node (\i) at (2*\i, 0)[circle, draw=BrickRed, very thick, BrickRed, fill=BrickRed!20] {\(\phi_\i\)};
+
+            \draw node[yshift=-0.75cm, BrickRed] at (2*\i, 0) {Axiom};
+        }
+
+        \foreach \i in {2,4,5} {
+            \node (\i) at (2*\i, 0)[circle, draw=MidnightBlue, very thick, MidnightBlue, fill=MidnightBlue!20] {\(\phi_\i\)};
+        }
+
+        \draw[BurntOrange, very thick] (0) -- (1);
+        \draw[BurntOrange, very thick, -Latex, rounded corners] (1, 0) -- (1, 1.5) -- (4,1.5) node[pos=0.5, above]{Modus ponens} -- (2);
+        
+        \draw[OliveGreen, very thick] (2) -- (3);
+        \draw[OliveGreen, very thick, -Latex, rounded corners] (5, 0) -- (5, -1.5) -- (8,-1.5) node[pos=0.5, below]{Modus ponens} -- (4);
+        
+        \draw[Fuchsia, very thick] (3) -- (4);
+        \draw[Fuchsia, very thick, -Latex, rounded corners] (7, 0) -- (7, 1.5) -- (10,1.5) node[pos=0.5, above]{Modus ponens} -- (5);
+    \end{tikzpicture}
+    \caption{In a proof, every formula must be either an axiom, or derived from previous formulas via modus ponens.}
+    \label{fig:Ch02-proof}
+\end{figure}
+

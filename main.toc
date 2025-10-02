@@ -12,3 +12,5 @@
 \contentsline {subsubsection}{\numberline {1.2.2}Semantics}{5}{subsubsection.1.2.2}%
 \contentsline {subsubsection}{\numberline {1.2.3}Example: Arithmetic in the set of natural numbers}{7}{subsubsection.1.2.3}%
 \contentsline {subsubsection}{\numberline {1.2.4}First-order structures and directed graphs}{8}{subsubsection.1.2.4}%
+\contentsline {section}{\numberline {2}Axiomatic Proofs for Propositional Logic}{9}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Axiomatic proof system}{9}{subsection.2.1}%
