@@ -1,10 +1,14 @@
 \babel@toc {english}{}\relax 
-\contentsline {section}{\numberline {1}Introduction and revision}{2}{section.1}%
+\contentsline {section}{\numberline {1}Revision: The syntax and semantics of propositional and first-order logic}{2}{section.1}%
 \contentsline {subsection}{\numberline {1.1}Propositional logic}{2}{subsection.1.1}%
 \contentsline {subsubsection}{\numberline {1.1.1}Syntax}{2}{subsubsection.1.1.1}%
 \contentsline {subsubsection}{\numberline {1.1.2}Semantics}{2}{subsubsection.1.1.2}%
-\contentsline {subsection}{\numberline {1.2}First-order logic}{3}{subsection.1.2}%
-\contentsline {subsubsection}{\numberline {1.2.1}Syntax}{3}{subsubsection.1.2.1}%
-\contentsline {subsubsection}{\numberline {1.2.2}Semantics}{3}{subsubsection.1.2.2}%
-\contentsline {subsubsection}{\numberline {1.2.3}Example: Arithmetic in the set of natural numbers}{4}{subsubsection.1.2.3}%
-\contentsline {subsubsection}{\numberline {1.2.4}First-order structures and directed graphs}{5}{subsubsection.1.2.4}%
+\contentsline {subsubsection}{\numberline {1.1.3}Truth tables}{3}{subsubsection.1.1.3}%
+\contentsline {subsubsection}{\numberline {1.1.4}Parse trees}{3}{subsubsection.1.1.4}%
+\contentsline {subsubsection}{\numberline {1.1.5}Disjunctive normal form (DNF)}{4}{subsubsection.1.1.5}%
+\contentsline {subsubsection}{\numberline {1.1.6}Conjunctive normal form (CNF)}{4}{subsubsection.1.1.6}%
+\contentsline {subsection}{\numberline {1.2}First-order logic}{5}{subsection.1.2}%
+\contentsline {subsubsection}{\numberline {1.2.1}Syntax}{5}{subsubsection.1.2.1}%
+\contentsline {subsubsection}{\numberline {1.2.2}Semantics}{5}{subsubsection.1.2.2}%
+\contentsline {subsubsection}{\numberline {1.2.3}Example: Arithmetic in the set of natural numbers}{7}{subsubsection.1.2.3}%
+\contentsline {subsubsection}{\numberline {1.2.4}First-order structures and directed graphs}{8}{subsubsection.1.2.4}%

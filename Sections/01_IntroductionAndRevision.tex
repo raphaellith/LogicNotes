@@ -1,4 +1,4 @@
-\section{Introduction and revision}
+\section{Revision: The syntax and semantics of propositional and first-order logic}
 
 Formally, a \emph{logic} consists of three components:
 
@@ -41,6 +41,8 @@ For any formula that isn't a proposition, the \emph{main connective} is the one 
 \[((p \land q) \;{\color{BrickRed} \lor}\; \neg (q \rightarrow r))\]
 %
 This is the connective with which evaluation begins. This is especially important when building parsers for algorithmically evaluating formulas.
+
+Note that parsers working according to the above definition will recognise \((p \land q)\), but not \(p \land q\), as a formula. Regardless, throughout this document we will use a looser definition where brackets may be ommitted in unambiguous cases.
 
 
 \subsubsection{Semantics}
@@ -95,6 +97,172 @@ Two formulas \(\phi\) and \(\psi\) are \emph{logically equivalent}, written as \
 
 
 
+\subsubsection{Truth tables}
+
+Consider the propositional formula \(((p \lor \neg q) \land \neg (q \land r))\). We can check its validity and satisfiability by constructing its truth table.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c||c|c||c|}
+        \hline
+        \(p\) & \(q\) & \(r\) & \((p \lor \neg q)\) & \(\neg (q \land r)\) & \(((p \lor \neg q) \land \neg (q \land r))\)\\
+        \hline
+        0 & 0 & 0 & 1 & 1 & 1 \\
+        \hline
+        0 & 0 & 1 & 1 & 1 & 1 \\
+        \hline
+        0 & 1 & 0 & 0 & 1 & 0 \\
+        \hline
+        0 & 1 & 1 & 0 & 0 & 0\\
+        \hline
+        1 & 0 & 0 & 1 & 1 & 1 \\
+        \hline
+        1 & 0 & 1 & 1 & 1 & 1 \\
+        \hline
+        1 & 1 & 0 & 1 & 1 & 1 \\
+        \hline
+        1 & 1 & 1 & 1 & 0 & 0 \\
+        \hline
+    \end{tabular}
+
+    \caption{The truth table for the formula \(((p \lor \neg q) \land \neg (q \land r))\).}
+    \label{tab:Ch01-truth-table}
+\end{table}
+
+In this case, the formula is satisfiable but not valid.
+
+
+
+\subsubsection{Parse trees}
+
+A parser interprets the semantics of a formula by breaking down its symbols into a \emph{parse tree}, which shows the syntactic relation between symbols. For example, the formula \(((p \lor \neg q) \land \neg (q \land r))\) can be broken down into the following parse tree.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=0.6]
+        \node (main-and) at (0,0)[circle, draw=MidnightBlue, very thick, MidnightBlue, fill=MidnightBlue!20] {\(\land\)};
+        \node (or) at (-2,-2)[circle, draw=MidnightBlue, very thick, MidnightBlue, fill=MidnightBlue!20] {\(\lor\)};
+        \node (right-neg) at (2,-2)[circle, draw=MidnightBlue, very thick, MidnightBlue, fill=MidnightBlue!20] {\(\neg\)};
+        \node (p) at (-3,-4)[circle, draw=MidnightBlue, very thick, MidnightBlue, fill=MidnightBlue!20] {\(p\)};
+        \node (left-neg) at (-1,-4)[circle, draw=MidnightBlue, very thick, MidnightBlue, fill=MidnightBlue!20] {\(\neg\)};
+        \node (and) at (2,-4)[circle, draw=MidnightBlue, very thick, MidnightBlue, fill=MidnightBlue!20] {\(\land\)};
+        \node (left-q) at (-1,-6)[circle, draw=MidnightBlue, very thick, MidnightBlue, fill=MidnightBlue!20] {\(q\)};
+        \node (right-q) at (1,-6)[circle, draw=MidnightBlue, very thick, MidnightBlue, fill=MidnightBlue!20] {\(q\)};
+        \node (r) at (3,-6)[circle, draw=MidnightBlue, very thick, MidnightBlue, fill=MidnightBlue!20] {\(r\)};
+
+        \draw[-Latex, thick] (main-and) -- (or);
+        \draw[-Latex, thick] (main-and) -- (right-neg);
+        \draw[-Latex, thick] (or) -- (p);
+        \draw[-Latex, thick] (or) -- (left-neg);
+        \draw[-Latex, thick] (right-neg) -- (and);
+        \draw[-Latex, thick] (left-neg) -- (left-q);
+        \draw[-Latex, thick] (and) -- (right-q);
+        \draw[-Latex, thick] (and) -- (r);
+    \end{tikzpicture}
+    \caption{The parse tree for the formula \(((p \lor \neg q) \land \neg (q \land r))\).}
+    \label{fig:Ch01-parse-tree}
+\end{figure}
+
+
+
+\subsubsection{Disjunctive normal form (DNF)}
+
+A formula is said to be in \emph{disjunctive normal form} (DNF) if it is a disjunction of one or more conjunctions of one or more literals.
+%
+\begin{align*}
+    \text{proposition} &\coloneq p \;\vert\; q \;\vert\; r \;\vert\; \cdots\\
+    \text{literal} &\coloneq \text{proposition} \;\vert\; \neg\text{proposition}\\
+    \text{conjunctiveClause} &\coloneq \text{literal} \;\vert\; \text{literal } \land \text{ conjunctiveClause}\\
+    \text{DNF} &\coloneq \text{conjunctiveClause} \;\vert\; \text{conjunctiveClause } \lor \text{ DNF}
+\end{align*}
+%
+Below is an example of a formula in DNF.
+%
+\[
+    {\color{BrickRed}\underbrace{(p \land \neg q \land \neg r)}_{\substack{\text{conjunctive}\\\text{clause}}}}
+    \lor
+    {\color{BrickRed}\underbrace{(\neg p \land \neg q \land r)}_{\substack{\text{conjunctive}\\\text{clause}}}}
+    \lor
+    {\color{BrickRed}\underbrace{(q \land \neg r)}_{\substack{\text{conjunctive}\\\text{clause}}}}
+\]
+
+Any propositional formula has a DNF equivalent. For instance, the formula \((p \lor \neg q) \land \neg (q \land r)\) can be rewritten as follows.
+%
+\begin{align*}
+    & (p \lor \neg q) \land \neg (q \land r)\\
+    \iff & (p \lor \neg q) \land (\neg q \lor \neg r) \tag{De Morgan's law, to remove outer negation}\\
+    \iff & {\color{BrickRed}((p \lor \neg q) \land \neg q)} \lor {\color{MidnightBlue}((p \lor \neg q) \land \neg r)} \tag{distributing conjunctions over disjunctions}\\
+    \iff & {\color{BrickRed}(p \land \neg q) \lor (\neg q \land \neg q)} \lor {\color{MidnightBlue}(p \land \neg r) \lor (\neg q \land \neg r)} \tag{distributing conjunctions over disjunctions}\\
+    \iff & {\color{BrickRed}(p \land \neg q) \lor \neg q} \lor {\color{MidnightBlue}(p \land \neg r) \lor (\neg q \land \neg r)}
+\end{align*}
+
+Alternatively, this can also be achieved by referring to the truth table. From Table \ref{tab:Ch01-truth-table}, we see that the formula can be written in DNF as
+%
+\[(\neg p \land \neg q \land \neg r) \lor (\neg p \land \neg q \land r) \lor (p \land \neg q \land \neg r)  \lor (p \land \neg q \land r)  \lor (p \land q \land \neg r)\text{.}\]
+
+
+
+\subsubsection{Conjunctive normal form (CNF)}
+
+A formula is said to be \emph{conjunctive normal form} (CNF) if it is a conjunction of one or more disjunctions of one or more literals.
+%
+\begin{align*}
+    \text{disjunctiveClause} &\coloneq \text{literal} \;\vert\; \text{literal } \lor \text{ disjunctiveClause}\\
+    \text{CNF} &\coloneq \text{disjunctiveClause} \;\vert\; \text{disjunctiveClause } \land \text{ CNF}
+\end{align*}
+%
+Below is a formula in CNF.
+%
+\[
+    {\color{BrickRed}\underbrace{(p \lor \neg q \lor \neg r)}_{\substack{\text{conjunctive}\\\text{clause}}}}
+    \land
+    {\color{BrickRed}\underbrace{(\neg p \lor q \lor r)}_{\substack{\text{conjunctive}\\\text{clause}}}}
+\]
+
+To find the CNF equivalent of a formula \(\phi\), we first express its negation \(\neg\phi\) in DNF. Then, we negate it again to get \(\neg\neg\phi\). Using De Morgan's law, the resultant formula will be in CNF.
+
+For example, let \(\phi\) be the formula \((p \lor \neg q) \land \neg (q \land r)\). To rewrite it in CNF, we start by constructing the truth table of its negation \(\neg\phi\). This allows us to express \(\neg\phi\) in DNF.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c||c|c|}
+        \hline
+        \(p\) & \(q\) & \(r\) & \(((p \lor \neg q) \land \neg (q \land r))\) & Negation of \(((p \lor \neg q) \land \neg (q \land r))\)\\
+        \hline
+        0 & 0 & 0 & 1 & 0 \\
+        \hline
+        0 & 0 & 1 & 1 & 0 \\
+        \hline
+        0 & 1 & 0 & 0 & 1 \\
+        \hline
+        0 & 1 & 1 & 0 & 1 \\
+        \hline
+        1 & 0 & 0 & 1 & 0 \\
+        \hline
+        1 & 0 & 1 & 1 & 0 \\
+        \hline
+        1 & 1 & 0 & 1 & 0 \\
+        \hline
+        1 & 1 & 1 & 0 & 1 \\
+        \hline
+    \end{tabular}
+
+    \caption{The truth table for the negation of \(((p \lor \neg q) \land \neg (q \land r))\). This is obtained by flipping the results of Table \ref{tab:Ch01-truth-table}.}
+    \label{tab:Ch01-truth-table-of-negation}
+\end{table}
+
+Hence we have
+%
+\begin{align*}
+    \neg\phi &= (\neg p \land q) \lor (p \land q \land r) \tag{DNF of \(\neg\phi\)}\\
+    \neg\neg\phi &= \neg((\neg p \land q) \lor (p \land q \land r)) \tag{negating both sides}\\
+    \phi &= (p \lor \neg q) \land (\neg p \lor \neg q \lor \neg r) \tag{double negation; De Morgan's laws}
+\end{align*}
+%
+which gives us \(\phi\) in CNF.
+
+
+
 \subsection{First-order logic}
 
 \subsubsection{Syntax}
@@ -143,7 +311,7 @@ Here,
     \item \(I_c\) maps each constant symbol in \(C\) to an element of \(D\).
     \item \(I_f\) maps each \(n\)-ary function symbol in \(F\) to an \(n\)-ary function over \(D\).
     \item \(I_p\) maps each \(n\)-ary predicate symbol \(p \in P\) to an \(n\)-ary relation over \(D\) (i.e. a subset of \(D^n\)).
-    \item We may occasionally use \(I\) to denote an interpretation function where
+    \item We may occasionally use \(I\) to denote a general interpretation function where
     %
     \begin{align*}
         I(c) &= I_c (c) \tag{for all \(c \in C\)}\\
@@ -216,7 +384,7 @@ Consider the first-order language \(L(C, F, P)\) defined as follows. Also assume
     V &= \{x, y, z, \cdots\} \tag{variable symbols}
 \end{align*}
 %
-A term is a string of symbols that represents a ``thing'' or an ``object'' --- this could be a constant, a variable, or a function output.
+A term is a string of symbols that represents a ``thing'' or an ``object'' --- this can be a constant, a variable, or a function output.
 %
 \begin{itemize}
     \item \(x\)
@@ -282,11 +450,11 @@ Any first-order structure \(S = \{D, \{I_c, I_f, I_p\}\}\) for this language can
         \node (d1) at (-2,-2)[circle, draw=MidnightBlue, very thick, MidnightBlue, fill=MidnightBlue!20] {\(d_1\)};
         \node (d2) at (2,-2)[circle, draw=MidnightBlue, very thick, MidnightBlue, fill=MidnightBlue!20] {\(d_2\)};
 
-        \draw[-Latex, thick, BrickRed] (d0) -- (d1) node[pos=0.5, left]{\((d_0, d_1) \in I_p (p)\)};
+        \draw[-Latex, thick] (d0) -- (d1) node[pos=0.5, left]{\((d_0, d_1) \in I_p (p)\)};
 
-        \draw[-Latex, thick, BrickRed] (d0) -- (d2) node[pos=0.5, right]{\((d_0, d_2) \in I_p (p)\)};
+        \draw[-Latex, thick] (d0) -- (d2) node[pos=0.5, right]{\((d_0, d_2) \in I_p (p)\)};
 
-        \draw[-Latex, thick, BrickRed] (d1) -- (d2) node[pos=0.5, below]{\((d_1, d_2) \in I_p (p)\)};
+        \draw[-Latex, thick] (d1) -- (d2) node[pos=0.5, below]{\((d_1, d_2) \in I_p (p)\)};
         
     \end{tikzpicture}
     \caption{The first-order structure \(S\) can be visualised as a directed graph.}
