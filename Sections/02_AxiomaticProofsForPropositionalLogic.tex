@@ -2,20 +2,30 @@
 
 A \emph{proof system} is a system for determining the validity of formulas.
 
-An obvious system would be to construct a truth table and check that all rows give a true result. However, this naive approach has an exponential time complexity\footnote{Using this system, checking the validity of a formula with \(n\) proposition symbols requires \(2^n\) computations.}, meaning that it will become increasingly impractical as more and more propositions are introduced. To alleviate this issue, we will introduce a different approach below.
+An obvious system would be to construct a truth table and check that all rows give a true result. However, this naive approach has an exponential time complexity\footnote{Using this system, checking the validity of a formula with \(n\) proposition symbols requires \(2^n\) computations.}, meaning that it will become increasingly impractical as more and more propositions are introduced.
+
+To alleviate this issue, we shall introduce a different approach called a \emph{Hilbert-style proof system}. This is an \emph{axiomatic proof system} in which theorems are generated using axioms and inference rules.
 
 
 
-\subsection{Axiomatic proof system}
+\subsection{Hilbert-style proof system}
 
 Firstly, we limit our propositional language to only use the connectives \(\neg\) and \(\rightarrow\). Double negations are prohibited.
 
-Moreover, we will note some \emph{axioms} that are known to be valid, and then try to derive other valid formulas from the axioms. Below we list three different \emph{schemas}, from which axioms may be obtained by substituting any formulas in place of \(p\), \(q\) and \(r\).
+Moreover, we will note some \emph{axioms} that are known to be valid, and then try to derive other valid formulas from the axioms. Below we list three examples of \emph{schemas}, from which axioms may be obtained by substituting any formulas in place of \(p\), \(q\) and \(r\).
 %
 \begin{enumerate}[I.]
     \item \(p \rightarrow (q \rightarrow p)\)
+    \hfill (implication is true if consequent is true)
+    \label{axiom-I}
+    
     \item \((p \rightarrow (q \rightarrow r)) \rightarrow ((p \rightarrow q) \rightarrow (p \rightarrow r))\)
+    \hfill (implication chain as hypothetical syllogism)
+    \label{axiom-II}
+    
     \item \((\neg p \rightarrow \neg q) \rightarrow (q \rightarrow p)\)
+    \hfill (contrapositive)
+    \label{axiom-III}
 \end{enumerate}
 
 Axioms on their own are insufficient in establishing a proof system. We also need \emph{inference rules}, which stipulate how conclusions can be derived from premises. One of the main inference rules is \emph{modus ponens}, which states that if you have proved both the formula \(\phi\) and the implication \((\phi\rightarrow\psi)\), then you may deduce the conclusion \(\psi\).
@@ -64,8 +74,136 @@ If such a proof exists, then the final formula \(\phi_n\) is called a \emph{theo
         
         \draw[Fuchsia, very thick] (3) -- (4);
         \draw[Fuchsia, very thick, -Latex, rounded corners] (7, 0) -- (7, 1.5) -- (10,1.5) node[pos=0.5, above]{Modus ponens} -- (5);
+
+        \draw[black, ultra thick, -Latex] (-0.5, -3) -- (10, -3) node[right] {\textbf{Proof}};
     \end{tikzpicture}
     \caption{In a proof, every formula must be either an axiom, or derived from previous formulas via modus ponens.}
     \label{fig:Ch02-proof}
 \end{figure}
 
+
+For example, the theorem
+%
+\[\vdash (p \rightarrow p)\]
+%
+may be proved using the above proof system as follows.
+%
+\begin{enumerate}
+    \item \((p \rightarrow ((p \rightarrow p) \rightarrow p)) \rightarrow ((p \rightarrow (p \rightarrow p)) \rightarrow (p \rightarrow p))\)
+    \hfill (Axiom \ref{axiom-I}, replacing \(p, q, r\) by \(p, (p \rightarrow p), p\))
+
+    \item \(p \rightarrow ((p \rightarrow p) \rightarrow p)\)
+    \hfill (Axiom \ref{axiom-II}, replacing \(p, q\) by \(p, (p \rightarrow p)\))
+
+    \item \((p \rightarrow (p \rightarrow p)) \rightarrow (p \rightarrow p)\)
+    \hfill (modus ponens, via 1 and 2)
+
+    \item \(p \rightarrow (p \rightarrow p)\)
+    \hfill (Axiom \ref{axiom-I}, replacing \(p, q\) by \(p, p\))
+
+    \item \(p \rightarrow p\)
+    \hfill (modus ponens, via 3 and 4)
+\end{enumerate}
+
+
+
+To include double negations and other connectives like \(\land\) and \(\lor\), we may add more axioms to our proof system.
+%
+\begin{enumerate}[I.]
+    \setcounter{enumi}{3}
+    \item \(p \rightarrow \neg\neg p\) and \(\neg\neg p \rightarrow p\)
+    \hfill (double negation)
+    \label{axiom-IV}
+    
+    \item \((p \lor q) \rightarrow (\neg p \rightarrow q)\) and \((\neg p \rightarrow q) \rightarrow (p \lor q)\)
+    \hfill (implication as disjunction)
+    \label{axiom-V}
+    
+    \item \((p \land q) \rightarrow \neg(p \rightarrow \neg q)\) and \(\neg(p \rightarrow \neg q) \rightarrow (p \land q)\)
+    \hfill (implication as conjunction)
+    \label{axiom-VI}
+\end{enumerate}
+
+
+
+\subsection{Proofs with assumptions and the principle of explosion}
+
+Let \(\Gamma\) be a set of \emph{assumptions}, i.e. formulas that are assumed to be true. Under these assumptions, a proof is defined as a sequence of formulas
+%
+\[\phi_0,\; \phi_1,\; \phi_2,\; \cdots \phi_n\]
+%
+such that for each \(i \leq n\), the formula \(\phi_i\) is either
+%
+\begin{itemize}
+    \item an axiom;
+    \item an assumption \(\phi_i \in \Gamma\); or
+    \item obtained from two previous formulas \(\phi_j\) and \(\phi_k\) in the sequence via modus ponens (for some \(j, k < i\)).
+\end{itemize}
+%
+If such a proof exists, then we may write \(\Gamma \vdash \phi_n\).
+
+For example, given the set of assumptions \(\Gamma = \{p\}\), we may prove that \(q \rightarrow p\) using the Hilbert-style proof system, as demonstrated below.
+%
+\begin{enumerate}
+    \item \(p \rightarrow (q \rightarrow p)\)
+    \hfill (Axiom I)
+
+    \item \(p\)
+    \hfill (Assumption)
+
+    \item \(q \rightarrow p\)
+    \hfill (modus ponens, via 1 and 2)
+\end{enumerate}
+
+
+Proving with assumptions can be quite tricky due to the \emph{principle of explosion}\footnote{This principle is sometimes referred to in Latin as \textit{ex falso quodlibet}, which literally translates to ``from falsehood, anything [follows]''.}, which states that any statement can be proven from a contradiction. In other words, it is possible to prove any given statement, true or false, using a proof system as long as at least one of the assumptions in \(\Gamma\) is false.
+
+We shall illustrate this principle as follows. Let \(\Gamma\) be the set containing the invalid assumption \(\neg(q \rightarrow q)\). We will use the Hilbert-style proof system to prove an arbitrary formula \(p\) under this assumption.
+%
+\begin{enumerate}
+    \setcounter{enumi}{4}
+    \item \(q \rightarrow q\)
+    \hfill (proven previously)
+
+    \item \((q \rightarrow q) \rightarrow \neg\neg(q \rightarrow q)\)
+    \hfill (Axiom \ref{axiom-IV}, replacing \(p\) by \(q\))
+
+    \item \(\neg\neg(q \rightarrow q)\)
+    \hfill (modus ponens, via 5 and 6)
+
+    \item \(\neg\neg(q \rightarrow q) \rightarrow (\neg p \rightarrow \neg\neg(q \rightarrow q))\)
+    \hfill (Axiom \ref{axiom-I}, replacing \(p, q\) by \(\neg\neg(q \rightarrow q), \neg p\))
+
+    \item \(\neg p \rightarrow \neg\neg(q \rightarrow q)\)
+    \hfill (modus ponens, via 7 and 8)
+
+    \item \((\neg p \rightarrow \neg\neg(q \rightarrow q)) \rightarrow (\neg (q \rightarrow q) \rightarrow p)\)
+    \hfill (Axiom \ref{axiom-III}, replacing \(p, q\) by \(p, \neg\neg(q \rightarrow q)\))
+
+    \item \(\neg (q \rightarrow q) \rightarrow p\)
+    \hfill (modus ponens, via 9 and 10)
+
+    \item \(\neg (q \rightarrow q)\)
+    \hfill (assumption)
+
+    \item \(p\)
+    \hfill (modus ponens, via 11 and 12)
+\end{enumerate}
+
+
+
+\subsection{Soundness, completeness and termination}
+
+A proof system is said to be \emph{sound} if it can only prove valid theorems. In other words, anything proven using a sound system must be valid.
+%
+\begin{equation}
+    \underbrace{\vdash \phi}_{\text{proven}} \implies \underbrace{\models \phi}_{\text{valid}} \tag{soundness}
+\end{equation}
+
+Conversely, a proof system is said to be \emph{complete} if it can prove any given valid theorem. In other words, if a formula is valid, it must be possible to prove it under a complete system.
+%
+\begin{equation}
+    \underbrace{\models \phi}_{\text{valid}} \implies \underbrace{\vdash \phi}_{\text{proven}} \tag{completeness}
+\end{equation}
+
+With only a limited number of inference rules, Hilbert-style proof systems lack a systematic way for efficiently constructing proofs. Hence, these systems do not necessarily terminate.
