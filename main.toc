@@ -16,3 +16,6 @@
 \contentsline {subsection}{\numberline {2.1}Hilbert-style proof system}{9}{subsection.2.1}%
 \contentsline {subsection}{\numberline {2.2}Proofs with assumptions and the principle of explosion}{10}{subsection.2.2}%
 \contentsline {subsection}{\numberline {2.3}Soundness, completeness and termination}{11}{subsection.2.3}%
+\contentsline {section}{\numberline {3}Propositional tableau}{12}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Constructing a tableau}{12}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Example of constructing a tableau and converting to DNF}{13}{subsection.3.2}%

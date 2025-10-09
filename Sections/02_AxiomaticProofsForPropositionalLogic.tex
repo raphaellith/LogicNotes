@@ -206,4 +206,6 @@ Conversely, a proof system is said to be \emph{complete} if it can prove any giv
     \underbrace{\models \phi}_{\text{valid}} \implies \underbrace{\vdash \phi}_{\text{proven}} \tag{completeness}
 \end{equation}
 
-With only a limited number of inference rules, Hilbert-style proof systems lack a systematic way for efficiently constructing proofs. Hence, these systems do not necessarily terminate.
+The main problem with the Hilbert-style proof system is that although it is relartively easy to check that a proof of a formula is correct, there is no systematic way for efficiently constructing proofs.
+
+Moreover, even if a system is sound and complete, we don't know how long the proof for a given formula might be. Since it is impossible for us to check all the possibilities to see if a proof exists, testing the validity of a formula remains undecidable --- there is no effective method for determining validity that terminates in finite time.
