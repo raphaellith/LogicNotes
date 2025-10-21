@@ -43,6 +43,14 @@
 % For resizing maths symbols
 \usepackage{relsize}
 
+% For code
+\usepackage{listings}
+\lstset{
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  mathescape
+}
+
 
 % Font
 
@@ -59,6 +67,12 @@
 \newcommand{\abs}[1]{|#1|}
 
 \counterwithin*{equation}{section}
+
+\newtheorem*{theorem}{Theorem}
+% \newtheorem{corollary}{Corollary}[theorem]
+\newtheorem*{lemma}{Lemma}
+
+\DeclareMathOperator{\Rk}{Rk}
 
 
 % -----------------------------------------------------
@@ -98,5 +112,8 @@
 
 \newpage
 \input{Sections/04_PredicateTableau.tex}
+
+\newpage
+\input{Sections/05_TableausAsListsOfTheories.tex}
 
 \end{document}

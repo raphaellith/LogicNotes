@@ -1,5 +1,5 @@
 \babel@toc {english}{}\relax 
-\contentsline {section}{\numberline {1}Revision: The syntax and semantics of propositional and first-order logic}{2}{section.1}%
+\contentsline {section}{\numberline {1}Revision: Syntax and semantics of propositional and first-order logic}{2}{section.1}%
 \contentsline {subsection}{\numberline {1.1}Propositional logic}{2}{subsection.1.1}%
 \contentsline {subsubsection}{\numberline {1.1.1}Syntax}{2}{subsubsection.1.1.1}%
 \contentsline {subsubsection}{\numberline {1.1.2}Semantics}{2}{subsubsection.1.1.2}%
@@ -24,3 +24,14 @@
 \contentsline {subsection}{\numberline {4.2}Termination}{16}{subsection.4.2}%
 \contentsline {subsection}{\numberline {4.3}Example}{16}{subsection.4.3}%
 \contentsline {subsection}{\numberline {4.4}Non-termination}{17}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}More on fairness}{18}{subsection.4.5}%
+\contentsline {section}{\numberline {5}Proving tableau properties by viewing them as lists}{19}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Preliminaries: On subsets and subformulas}{19}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Tableaus as lists of theories}{19}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Proving the termination and soundness of tableaus}{22}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Tableau with hypotheses}{23}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.5}Parents and ancestors}{24}{subsection.5.5}%
+\contentsline {subsection}{\numberline {5.6}Proving the completeness of propositional tableaus}{24}{subsection.5.6}%
+\contentsline {subsection}{\numberline {5.7}Herbrand structures}{25}{subsection.5.7}%
+\contentsline {subsection}{\numberline {5.8}Ranks}{25}{subsection.5.8}%
+\contentsline {subsection}{\numberline {5.9}Proving the completeness of the predicate tableaus}{26}{subsection.5.9}%

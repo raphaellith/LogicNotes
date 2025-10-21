@@ -242,3 +242,13 @@ Now, assuming a fair application strategy,
     \caption{A non-terminating tableau where the root formula is satisfiable.}
     \label{fig:Ch04-non-terminating-tableau}
 \end{figure}
+
+
+
+\subsection{More on fairness}
+
+Note that when applying expansion rules in non-terminating predicate tableaus, it is always possible to find a fair application strategy.
+
+To see why this is, consider a countably infinite set of processes \(P = \{P_1, P_2, \cdots, P_i, \cdots\}\), each awaiting some input. When a process receives an input, this may result in the creation of a new process, which is subsequently added to \(P\). We want to find some fair schedule where if any process \(P_i\) is awaiting input at time \(t\), then eventually at some time \(t' > t\) it will receive some input.
+
+Since the set \(P\) always remains countable even when a new process is created and added to it, such a schedule must exist.
