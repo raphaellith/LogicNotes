@@ -17,15 +17,15 @@ Moreover, we will note some \emph{axioms} that are known to be valid, and then t
 \begin{enumerate}[I.]
     \item \(p \rightarrow (q \rightarrow p)\)
     \hfill (implication is true if consequent is true)
-    \label{axiom-I}
+    \label{Ch02-axiom-I}
     
     \item \((p \rightarrow (q \rightarrow r)) \rightarrow ((p \rightarrow q) \rightarrow (p \rightarrow r))\)
     \hfill (implication chain as hypothetical syllogism)
-    \label{axiom-II}
+    \label{Ch02-axiom-II}
     
     \item \((\neg p \rightarrow \neg q) \rightarrow (q \rightarrow p)\)
     \hfill (contrapositive)
-    \label{axiom-III}
+    \label{Ch02-axiom-III}
 \end{enumerate}
 
 Axioms on their own are insufficient in establishing a proof system. We also need \emph{inference rules}, which stipulate how conclusions can be derived from premises. One of the main inference rules is \emph{modus ponens}, which states that if you have proved both the formula \(\phi\) and the implication \((\phi\rightarrow\psi)\), then you may deduce the conclusion \(\psi\).
@@ -42,7 +42,7 @@ Axioms on their own are insufficient in establishing a proof system. We also nee
 
 In this system, a \emph{proof} is a sequence of formulas
 %
-\[\phi_0,\; \phi_1,\; \phi_2,\; \cdots \phi_n\]
+\[\phi_0,\; \phi_1,\; \phi_2,\; \cdots,\; \phi_n\]
 %
 such that for each \(i \leq n\), the formula \(\phi_i\) is either
 %
@@ -90,16 +90,16 @@ may be proved using the above proof system as follows.
 %
 \begin{enumerate}
     \item \((p \rightarrow ((p \rightarrow p) \rightarrow p)) \rightarrow ((p \rightarrow (p \rightarrow p)) \rightarrow (p \rightarrow p))\)
-    \hfill (Axiom \ref{axiom-I}, replacing \(p, q, r\) by \(p, (p \rightarrow p), p\))
+    \hfill (Axiom \ref{Ch02-axiom-I}, replacing \(p, q, r\) by \(p, (p \rightarrow p), p\))
 
     \item \(p \rightarrow ((p \rightarrow p) \rightarrow p)\)
-    \hfill (Axiom \ref{axiom-II}, replacing \(p, q\) by \(p, (p \rightarrow p)\))
+    \hfill (Axiom \ref{Ch02-axiom-II}, replacing \(p, q\) by \(p, (p \rightarrow p)\))
 
     \item \((p \rightarrow (p \rightarrow p)) \rightarrow (p \rightarrow p)\)
     \hfill (modus ponens, via 1 and 2)
 
     \item \(p \rightarrow (p \rightarrow p)\)
-    \hfill (Axiom \ref{axiom-I}, replacing \(p, q\) by \(p, p\))
+    \hfill (Axiom \ref{Ch02-axiom-I}, replacing \(p, q\) by \(p, p\))
 
     \item \(p \rightarrow p\)
     \hfill (modus ponens, via 3 and 4)
@@ -113,15 +113,15 @@ To include double negations and other connectives like \(\land\) and \(\lor\), w
     \setcounter{enumi}{3}
     \item \(p \rightarrow \neg\neg p\) and \(\neg\neg p \rightarrow p\)
     \hfill (double negation)
-    \label{axiom-IV}
+    \label{Ch02-axiom-IV}
     
     \item \((p \lor q) \rightarrow (\neg p \rightarrow q)\) and \((\neg p \rightarrow q) \rightarrow (p \lor q)\)
     \hfill (implication as disjunction)
-    \label{axiom-V}
+    \label{Ch02-axiom-V}
     
     \item \((p \land q) \rightarrow \neg(p \rightarrow \neg q)\) and \(\neg(p \rightarrow \neg q) \rightarrow (p \land q)\)
     \hfill (implication as conjunction)
-    \label{axiom-VI}
+    \label{Ch02-axiom-VI}
 \end{enumerate}
 
 
@@ -166,19 +166,19 @@ We shall illustrate this principle as follows. Let \(\Gamma\) be the set contain
     \hfill (proven previously)
 
     \item \((q \rightarrow q) \rightarrow \neg\neg(q \rightarrow q)\)
-    \hfill (Axiom \ref{axiom-IV}, replacing \(p\) by \(q\))
+    \hfill (Axiom \ref{Ch02-axiom-IV}, replacing \(p\) by \(q\))
 
     \item \(\neg\neg(q \rightarrow q)\)
     \hfill (modus ponens, via 5 and 6)
 
     \item \(\neg\neg(q \rightarrow q) \rightarrow (\neg p \rightarrow \neg\neg(q \rightarrow q))\)
-    \hfill (Axiom \ref{axiom-I}, replacing \(p, q\) by \(\neg\neg(q \rightarrow q), \neg p\))
+    \hfill (Axiom \ref{Ch02-axiom-I}, replacing \(p, q\) by \(\neg\neg(q \rightarrow q), \neg p\))
 
     \item \(\neg p \rightarrow \neg\neg(q \rightarrow q)\)
     \hfill (modus ponens, via 7 and 8)
 
     \item \((\neg p \rightarrow \neg\neg(q \rightarrow q)) \rightarrow (\neg (q \rightarrow q) \rightarrow p)\)
-    \hfill (Axiom \ref{axiom-III}, replacing \(p, q\) by \(p, \neg\neg(q \rightarrow q)\))
+    \hfill (Axiom \ref{Ch02-axiom-III}, replacing \(p, q\) by \(p, \neg\neg(q \rightarrow q)\))
 
     \item \(\neg (q \rightarrow q) \rightarrow p\)
     \hfill (modus ponens, via 9 and 10)

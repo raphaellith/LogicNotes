@@ -1,0 +1,244 @@
+\section{Axiomatic proofs for Predicate Logic}
+
+Recall that axiomatic proofs for propositional logic are constructed using the following axiom schemas:
+%
+\begin{enumerate}[I.]
+    \item \(p \rightarrow (q \rightarrow p)\)
+    \hfill (implication is true if consequent is true)
+    \label{Ch06-axiom-I}
+    
+    \item \((p \rightarrow (q \rightarrow r)) \rightarrow ((p \rightarrow q) \rightarrow (p \rightarrow r))\)
+    \hfill (implication chain as hypothetical syllogism)
+    \label{Ch06-axiom-II}
+    
+    \item \((\neg p \rightarrow \neg q) \rightarrow (q \rightarrow p)\)
+    \hfill (contrapositive)
+    \label{Ch06-axiom-III}
+
+    \item \(p \rightarrow \neg\neg p\) and \(\neg\neg p \rightarrow p\)
+    \hfill (double negation)
+    \label{Ch06-axiom-IV}
+    
+    \item \((\neg p \rightarrow q) \leftrightarrow (p \lor q)\)
+    \hfill (implication as disjunction)
+    \label{Ch06-axiom-V}
+    
+    \item \(\neg(p \rightarrow \neg q) \leftrightarrow (p \land q)\)
+    \hfill (implication as conjunction)
+    \label{Ch06-axiom-VI}
+\end{enumerate}
+%
+alongside modus ponens as an inference rule.
+%
+\[
+    \infer{B}{
+        A
+        &
+        (A\rightarrow B)
+    }
+    %
+    \tag{modus ponens}
+\]
+
+To adopt this proof system for predicate logic, we must add seven more axiom schemas, as listed below.  As is the nature of schemas, an instance of an axiom is obtained by replacing \(A, B, C, \cdots\) by arbitrary formulas. Axioms \ref{Ch06-axiom-VII} through \ref{Ch06-axiom-IX} are quantifier axioms, whereas Axioms \ref{Ch06-axiom-X} through \ref{Ch06-axiom-XIII} are equality axioms.
+%
+\begin{enumerate}[I.]
+    \setcounter{enumi}{6}
+    \item \(\forall x\; \neg A \leftrightarrow \neg\exists x\; A\)
+    \hfill (negated existential statement)
+    \label{Ch06-axiom-VII}
+    
+    \item \(\forall x\; A(x) \rightarrow A(t/x)\) \;\; if \(t\) is substitutable for \(x\) in \(A\).
+    \hfill (universal statement)
+    \label{Ch06-axiom-VIII}
+    
+    \item \(\forall x\; (A \rightarrow B) \rightarrow (\forall x\; A \rightarrow \forall x\; B)\)
+    \hfill (universal implication)
+    \label{Ch06-axiom-IX}
+
+    \item \(x = x\)
+    \hfill (equality is reflexive)
+    \label{Ch06-axiom-X}
+    
+    \item \((x = y) \rightarrow (y = x)\)
+    \hfill (equality is symmetric)
+    \label{Ch06-axiom-XI}
+    
+    \item \((x = y) \rightarrow (t(x) = t(y/x))\)
+    \hfill (term is unchanged by substitution)
+    \label{Ch06-axiom-XII}
+
+    \item \((x = y) \rightarrow (A(x) \rightarrow A(y/x))\)\;\; if \(y\) is substitutable for \(x\) in \(A\).
+    
+    \hfill (predicate's truth value is unchanged by substitution)
+    \label{Ch06-axiom-XIII}
+\end{enumerate}
+
+A term \(t\) is \emph{substitutable} for \(x\) in \(A\) if no variable in \(t\) becomes bound after replacing \(x\) in \(A\) by \(t\). For instance, if we have
+%
+\begin{align*}
+    t &= ``f({\color{MidnightBlue} y})"\\
+    A &= ``\forall x\; {\color{BrickRed}\exists y}\; (f(x) = y)"
+\end{align*}
+%
+then we \textbf{may not} use Axiom \ref{Ch06-axiom-VIII} and modus ponens to deduce
+%
+\[{\color{BrickRed}\exists y} (f(f({\color{MidnightBlue} y}) = y))\text{.}\]
+%
+This is because the originally free instance of \(y\) in \(t\) (in blue) becomes bound by the existential quantifier in \(A\) (in red) after the substitution, which is not allowed.
+
+The axiomatic proof system for predicate logic is made complete by a new inference rule called \emph{universal generalisation}.
+%
+\[
+    \infer{\forall x\; A(x)}{A(x)}
+    \tag{universal generalisation}
+\]
+%
+This inference rule states that if \(A(x)\) is valid, then \(\forall x\; A(x)\) is also valid\footnote{Note that while this rule is sound, \(A(x) \implies \forall x\; A(x)\) is not an axiom.}.
+
+We summarise our description of this axiomatic proof system as follows.
+
+\vspace{1em}
+\begin{mdframed}[linewidth=1pt]
+\begin{center}
+    \large\textbf{Axiomatic proof system for predicate logic}
+\end{center}
+
+\textbf{Axiom schemas.}
+%
+\begin{enumerate}[I.]
+    \item \(p \rightarrow (q \rightarrow p)\)
+    
+    \item \((p \rightarrow (q \rightarrow r)) \rightarrow ((p \rightarrow q) \rightarrow (p \rightarrow r))\)
+    
+    \item \((\neg p \rightarrow \neg q) \rightarrow (q \rightarrow p)\)
+
+    \item \(p \rightarrow \neg\neg p\) and \(\neg\neg p \rightarrow p\)
+    
+    \item \((\neg p \rightarrow q) \leftrightarrow (p \lor q)\)
+    
+    \item \(\neg(p \rightarrow \neg q) \leftrightarrow (p \land q)\)
+    
+    \item \(\forall x\; \neg A \leftrightarrow \neg\exists x\; A\)
+    
+    \item \(\forall x\; A(x) \rightarrow A(t/x)\) \;\; if \(t\) is substitutable for \(x\) in \(A\).
+    
+    \item \(\forall x\; (A \rightarrow B) \rightarrow (\forall x\; A \rightarrow \forall x\; B)\)
+
+    \item \(x = x\)
+    
+    \item \((x = y) \rightarrow (y = x)\)
+    
+    \item \((x = y) \rightarrow (t(x) = t(y/x))\)
+
+    \item \((x = y) \rightarrow (A(x) \rightarrow A(y/x))\)\;\; if \(y\) is substitutable for \(x\) in \(A\).
+\end{enumerate}
+
+\vspace{1em}
+\textbf{Inference rules.}
+
+\begin{itemize}
+    \item Modus ponens.
+    \[
+    \infer{B}{
+        A
+        &
+        (A\rightarrow B)
+    }
+    \]
+
+    \item Universal generalisation.
+    \[\infer{\forall x\; A(x)}{A(x)}\]
+\end{itemize}
+\end{mdframed}
+\vspace{1em}
+
+Similar to in propositional logic, we define a \emph{proof} to be a finite sequence of formulas
+%
+\[\phi_0,\; \phi_1,\; \phi_2,\; \cdots,\; \phi_n\]
+%
+such that for each \(i \leq n\), the formula \(\phi_i\) is either
+%
+\begin{itemize}
+    \item an axiom; or
+    \item obtained from one or two previous formulas --- \(\phi_j\) and possibly \(\phi_k\) --- in the sequence via an inference rule (for some \(j, k < i\)).
+\end{itemize}
+%
+If such a proof exists, then the final formula \(\phi_n\) is called a \emph{theorem} and we may write \(\vdash \phi_n\).
+
+So far, we have only proved the validity of formulas over arbitrary models. If we want to demonstrate validity in a particular model (or type of model), we may add a set of hypotheses \(\Gamma\). If there is a sequence
+%
+\[\phi_0,\; \phi_1,\; \phi_2,\; \cdots,\; \phi_n\]
+%
+such that for each \(i \leq n\), the formula \(\phi_i\) is either
+%
+\begin{itemize}
+    \item an axiom;
+    \item obtained from one or two previous formulas --- \(\phi_j\) and possibly \(\phi_k\) --- in the sequence via an inference rule (for some \(j, k < i\)); or
+    \item a hypothesis in \(\Gamma\),
+\end{itemize}
+%
+then we may write \(\Gamma\vdash\phi\).
+
+For instance, suppose we want to prove a formula's validity in a \emph{linearly ordered model}. We thus assume the following hypotheses.
+%
+\begin{itemize}
+    \item \(\forall x\; \forall y\; (x < y \lor y < x \lor x = y)\)
+    \item \(\forall x\; \neg(x < x)\)
+    \item \(\forall x\; \forall y\; \forall z\; ((x < y \land y < z) \rightarrow (x < z))\)
+\end{itemize}
+%
+Below shows an example of this, where we prove the validity of the formula
+%
+\[\forall x\; \forall y\; \neg(x < y \land y < x)\]
+%
+in a linearly ordered model.
+%
+\begin{enumerate}
+    \item \(\forall x\; \forall y\; \forall z\; ((x < y \land y < z) \rightarrow (x < z))\)
+    \hfill (hypothesis)
+
+    \item \(\forall x\; \forall y\; \forall z\; ((x < y \land y < z) \rightarrow (x < z)) \rightarrow \forall y\; \forall z\; ((x < y \land y < z) \rightarrow (x < z))\)
+    
+    \hfill (Axiom \ref{Ch06-axiom-VIII}, with \(x\) as \(t\))
+
+    \item \(\forall y\; \forall z\; ((x < y \land y < z) \rightarrow (x < z))\)
+    \hfill (modus ponens, via 1 and 2)
+
+    \item \(\forall y\; \forall z\; ((x < y \land y < z) \rightarrow (x < z)) \rightarrow \forall z\; ((x < y \land y < z) \rightarrow (x < z))\)
+    \hfill (Axiom \ref{Ch06-axiom-VIII}, with \(y\) as \(t\))
+
+    \item \(\forall z\; ((x < y \land y < z) \rightarrow (x < z))\)
+    \hfill (modus ponens, via 3 and 4)
+
+    \item \(\forall z\; ((x < y \land y < z) \rightarrow (x < z)) \rightarrow ((x < y \land y < x) \rightarrow (x < x))\)
+    \hfill (Axiom \ref{Ch06-axiom-VIII}, with \(x\) as \(t\))
+
+    \item \((x < y \land y < x) \rightarrow (x < x)\)
+    \hfill (modus ponens, via 5 and 6)
+
+    \item \(((x < y \land y < x) \rightarrow (x < x)) \rightarrow (\neg(x < x) \rightarrow \neg(x < y \land y < x))\)
+    
+    \hfill (instance of \((p\rightarrow q)\rightarrow(\neg q \rightarrow\neg p)\), provable in propositional logic)
+
+    \item \(\neg(x < x) \rightarrow \neg(x < y \land y < x)\)
+    \hfill (modus ponens, via 7 and 8)
+
+    \item \(\forall x\; \neg(x < x)\)
+    \hfill (hypothesis)
+
+    \item \(\forall x\; \neg(x < x) \rightarrow \neg(x < x)\)
+    \hfill (Axiom \ref{Ch06-axiom-VIII}, with \(x\) as \(t\))
+
+    \item \(\neg(x < x)\)
+    \hfill (modus ponens, via 10 and 11)
+
+    \item \(\neg(x < y \land y < x)\)
+    \hfill (modus ponens, via 9 and 12)
+
+    \item \(\forall y\; \neg(x < y \land y < x)\)
+    \hfill (universal generalisation of \(y\), from 13)
+
+    \item \(\forall x\; \forall y\; \neg(x < y \land y < x)\)
+    \hfill (universal generalisation of \(x\), from 14)
+\end{enumerate}
