@@ -1,3 +1,3 @@
-# LatexNotesTemplate
+# Logic Notes
 
-A template repository for creating lecture notes formatted in LaTeX.
+Notes for the module COMP0009 - Logic.
