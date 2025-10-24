@@ -245,6 +245,24 @@ Now, assuming a fair application strategy,
 
 
 
+\subsection{Free variables}
+
+Predicate tableaus are predominantly designed to work on sentences, where free variables are not allowed. To prove the validity of a formula with free variables, we may prefix it with an appropriate universal quantifier. For instance, if we want to show that
+%
+\[x < 5\]
+%
+is valid, where \(x\) is a free variable. Notice that this is equivalent to showing the validity of
+%
+\[\forall x\; x < 5\]
+%
+which uses a universal quantifier to remove the free variable. Consequently, we can simply construct a tableau with
+%
+\[\neg\forall x\; x < 5\]
+%
+at its root and check its satisfiability as usual.
+
+
+
 \subsection{More on fairness}
 
 Note that when applying expansion rules in non-terminating predicate tableaus, it is always possible to find a fair application strategy.

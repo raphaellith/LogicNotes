@@ -1,4 +1,4 @@
-\section{Proving tableau properties by viewing them as lists}
+\section{More on tableaus, their representations and their properties}
 
 \subsection{Preliminaries: On subsets and subformulas}
 
@@ -429,7 +429,7 @@ Here we will use the list representation of tableaus to prove several of their p
 
 
 
-\subsection{Tableau with hypotheses}
+\subsection{Hypotheses}
 
 Similar to how assumptions can be added to axiomatic proof systems, we can use tableaus to prove from \emph{hypotheses}. Suppose we want to show that the formula \(\phi\) is valid under a set of hypotheses \(\Gamma = \{\gamma_0, \gamma_1, \gamma_2, \cdots, \gamma_{n-1}\}\). There are several ways of doing this via tableaus.
 %
@@ -444,6 +444,46 @@ If the tableau eventually closes (or becomes empty, in the case of the list/queu
 \[\Gamma\vdash\phi\]
 %
 to denote that \(\phi\) is valid under the hypotheses \(\Gamma\).
+
+
+
+\subsection{Equality rules}
+
+Recall that in predicate logic, the equality symbol ``='' is always interpreted as true equality in predicate logic.
+
+Therefore, when constructing a tableau for a formula containing an equality symbol, we must also assume the following equality rules.
+%
+\begin{itemize}
+    \item If in some branch we have both \(A(t)\) and \(t = s\), then we may add \(A(s)\) to its leaf.
+    \item If in some branch we have both \(A(t)\) and \(s = t\), then we may add \(A(s)\) to its leaf.
+    \item If a branch contains a formula in the form \(\neg(t = t)\), that branch is closed.
+\end{itemize}
+%
+For example, suppose we want to prove that under the hypothesis \(s = t\), the formula \(t = s\) is valid, i.e.
+%
+\[s = t \vdash t = s\text{.}\]
+%
+We set up a tableau containing the hypothesis, followed by the formula's negation. We then complete the tableau as normal. See Figure \ref{fig:Ch05-eq-rule-tableau}.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=1.275]
+        \node (0) at (0, 0)[draw=black, very thick, fill=black!20] {\(s = t\)};
+        \node[right of=0, xshift=2em] {(hypothesis)};
+
+        \node (1) at (0, -1)[draw=black, very thick, fill=black!20] {\(\neg(t = s)\)};
+        \node[right of=1, xshift=5em] {(negation of formula)};
+
+        \node (2) at (0, -2)[draw=black, very thick, fill=black!20] {\(\neg(s = s)\)};
+        \node[right of=2, xshift=11em] {(applying equality rule to the two nodes above)};
+        \node [below of=2, yshift=1em] {\(\oplus\)};
+        \node [below of=2, yshift=-0.5em] {(closed by equality rule)};
+
+        \draw[black, very thick] (0) -- (1) -- (2);
+    \end{tikzpicture}
+    \caption{Proving the validity of \(s = t \vdash t = s\) by constructing a predicate tableau using equality rules.}
+    \label{fig:Ch05-eq-rule-tableau}
+\end{figure}
 
 
 
@@ -539,7 +579,6 @@ A closed term contains only constant symbols and function symbols, with no free 
 It follows that for any closed term \(t\) and any variable assignment\footnote{The variable assignment here is irrelevant since \(t\) is a closed term.} \(A\), we have \([t]^{H, A} = t\).
 
 Herbrand's theorem, which we will not prove here, states that if \(\phi\) does not contain the equality symbol ``='' but is satisfiable in some structure \(S\) and variable assignment \(A\), then it must also be satisfiable in some Herbrand structure \(H\) and variable assignment \(B\).
-
 
 
 
