@@ -1,5 +1,7 @@
 \section{Axiomatic proofs for Predicate Logic}
 
+\subsection{Recap: Axiomatic proof system for propositional logic}
+
 Recall that axiomatic proofs for propositional logic are constructed using the following axiom schemas:
 %
 \begin{enumerate}[I.]
@@ -39,7 +41,36 @@ alongside the inference rule modus ponens.
     %
     \tag{modus ponens}
 \]
+
+For the sake of convenience, we may sometimes want to make use of the deduction theorem.
 %
+\[A \vdash B \iff \vdash (A \rightarrow B) \tag{deduction theorem}\]
+%
+We may also want to incorporate extra inference rules, as listed below.
+%
+\[
+    \infer{A \rightarrow C}{(A \rightarrow B) & (B \rightarrow C)}
+    \tag{hypothetical syllogism}
+\]
+%
+\[
+    \infer{A}{A \land B}
+    \hspace{2em}
+    \infer{B}{A \land B}
+    \hspace{2em}
+    \infer{A\land B}{A & B}
+    \hspace{2em}
+    \infer{A\lor B}{A}
+    \hspace{2em}
+    \infer{A\lor B}{B}
+    \hspace{2em}
+    \tag{etc.}
+\]
+
+
+
+\subsection{Creating an axiomatic proof system for predicate logic}
+
 To adopt this proof system for predicate logic, we must add seven more axiom schemas, as listed below.  An instance of an axiom is obtained by replacing \(A, B, C, \cdots\) by arbitrary formulas. Axioms \ref{Ch06-axiom-VII} through \ref{Ch06-axiom-IX} are quantifier axioms, whereas Axioms \ref{Ch06-axiom-X} through \ref{Ch06-axiom-XIII} are equality axioms.
 %
 \begin{enumerate}[I.]
@@ -150,6 +181,30 @@ We summarise our description of this axiomatic proof system as follows.
     \item Universal generalisation.
     \[\infer{\forall x\; A(x)}{A(x)}\]
 \end{itemize}
+
+\vspace{1em}
+\textbf{Additional inference rules for convenience.}
+
+\begin{itemize}
+    \item Hypothetical syllogism.
+    \[\infer{A \rightarrow C}{(A \rightarrow B) & (B \rightarrow C)}\]
+
+    \item Nature of AND and OR connectives.
+    \[
+        \infer{A}{A \land B}
+        \hspace{2em}
+        \infer{B}{A \land B}
+        \hspace{2em}
+        \infer{A\land B}{A & B}
+        \hspace{2em}
+        \infer{A\lor B}{A}
+        \hspace{2em}
+        \infer{A\lor B}{B}
+        \hspace{2em}
+        \tag{etc.}
+    \]
+\end{itemize}
+
 \end{mdframed}
 \vspace{1em}
 
@@ -184,8 +239,11 @@ For instance, suppose we want to prove a formula's validity in a \emph{linearly 
 %
 \begin{itemize}
     \item \(\forall x\; \forall y\; (x < y \lor y < x \lor x = y)\)
+    \hfill (totality)
     \item \(\forall x\; \neg(x < x)\)
+    \hfill (irreflexivity)
     \item \(\forall x\; \forall y\; \forall z\; ((x < y \land y < z) \rightarrow (x < z))\)
+    \hfill (transitivity)
 \end{itemize}
 %
 Below shows an example of this, where we prove the validity of the formula
