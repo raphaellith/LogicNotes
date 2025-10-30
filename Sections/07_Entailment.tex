@@ -1,0 +1,218 @@
+\section{Entailment, recursive languages, and recursively enumerable languages}
+
+\subsection{The deduction theorem in more detail}
+
+\begin{theorem}[Deduction theorem]
+    Let \(A\) and \(B\) be sentences. For any (possibly infinite) set of assumptions \(\Sigma\), a formula \(B\) is deducible from the assumptions \(\Sigma\cup\{A\}\) if and only if the implication \(A\rightarrow B\) is deducible from the assumptions \(\Sigma\). In symbols, we have
+    %
+    \[\Sigma\cup\{A\}\vdash B \iff \Sigma\vdash(A\rightarrow B)\text{.}\]
+\end{theorem}
+\begin{proof}
+    (\(\Leftarrow\)): Assuming that \(\Sigma\vdash(A\rightarrow B)\), there must exist a proof
+    %
+    \[\phi_0, \phi_1, \phi_2, \cdots, \phi_n\]
+    %
+    where \(\phi_n = A \rightarrow B\), and each \(\phi_i\) is an axiom, an element of \(\Sigma\), or derived from two previous formulas via modus ponens.
+
+    We extend this proof as follows.
+    %
+    \[\phi_0, \phi_1, \phi_2, \cdots, \phi_n, A, B\]
+    %
+    Note that this is an acceptable proof of \(B\) under the assumptions \(\Sigma\cup\{A\}\).
+    %
+    \begin{itemize}
+        \item Each of \(\phi_0, \phi_1, \phi_2, \cdots, \phi_n\) is an axiom, an element of \(\Sigma\), or derived from modus ponens.
+        \item \(A\) is an assumption from \(\Sigma\cup\{A\}\).
+        \item \(B\) is derived from \(\phi_n\) (i.e. \(A \rightarrow B\)) and \(A\) via modus ponens.
+    \end{itemize}
+    %
+    Hence we have \(\Sigma\vdash(A\rightarrow B) \implies \Sigma\cup\{A\}\vdash B\).
+
+    (\(\Rightarrow\)): Consider the following axiom schematas.
+    %
+    \begin{enumerate}[I.]
+        \item \(p\rightarrow(q\rightarrow p)\) \label{Ch07-deduction-thm-axiom-I}
+        \item \((p \rightarrow (q \rightarrow r)) \rightarrow ((p \rightarrow q) \rightarrow (p \rightarrow r))\) \label{Ch07-deduction-thm-axiom-II}
+    \end{enumerate}
+    
+    Assuming that \(\Sigma\cup\{A\}\vdash B\), there must exist a proof 
+    %
+    \[\phi_0, \phi_1, \phi_2, \cdots, \phi_n\]
+    %
+    where \(\phi_n = B\), and each \(\phi_i\) is an axiom, an element of \(\Sigma\), the additional assumption \(A\), or derived from two previous formulas via modus ponens.
+
+    We will transform this sequence into a proof from \(\Sigma\) of \(A \rightarrow B\). To do this, we will show by strong induction\footnote{Recall that strong (or complete) induction does not require a base case.} that for each index \(i\) (\(0 \leq i \leq n\)), we can construct a proof of the implication \(A \rightarrow \phi_i\) under the assumptions in \(\Sigma\).
+
+    \textbf{Induction hypothesis.} For all natural numbers \(k < i\), the formula \(A\rightarrow \phi_k\) is a theorem under the assumptions \(\Sigma\).
+
+    \textbf{Step case.} We want to construct a proof of \(A \rightarrow \phi_i\) under the assumptions \(\Sigma\).
+    %
+    \begin{itemize}
+        \item If \(\phi_i\) is an axiom or an element of \(\Sigma\), then we have the following proof.
+        %
+        \begin{enumerate}
+            \item \(\phi_i \rightarrow (A \rightarrow \phi_i)\)
+            \hfill (Axiom \ref{Ch07-deduction-thm-axiom-I})
+
+            \item \(\phi_i\)
+            \hfill (Axiom/Assumption)
+
+            \item \(A \rightarrow \phi_i\)
+            \hfill (modus ponens, from 1 and 2)
+        \end{enumerate}
+
+        \item If \(\phi_i = A\), then we have the following proof.
+        %
+        \begin{enumerate}
+            \item \(A \rightarrow ((A\rightarrow A) \rightarrow A)\)
+            \hfill(Axiom \ref{Ch07-deduction-thm-axiom-I})
+
+            \item \((A \rightarrow ((A\rightarrow A) \rightarrow A)) \rightarrow ((A\rightarrow(A\rightarrow A))\rightarrow(A\rightarrow A))\)
+            \hfill(Axiom \ref{Ch07-deduction-thm-axiom-II})
+
+            \item \((A\rightarrow(A\rightarrow A))\rightarrow(A\rightarrow A)\)
+            \hfill(modus ponens, from 1 and 2)
+
+            \item \((A\rightarrow(A\rightarrow A))\)
+            \hfill(Axiom \ref{Ch07-deduction-thm-axiom-I})
+
+            \item \(A\rightarrow A\)
+            \hfill(modus ponens, from 3 and 4)
+        \end{enumerate}
+
+        \item Suppose \(\phi_i\) is derived via modus ponens by two previous formulas \(\phi_j\) and \(\phi_j \rightarrow \phi_i\). By the induction hypothesis, we have \(\Sigma\vdash A\rightarrow\phi_j\) and \(\Sigma\vdash A\rightarrow(\phi_j \rightarrow\phi_i)\). Now consider the axiom 
+        %
+        \[
+            (A\rightarrow(\phi_j\rightarrow\phi_i)) \rightarrow ((A\rightarrow\phi_j)\rightarrow(A\rightarrow\phi_i))\text{.}
+            \tag{Axiom \ref{Ch07-deduction-thm-axiom-II}}
+        \]
+        %
+        Since both \(\Sigma\vdash A\rightarrow\phi_j\) and \(\Sigma\vdash A\rightarrow(\phi_j \rightarrow\phi_i)\) are theorems, we may obtain the theorem \((A\rightarrow\phi_i)\).
+    \end{itemize}
+
+    This completes the induction proof, giving us \(\Sigma\vdash A\rightarrow\phi_n\), which can be rewritten as \(\Sigma\vdash A \rightarrow B\). Hence we have \(\Sigma\cup\{A\}\vdash B \implies \Sigma\vdash(A\rightarrow B)\).
+\end{proof}
+
+
+
+\subsection{What is entailment?}
+
+Let \(\Gamma\) be a set of sentences and let \(S\) be a first-order structure (\(L\)-structure). We say that \(S\) is a \emph{model} of \(\Gamma\) if for each sentence \(\phi\in\Gamma\) we have \(S\models\phi\). This is denoted as \(S\models\Gamma\).
+
+Furthermore, we say that \(\Gamma\models\psi\) for some sentence \(\psi\) if every model of \(\Gamma\) is also a model of \(\psi\), i.e. \(S\models\Gamma\implies S\models\psi\). This is written as \(\Gamma\models\psi\).
+
+It's worth taking a moment to review the many roles that the symbol ``\(\models\)'' takes on in first-order logic. This is summarised in table \ref{tab:Ch07-models-meaning}.
+%
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Expression} & \textbf{Meaning}\\
+        \hline
+        \((D,I) \models_A \phi\) & \(\phi\) is true in the structure \((D, I)\) under the variable assignment \(A\).\\
+        \hline
+        \((D,I) \models \phi\) & \(\phi\) is valid in the structure \((D, I)\).\\
+        \hline
+        \(\models \phi\) & \(\phi\) is valid.\\
+        \hline
+        \(\mathcal{K}\models\phi\) & \(\phi\) is valid in all structures \((D, I) \in \mathcal{K}\).\\
+        \hline
+        \((D, I) \models\Sigma\) & For all \(\phi\in\Sigma\) we have \((D, I)\models\phi\).\\
+        \hline
+        \(\Sigma\models\phi\) & \(\Sigma\) entails \(\phi\). (Every model of \(\Sigma\) is a model of \(\phi\).)\\
+        \hline
+    \end{tabular}
+    \caption{The various meanings of the symbol \(\models\) in first-order logic. Here, \((D, I)\) is a first-order structure with domain \(D\) and interpretation \(I\); \(A\) is a variable assignment; \(\phi\) is a formula; \(\mathcal{K}\) is a set of structures; and \(\Sigma\) is a set of sentences.}
+    \label{tab:Ch07-models-meaning}
+\end{table}
+
+From this we can define the following properties.
+%
+\begin{align*}
+    \Gamma\vdash\phi&\implies\Gamma\models\phi \tag{Soundness}\\
+    \Gamma\models\phi&\implies\Gamma\vdash\phi \tag{Strong completeness}
+\end{align*}
+
+
+\subsection{Recursive and recursively enumerable languages}
+
+A \emph{language} refers to a set of strings over a finite alphabet \(\Sigma\).
+
+A language \(L\) is said to be \emph{recursive} (also called \emph{decidable} or \emph{computable}) if there exists a computer program that
+%
+\begin{itemize}
+    \item takes an arbitrary string \(s\in\Sigma^{*}\) as input;
+    \item correctly outputs \texttt{yes} if \(s\in L\) and \texttt{no} otherwise; and
+    \item always terminates for any input.
+\end{itemize}
+
+For example, the set of all formulas of first-order logic is recursive, since it is possible to write a parser that decides whether a string is a well-formed formula. Meanwhile, the set of valid first-order statements form a language, but it is not recursive.
+
+Moreover, a language \(L\) is \emph{recursively enumerable} (abbreviated \emph{r.e.}) if there exists a computer program that outputs strings from \(L\), only strings from \(L\), and will eventually output any given string from \(L\).
+
+\begin{theorem}
+    The set of valid statements in first-order logic is recursively enumerable.
+\end{theorem}
+\begin{proof}[Proof 1 --- using Hilbert-style axiomatic proof systems]
+    Let \(c\) be an injective function that encodes any Hilbert-style first-order logic proof \[\overline{\phi} = (\phi_0, \phi_1, \phi_2, \cdots, \phi_{k-1})\] as a number \(c(\overline{\phi})\). Then, the following program will eventually output any first-order theorem in finite time.
+    %
+    \begin{lstlisting}[language=python, commentstyle=\color{gray}]
+    for ($i=0$, $i$++, forever):
+        if $i$ is the code of a proof:  # $\color{gray} i = c(\overline{\phi})$
+            output the proved formula
+    \end{lstlisting}
+    %
+    Hence proved.
+\end{proof}
+\begin{proof}[Proof 2 --- using predicate tableaus]
+    Let \(\phi_0, \phi_1, \cdots\) be an enumeration of all formulas. Consider the following program.
+    %
+    \begin{lstlisting}[language=python, commentstyle=\color{gray}]
+    tableaus = []
+    for ($i=0$, $i$++, forever):
+        create a new tableau $T_i$ with $\neg\phi_i$ at root
+        tableaus.append($T_i$)
+
+        for each $j \leq i$:
+            if the $j$-th tableau $T_j$ can be expanded:
+                expand $T_j$ once with fair schedule
+                if $T_j$ becomes closed:
+                    output $\phi_j$
+    \end{lstlisting}
+    %
+    For any formula \(\phi_k\),
+    %
+    \begin{itemize}
+        \item if \(\phi_k\) is not valid, then \(T_k\) never closes (by soundness); and
+        \item if \(\phi_k\) is valid, then \(T_k\) will eventually close, resulting in \(\phi_k\) being outputted in finite time.
+    \end{itemize}
+    %
+    Therefore, this program only outputs valid formulas, and any valid formula will eventually be outputted.
+\end{proof}
+
+\begin{theorem}
+    All recursive sets are recursively enumerable.
+\end{theorem}
+\begin{proof}
+    Let \(L\) be a recursive language. Let \(A\) be a terminating algorithm such that
+    %
+    \[
+        A(s) = 
+        \begin{cases}
+            1 \hspace{2em}\text{if } s \in L\\
+            0 \hspace{2em}\text{otherwise}
+        \end{cases}
+    \]
+    %
+    for any input string \(s\). We then construct the following program.
+    %
+    \begin{lstlisting}[language=python, commentstyle=\color{gray}]
+    for each string $s$ (sorted first by increasing length, then alphabetically):
+        if $A(s) = 1$:
+            output $s$
+    \end{lstlisting}
+    %
+    This program only outputs strings from \(L\), and each \(s\in L\) is eventually output. Therefore, \(L\) is recursively enumerable.
+\end{proof}
+
+Note that the converse of the above theorem does not hold. While all recursive sets are recursively enumerable, not all recursively enumerable sets are recursive.
