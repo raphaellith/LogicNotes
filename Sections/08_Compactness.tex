@@ -1,0 +1,128 @@
+\section{Compactness}
+
+\subsection{Compactness theorem}
+
+Proofs are finite. If for some formula \(\phi\) and some set of assumptions \(\Sigma\) we have \(\Sigma\vdash\phi\), then we must also have \(\Sigma_0 \vdash\phi\) for some finite subset \(\Sigma_0\) of \(\Sigma\).
+
+Moreover, we say that \(\Sigma\) is \emph{inconsistent} if \(\Sigma\vdash(p\land\neg p)\). If there is no such proof, we say that \(\Sigma\) is \emph{consistent}.
+
+\begin{theorem}
+    A set of formulas \(\Sigma\) has a model if and only if each finite subset of \(\Sigma\) has a model.
+\end{theorem}
+\begin{proof}
+    (\(\Rightarrow\)): Assume that \(\Sigma\) has a model \((D, I)\). Then trivially every finite subset of \(\Sigma\) must also have the same model \((D, I)\).
+
+    (\(\Leftarrow\)): We prove the contrapositive --- if \(\Sigma\) does not have a model, then there is some finite subset of \(\Sigma\) that does not have a model either.
+
+    If \(\Sigma\) has no model, then \(\Sigma\models\bot\). By strong completeness, this set must be inconsistent, with \(\Sigma\vdash\bot\). Since proofs are finite, there exists some finite subset \(\Sigma_0 \subseteq \Sigma\) such that \(\Sigma_0 \vdash\bot\). By soundness, it follows that \(\Sigma_0 \models\bot\), i.e. \(\Sigma\) does not have a model. Hence proved.
+\end{proof}
+
+
+
+\subsection{Applying the compactness theorem}
+
+\subsubsection{Connectedness}
+
+Let \(E\) be a binary relation denoting the edges of a graph. Let \(=\) denote equality.
+
+For \(k\geq 0\), we say that there is a \emph{path} of length \(k\) from \(x\) to \(y\) if there is a sequence
+%
+\[x_0, x_1, \cdots, x_k\]
+%
+where \(x = x_0\), \(y = x_k\) and \((x_i, x_i+1) \in E\) for all \(i < k\).
+
+We can then write the following formulas.
+%
+\begin{itemize}
+    \item There is a path of length \(0\) from node \(x\) to node \(y\).
+    \[x = y\]
+
+    \item There is a path of length \(1\) from node \(x\) to node \(y\).
+    \[E(x, y)\]
+
+    \item There is a path of length \(2\) from node \(x\) to node \(y\).
+    \[\exists z\; (E(x, z) \land E(z, y))\]
+
+    \item There is a path of length \(3\) from node \(x\) to node \(y\).
+    \[\exists w\; ((\exists z\; (E(x, z) \land E(z, w))) \land E(w, y))\]
+\end{itemize}
+%
+Let \(P_n (x, y)\) be the statement ``There is a path of length \(n\) from node \(x\) to node \(y\)''. In general, \(P_n (x, y)\) can be expressed in first-order logic as follows.
+%
+\begin{align*}
+    P_0 (x, y) &= ``x = y"\\
+    P_{n+1} (x, y) &= ``\exists m\; (P_n (x, m) \land E(m, y))"
+\end{align*}
+
+A directed graph \((G, E)\) consists of a set of nodes \(G\) and a binary relation \(E \subseteq G \times G\).  Such a graph \((G, E)\) is said to be \emph{connected} if for all \(x, y \in G\) there is a path of finite length \(k\) from \(x\) to \(y\). How can we define this concept of connectedness using first-order logic?
+
+A possible approach might be something like
+%
+\[
+    \smashoperator{
+        \mathop{
+            \mathlarger{\mathlarger{\mathlarger{
+                \lor
+            }}}
+        }
+    }_{n \in \mathbb{N}}
+    (
+        P_n(x, y)
+    )
+\]
+%
+or
+%
+\[
+    \exists n\; P_n(x, y)\text{.}
+\]
+However, neither of these formulas are acceptable. The first formula is problematic because first-order logic does not allow an infinite number of connectives; the second formula cannot be accepted because \(\exists n\) assumes the domain of \(\mathbb{N}\), when the domain is actually \(G\).
+
+In fact, it is impossible to define connectedness using first-order logic, as we will prove below.
+
+\begin{theorem}[First-order logic cannot define connectedness]
+    There is no first-order formula \(\phi\) such that a graph \(G\) satisfies \(\phi\) if and only if \(G\) is connected.
+\end{theorem}
+\begin{proof}
+    By contradiction. Let \(L = (C, F, P)\) be the first-order lanaguage where \(C = \{c, d\}\), \(F = \emptyset\) and \(P = \{E, =\}\), with \(E\) representing the edge relation. Suppose \(\Sigma\) is a theory such that for any graph \(G\), we have \(\Sigma\vdash G\) if and only if \(G\) is a connected graph.
+
+    Let \(P_n (x, y)\) be a first-order formula expressing the statement ``there is a path of length \(n\) from node \(x\) to node \(y\)'', as defined earlier.
+
+    Consider the theory
+    %
+    \[\Sigma' =
+    \underbrace{\Sigma}_{
+        \substack{
+            G \text{ is}\\
+            \text{connected}
+        }
+    }
+    \cup
+    \underbrace{\{\neg\phi_n (c, d) : n\in\mathbb{N}\}}_{
+        \substack{
+            \text{no path of any length} \\
+            \text{from } c \text{ to } d\\
+            \text{(\(G\) is disconnected)}
+        }
+    }\]
+    %
+    which does not have a model, as a graph cannot be both connected and disconnected. This can be denoted as \(\Sigma' \models\bot\).
+
+    Now consider a finite subset \(\Sigma'_0\) of \(\Sigma'\). This gives us
+    %
+    \[\Sigma'_0 = \Sigma_0 \cup \{\neg \phi_n (c, d) : n\in S\}\]
+    %
+    where \(\Sigma_0\) is a finite subset of \(\Sigma\) and \(S\) is a finite set of natural numbers.
+
+    We show that \(\Sigma'_0\) has a model. Since \(S\) is finite, we can find some \(N \in\mathbb{N}\) that is larger than any element in \(S\). Construct a graph \(G\) where
+    %
+    \begin{itemize}
+        \item the nodes are \(\{0, 1, 2, \cdots, N+1\}\);
+        \item edges are present between consecutive numbers only; and
+        \item \(c = 0\) and \(d = N+1\).
+    \end{itemize}
+    %
+    Hence the shortest path between \(c\) and \(d\) has length \((N+1)\). This is a model of \(\Sigma'_0\).
+
+    By the compactness theorem, since any finite subset of \(\Sigma'\) has a model, \(\Sigma'\) itself must also have a model. This contradicts our earlier proposition that \(\Sigma'\) does not have a model.
+\end{proof}
