@@ -40,9 +40,8 @@ For any formula that isn't a proposition, the \emph{main connective} is the one 
 %
 \[((p \land q) \;{\color{BrickRed} \lor}\; \neg (q \rightarrow r))\]
 %
-This is the connective with which evaluation begins. This is especially important when building parsers for algorithmically evaluating formulas.
+This is the connective with which evaluation begins. This is especially important when building parsers for algorithmically evaluating formulas\footnote{Note that parsers working according to the above definition will recognise \((p \land q)\), but not \(p \land q\), as a formula. Regardless, throughout this document we will use a looser definition where brackets may be ommitted in unambiguous cases.}.
 
-Note that parsers working according to the above definition will recognise \((p \land q)\), but not \(p \land q\), as a formula. Regardless, throughout this document we will use a looser definition where brackets may be ommitted in unambiguous cases.
 
 
 \subsubsection{Semantics}

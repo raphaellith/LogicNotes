@@ -219,10 +219,10 @@ Predicate tableaus may not always terminate.
 
 For instance, if a tableau unendingly generates nodes that require expansion via \(\delta\)-rules, more and more constants would be introduced, and the number of \(\gamma\)-rule applications required would increase dramatically. This may result in non-termination.
 
-Before we elaborate on this non-terminating scenario, we must note that in order to systematically handle possible infinite expansions, we should adopt a fair application strategy. A tableau construction is \emph{fair} if
+Before we elaborate on this non-terminating scenario, we must note that in order to systematically handle possibly infinite expansions, we should adopt a fair application strategy. A tableau construction is \emph{fair} if
 %
 \begin{itemize}
-    \item Every formula that can still be expanded eventually will be, and
+    \item Every formula that can be expanded eventually will be, and
     \item Every formula that falls under a \(\gamma\)-rule will eventually be instantiated via that rule using all closed terms that appear in its branch.
 \end{itemize}
 %

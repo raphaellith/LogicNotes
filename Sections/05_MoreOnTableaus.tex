@@ -449,9 +449,7 @@ to denote that \(\phi\) is valid under the hypotheses \(\Gamma\).
 
 \subsection{Equality rules}
 
-Recall that in predicate logic, the equality symbol ``='' is always interpreted as true equality in predicate logic.
-
-Therefore, when constructing a tableau for a formula containing an equality symbol, we must also assume the following equality rules.
+Recall that in predicate logic, the equality symbol ``='' is always interpreted as true equality. Therefore, when constructing a tableau for a formula containing an equality symbol, we must also assume the following equality rules.
 %
 \begin{itemize}
     \item If in some branch we have both \(A(t)\) and \(t = s\), then we may add \(A(s)\) to its leaf.
@@ -502,7 +500,7 @@ We say that \(\Sigma'\) is an \emph{ancestor} of \(\Sigma'\) if
 %
 \[P^n (\Sigma) = \Sigma'\]
 %
-for some \(n \in \mathbb{N}\). For example, if a tableau is initialised with only one tableau, then that tableau is an ancestor of every theory in the tableau, including itself.
+for some \(n \in \mathbb{N}\). For example, if a tableau is initialised with only one theory, then that theory is an ancestor of every theory in the tableau, including itself.
 
 
 
