@@ -40,11 +40,14 @@
 \contentsline {section}{\numberline {6}Axiomatic proofs for Predicate Logic}{30}{section.6}%
 \contentsline {subsection}{\numberline {6.1}Recap: Axiomatic proof system for propositional logic}{30}{subsection.6.1}%
 \contentsline {subsection}{\numberline {6.2}Creating an axiomatic proof system for predicate logic}{30}{subsection.6.2}%
-\contentsline {section}{\numberline {7}Entailment, recursive languages, and recursively enumerable languages}{34}{section.7}%
-\contentsline {subsection}{\numberline {7.1}The deduction theorem in more detail}{34}{subsection.7.1}%
-\contentsline {subsection}{\numberline {7.2}What is entailment?}{35}{subsection.7.2}%
+\contentsline {subsection}{\numberline {6.3}Proving the deduction theorem}{33}{subsection.6.3}%
+\contentsline {section}{\numberline {7}Entailment, consistency and recursive languages}{35}{section.7}%
+\contentsline {subsection}{\numberline {7.1}What is entailment?}{35}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Soundness, strong completeness and consistency}{35}{subsection.7.2}%
 \contentsline {subsection}{\numberline {7.3}Recursive and recursively enumerable languages}{35}{subsection.7.3}%
-\contentsline {section}{\numberline {8}Compactness}{38}{section.8}%
-\contentsline {subsection}{\numberline {8.1}Compactness theorem}{38}{subsection.8.1}%
-\contentsline {subsection}{\numberline {8.2}Applying the compactness theorem}{38}{subsection.8.2}%
-\contentsline {subsubsection}{\numberline {8.2.1}Connectedness}{38}{subsubsection.8.2.1}%
+\contentsline {section}{\numberline {8}Compactness theorem}{38}{section.8}%
+\contentsline {subsection}{\numberline {8.1}First-order logic cannot define connectedness}{38}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}First-order logic cannot define finiteness}{39}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}Non-standard analysis}{40}{subsection.8.3}%
+\contentsline {subsubsection}{\numberline {8.3.1}Non-standard model of arithmetic}{40}{subsubsection.8.3.1}%
+\contentsline {subsubsection}{\numberline {8.3.2}Non-standard model of the real numbers (hyperreals)}{41}{subsubsection.8.3.2}%

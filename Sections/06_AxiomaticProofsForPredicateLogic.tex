@@ -42,7 +42,7 @@ alongside the inference rule modus ponens.
     \tag{modus ponens}
 \]
 
-For the sake of convenience, we may sometimes want to make use of the deduction theorem.
+For the sake of convenience, we may sometimes want to make use of the deduction theorem. We will prove this theorem later.
 %
 \[A \vdash B \iff \vdash (A \rightarrow B) \tag{deduction theorem}\]
 %
@@ -305,3 +305,99 @@ in a linearly ordered model.
     \item \(\forall x\; \forall y\; \neg(x < y \land y < x)\)
     \hfill (universal generalisation of \(x\), from 14)
 \end{enumerate}
+
+
+\subsection{Proving the deduction theorem}
+
+Here we will prove a more generalised version of the deduction theorem.
+
+\begin{theorem}[Deduction theorem]
+    Let \(A\) and \(B\) be sentences. For any (possibly infinite) set of assumptions \(\Sigma\), a formula \(B\) is deducible from the assumptions \(\Sigma\cup\{A\}\) if and only if the implication \(A\rightarrow B\) is deducible from the assumptions \(\Sigma\). In symbols, we have
+    %
+    \[\Sigma\cup\{A\}\vdash B \iff \Sigma\vdash(A\rightarrow B)\text{.}\]
+\end{theorem}
+\begin{proof}
+    (\(\Leftarrow\)): Assuming that \(\Sigma\vdash(A\rightarrow B)\), there must exist a proof
+    %
+    \[\phi_0, \phi_1, \phi_2, \cdots, \phi_n\]
+    %
+    where \(\phi_n = A \rightarrow B\), and each \(\phi_i\) is an axiom, an element of \(\Sigma\), or derived from two previous formulas via modus ponens.
+
+    We extend this proof as follows.
+    %
+    \[\phi_0, \phi_1, \phi_2, \cdots, \phi_n, A, B\]
+    %
+    Note that this is an acceptable proof of \(B\) under the assumptions \(\Sigma\cup\{A\}\).
+    %
+    \begin{itemize}
+        \item Each of \(\phi_0, \phi_1, \phi_2, \cdots, \phi_n\) is an axiom, an element of \(\Sigma\), or derived from modus ponens.
+        \item \(A\) is an assumption from \(\Sigma\cup\{A\}\).
+        \item \(B\) is derived from \(\phi_n\) (i.e. \(A \rightarrow B\)) and \(A\) via modus ponens.
+    \end{itemize}
+    %
+    Hence we have \(\Sigma\vdash(A\rightarrow B) \implies \Sigma\cup\{A\}\vdash B\).
+
+    (\(\Rightarrow\)): Consider the following axiom schematas.
+    %
+    \begin{enumerate}[I.]
+        \item \(p\rightarrow(q\rightarrow p)\) \label{Ch07-deduction-thm-axiom-I}
+        \item \((p \rightarrow (q \rightarrow r)) \rightarrow ((p \rightarrow q) \rightarrow (p \rightarrow r))\) \label{Ch07-deduction-thm-axiom-II}
+    \end{enumerate}
+    
+    Assuming that \(\Sigma\cup\{A\}\vdash B\), there must exist a proof 
+    %
+    \[\phi_0, \phi_1, \phi_2, \cdots, \phi_n\]
+    %
+    where \(\phi_n = B\), and each \(\phi_i\) is an axiom, an element of \(\Sigma\), the additional assumption \(A\), or derived from two previous formulas via modus ponens.
+
+    We will transform this sequence into a proof from \(\Sigma\) of \(A \rightarrow B\). To do this, we will show by strong induction\footnote{Recall that strong (or complete) induction does not require a base case.} that for each index \(i\) (\(0 \leq i \leq n\)), we can construct a proof of the implication \(A \rightarrow \phi_i\) under the assumptions in \(\Sigma\).
+
+    \textbf{Induction hypothesis.} For all natural numbers \(k < i\), the formula \(A\rightarrow \phi_k\) is a theorem under the assumptions \(\Sigma\).
+
+    \textbf{Step case.} We want to construct a proof of \(A \rightarrow \phi_i\) under the assumptions \(\Sigma\).
+    %
+    \begin{itemize}
+        \item If \(\phi_i\) is an axiom or an element of \(\Sigma\), then we have the following proof.
+        %
+        \begin{enumerate}
+            \item \(\phi_i \rightarrow (A \rightarrow \phi_i)\)
+            \hfill (Axiom \ref{Ch07-deduction-thm-axiom-I})
+
+            \item \(\phi_i\)
+            \hfill (Axiom/Assumption)
+
+            \item \(A \rightarrow \phi_i\)
+            \hfill (modus ponens, from 1 and 2)
+        \end{enumerate}
+
+        \item If \(\phi_i = A\), then we have the following proof.
+        %
+        \begin{enumerate}
+            \item \(A \rightarrow ((A\rightarrow A) \rightarrow A)\)
+            \hfill(Axiom \ref{Ch07-deduction-thm-axiom-I})
+
+            \item \((A \rightarrow ((A\rightarrow A) \rightarrow A)) \rightarrow ((A\rightarrow(A\rightarrow A))\rightarrow(A\rightarrow A))\)
+            \hfill(Axiom \ref{Ch07-deduction-thm-axiom-II})
+
+            \item \((A\rightarrow(A\rightarrow A))\rightarrow(A\rightarrow A)\)
+            \hfill(modus ponens, from 1 and 2)
+
+            \item \((A\rightarrow(A\rightarrow A))\)
+            \hfill(Axiom \ref{Ch07-deduction-thm-axiom-I})
+
+            \item \(A\rightarrow A\)
+            \hfill(modus ponens, from 3 and 4)
+        \end{enumerate}
+
+        \item Suppose \(\phi_i\) is derived via modus ponens by two previous formulas \(\phi_j\) and \(\phi_j \rightarrow \phi_i\). By the induction hypothesis, we have \(\Sigma\vdash A\rightarrow\phi_j\) and \(\Sigma\vdash A\rightarrow(\phi_j \rightarrow\phi_i)\). Now consider the axiom 
+        %
+        \[
+            (A\rightarrow(\phi_j\rightarrow\phi_i)) \rightarrow ((A\rightarrow\phi_j)\rightarrow(A\rightarrow\phi_i))\text{.}
+            \tag{Axiom \ref{Ch07-deduction-thm-axiom-II}}
+        \]
+        %
+        Since both \(\Sigma\vdash A\rightarrow\phi_j\) and \(\Sigma\vdash A\rightarrow(\phi_j \rightarrow\phi_i)\) are theorems, we may obtain the theorem \((A\rightarrow\phi_i)\).
+    \end{itemize}
+
+    This completes the induction proof, giving us \(\Sigma\vdash A\rightarrow\phi_n\), which can be rewritten as \(\Sigma\vdash A \rightarrow B\). Hence we have \(\Sigma\cup\{A\}\vdash B \implies \Sigma\vdash(A\rightarrow B)\).
+\end{proof}

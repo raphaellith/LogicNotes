@@ -1,10 +1,6 @@
-\section{Compactness}
-
-\subsection{Compactness theorem}
+\section{Compactness theorem}
 
 Proofs are finite. If for some formula \(\phi\) and some set of assumptions \(\Sigma\) we have \(\Sigma\vdash\phi\), then we must also have \(\Sigma_0 \vdash\phi\) for some finite subset \(\Sigma_0\) of \(\Sigma\).
-
-Moreover, we say that \(\Sigma\) is \emph{inconsistent} if \(\Sigma\vdash(p\land\neg p)\). If there is no such proof, we say that \(\Sigma\) is \emph{consistent}.
 
 \begin{theorem}
     A set of formulas \(\Sigma\) has a model if and only if each finite subset of \(\Sigma\) has a model.
@@ -17,19 +13,17 @@ Moreover, we say that \(\Sigma\) is \emph{inconsistent} if \(\Sigma\vdash(p\land
     If \(\Sigma\) has no model, then \(\Sigma\models\bot\). By strong completeness, this set must be inconsistent, with \(\Sigma\vdash\bot\). Since proofs are finite, there exists some finite subset \(\Sigma_0 \subseteq \Sigma\) such that \(\Sigma_0 \vdash\bot\). By soundness, it follows that \(\Sigma_0 \models\bot\), i.e. \(\Sigma\) does not have a model. Hence proved.
 \end{proof}
 
+Below we will see some examples of how the compactness theorem can be applied.
 
+\subsection{First-order logic cannot define connectedness}
 
-\subsection{Applying the compactness theorem}
+Let \(E\) be a binary predicate symbol denoting the edges of a directed graph. Let \(=\) be a binary predicate symbol interpreted as true equality.
 
-\subsubsection{Connectedness}
-
-Let \(E\) be a binary relation denoting the edges of a graph. Let \(=\) denote equality.
-
-For \(k\geq 0\), we say that there is a \emph{path} of length \(k\) from \(x\) to \(y\) if there is a sequence
+For any natural number \(k\), we say that there is a \emph{path} of length \(k\) from \(x\) to \(y\) if there is a sequence
 %
 \[x_0, x_1, \cdots, x_k\]
 %
-where \(x = x_0\), \(y = x_k\) and \((x_i, x_i+1) \in E\) for all \(i < k\).
+where \(x = x_0\), \(y = x_k\) and there is any edge from \(x_i\) to \(x_{i+1}\) for all \(i < k\).
 
 We can then write the following formulas.
 %
@@ -54,7 +48,7 @@ Let \(P_n (x, y)\) be the statement ``There is a path of length \(n\) from node 
     P_{n+1} (x, y) &= ``\exists m\; (P_n (x, m) \land E(m, y))"
 \end{align*}
 
-A directed graph \((G, E)\) consists of a set of nodes \(G\) and a binary relation \(E \subseteq G \times G\).  Such a graph \((G, E)\) is said to be \emph{connected} if for all \(x, y \in G\) there is a path of finite length \(k\) from \(x\) to \(y\). How can we define this concept of connectedness using first-order logic?
+A directed graph consists of a set of nodes \(G\) and a binary relation over \(G\).  Such a graph is said to be \emph{connected} if for all \(x, y \in G\) there is a path of finite length \(k\) from \(x\) to \(y\). How can we define this concept of connectedness using first-order logic?
 
 A possible approach might be something like
 %
@@ -76,7 +70,7 @@ or
 \[
     \exists n\; P_n(x, y)\text{.}
 \]
-However, neither of these formulas are acceptable. The first formula is problematic because first-order logic does not allow an infinite number of connectives; the second formula cannot be accepted because \(\exists n\) assumes the domain of \(\mathbb{N}\), when the domain is actually \(G\).
+However, neither of these formulas are acceptable. The first formula is problematic because first-order logic does not allow an infinite number of connectives; the second formula does not work because \(\exists n\) assumes a domain of \(\mathbb{N}\), when the domain is actually \(G\).
 
 In fact, it is impossible to define connectedness using first-order logic, as we will prove below.
 
@@ -84,13 +78,13 @@ In fact, it is impossible to define connectedness using first-order logic, as we
     There is no first-order formula \(\phi\) such that a graph \(G\) satisfies \(\phi\) if and only if \(G\) is connected.
 \end{theorem}
 \begin{proof}
-    By contradiction. Let \(L = (C, F, P)\) be the first-order lanaguage where \(C = \{c, d\}\), \(F = \emptyset\) and \(P = \{E, =\}\), with \(E\) representing the edge relation. Suppose \(\Sigma\) is a theory such that for any graph \(G\), we have \(\Sigma\vdash G\) if and only if \(G\) is a connected graph.
+    By contradiction. Let \(L = (C, F, P)\) be the first-order lanaguage where \(C = \{c, d\}\), \(F = \emptyset\) and \(P = \{E, =\}\), with \(E\) representing the edge relation. Suppose \(\Sigma\) is a theory that is satisfied by a graph \(G\) if and only if \(G\) is a connected graph.
 
     Let \(P_n (x, y)\) be a first-order formula expressing the statement ``there is a path of length \(n\) from node \(x\) to node \(y\)'', as defined earlier.
 
     Consider the theory
     %
-    \[\Sigma' =
+    \[\Sigma^{+} =
     \underbrace{\Sigma}_{
         \substack{
             G \text{ is}\\
@@ -106,15 +100,15 @@ In fact, it is impossible to define connectedness using first-order logic, as we
         }
     }\]
     %
-    which does not have a model, as a graph cannot be both connected and disconnected. This can be denoted as \(\Sigma' \models\bot\).
+    which does not have a model, as a graph cannot be both connected and disconnected. This can be denoted as \(\Sigma^{+} \models\bot\).
 
-    Now consider a finite subset \(\Sigma'_0\) of \(\Sigma'\). This gives us
+    Now consider a finite subset \(\Sigma^{+}_0 \subset \Sigma^{+}\). This gives us
     %
-    \[\Sigma'_0 = \Sigma_0 \cup \{\neg \phi_n (c, d) : n\in S\}\]
+    \[\Sigma^{+}_0 = \Sigma_0 \cup \{\neg \phi_n (c, d) : n\in S\}\]
     %
     where \(\Sigma_0\) is a finite subset of \(\Sigma\) and \(S\) is a finite set of natural numbers.
 
-    We show that \(\Sigma'_0\) has a model. Since \(S\) is finite, we can find some \(N \in\mathbb{N}\) that is larger than any element in \(S\). Construct a graph \(G\) where
+    We show that \(\Sigma^{+}_0\) has a model. Since \(S\) is finite, we can find some \(N \in\mathbb{N}\) that is larger than any element in \(S\). Construct a graph \(G\) where
     %
     \begin{itemize}
         \item the nodes are \(\{0, 1, 2, \cdots, N+1\}\);
@@ -122,7 +116,139 @@ In fact, it is impossible to define connectedness using first-order logic, as we
         \item \(c = 0\) and \(d = N+1\).
     \end{itemize}
     %
-    Hence the shortest path between \(c\) and \(d\) has length \((N+1)\). This is a model of \(\Sigma'_0\).
+    Hence the shortest path between \(c\) and \(d\) has length \((N+1)\). This is a model of \(\Sigma^{+}_0\).
 
-    By the compactness theorem, since any finite subset of \(\Sigma'\) has a model, \(\Sigma'\) itself must also have a model. This contradicts our earlier proposition that \(\Sigma'\) does not have a model.
+    By the compactness theorem, since any finite subset of \(\Sigma^{+}\) has a model, \(\Sigma^{+}\) itself must also have a model. This contradicts our earlier proposition that \(\Sigma^{+}\) does not have a model.
 \end{proof}
+
+
+
+\subsection{First-order logic cannot define finiteness}
+
+Similarly, it is impossible to define the class of all finite structures (i.e. structures with finite domains) using a first-order sentence or theory.
+
+\begin{theorem}[First-order logic cannot define finiteness]
+    There is no first-order formula \(\phi\) such that \((D, I) \models \phi\) if and only if the domain \(D\) is finite.
+\end{theorem}
+\begin{proof}
+    By contradiction. Assume there is theory \(\Sigma\) where \((D, I) \models \Sigma\) if and only if the domain \(D\) is finite.
+
+    Let \(C\) be an infinite set of constant symbols. Consider the theory
+    %
+    \[\Sigma^{+} =
+    \underbrace{\Sigma}_{
+        \substack{
+            D \text{ is}\\
+            \text{finite}
+        }
+    }
+    \cup
+    \underbrace{\{\neg(c = d) : c \text{ and } d \text{ are different constant symbols in } C\}}_{
+        \substack{
+            \text{each constant symbol is interpreted as a different domain element,} \\
+            \text{so \(D\) is infinite}
+        }
+    }\]
+    %
+    which does not have a model.
+
+    Now consider a finite subset \(\Sigma^{+}_0 \subset \Sigma^{+}\). This gives us
+    %
+    \[\Sigma^{+}_0 = \Sigma_0 \cup \{\neg(c = d) : c \text{ and } d \text{ are different constant symbols in } C_0\}\]
+    %
+    where \(\Sigma_0\) is a finite subset of \(\Sigma\) and \(C_0\) is a finite subset of \(C\).
+
+    Notice that the Herbrand structure \((C_0, I)\), where each constant symbol in \(C_0\) is interpreted as itself, is a model of \(\Sigma^{+}_0\).
+
+    By the compactness theorem, since every finite subset of \(\Sigma^{+}_0\) of \(\Sigma^{+}\) has a model, the theory \(\Sigma^{+}\) must also have a model. This contradicts our earlier proposition that \(\Sigma^{+}\) does not have a model.
+\end{proof}
+
+
+
+\subsection{Non-standard analysis}
+
+\subsubsection{Non-standard model of arithmetic}
+
+Consider a language \(L\) with
+%
+\begin{itemize}
+    \item constant symbols \(0, 1, 2, 3, \cdots\);
+    \item binary function symbols \(\times\) and \(+\); and
+    \item a binary predicate symbol \(=\).
+\end{itemize}
+%
+Let \(\Sigma\) be the set of all sentences in this language that represent valid statements about \(\mathbb{N}\), such as
+%
+\[``2 + 2 = 4"\]
+%
+and
+%
+\[\forall x\; \forall y\; (x \times y = y \times x)\text{.}\]
+
+Clearly, \(\Sigma\) has a model. Specifically, \(\Sigma\) has the model \((\mathbb{N}, I)\) where \(I\) interprets each constant symbol as its corresponding natural number, ``\(\times\)'' as ordinary multiplication, ``\(+\)'' as ordinary addition and ``\(=\)'' as true equality.
+
+Let \(L^{+}\) be a language which is identical to \(L\), except it includes a new constant symbol \(c\). We will show that the following theory has a model.
+%
+\[\Sigma^{+} = \Sigma \cup \{\neg (c = 0), \neg (c = 1), \neg (c = 2), \cdots\}\]
+%
+Consider a finite subset \(\Sigma^{+}_0 \subset \Sigma^{+}\). This gives us
+%
+\[\Sigma^{+}_0 = \Sigma_0 \cup \{\neg(c = n) : n \in S\}\]
+%
+where \(\Sigma_0\) is a finite subset of \(\Sigma\) and \(S\) is a finite set of constant symbols in \(L\). Let \(N\) be the largest natural number that is the interpretation of a constant symbol in \(S\). (This number must exist as \(S\) is finite.) This allows us to define a model for \(\Sigma^{+}_0\) where \(c\) is interpreted as \((N + 1)\).
+
+By the compactness theorem, since every finite subset of \(\Sigma^{+}\) has a model, the theory \(\Sigma^{+}\) must also have a model \((\mathbb{N}^{+}, I^{+})\).
+
+The newly introduced constant symbol \(c\) is said to be \emph{non-standard}, and the resultant model \(\Sigma^{+}\) is called the \emph{non-standard model of arithmetic}.
+
+Since \(\Sigma \subset \Sigma^{+}\), any statement that is true about \(\mathbb{N}\) must also be true about \(N^{+}\).
+
+\begin{corollary}[Commutativity of multiplication in \(\mathbb{N}^{+}\)]
+    \(\forall x\; \forall y\; (x \times y = y \times x)\) holds in \(\mathbb{N}^{+}\).
+\end{corollary}
+
+\begin{corollary}[All nonzero elements in \(\mathbb{N}^{+}\) have predecessors]
+    We say that \(m\) is a predecessor of \(n\) if \(m + 1 = n\). Since \(\forall n\; (\neg(n = 0) \rightarrow \exists m\; (m + 1 = n))\) holds in \(\mathbb{N}\), this property also holds in \(\mathbb{N}^{+}\).
+\end{corollary}
+
+Note, however, that this only works for statements about \(\mathbb{N}\) that can be written using the first-order language \(L\). The principle of induction, for example, is represented as the second-order formula
+%
+\[\forall P\; ((P(0) \land \forall x\; (P(x) \rightarrow P(x + 1))) \rightarrow \forall x\; P(x))\]
+%
+where \(P\) is quantified over all unary predicates. Therefore, the principle of induction does not necessarily hold in \(\mathbb{N}^{+}\).
+
+
+\begin{theorem}
+    The principle of induction does not hold in \(\mathbb{N}^{+}\).
+\end{theorem}
+\begin{proof}
+    By counterexample. Let \(P(n)\) be the statement ``\(n\) is standard''. In other words, \(P(n)\) is true if and only if \(n\) does not involve the constant symbol \(c\). Notice that the left-hand side of the implication
+    %
+    \[(P(0) \land \forall x\; (P(x) \rightarrow P(x + 1)))\]
+    %
+    is true but the right-hand side
+    %
+    \[\forall x\; P(x)\]
+    %
+    is false, making this a counterexample.
+\end{proof}
+
+
+
+\subsubsection{Non-standard model of the real numbers (hyperreals)}
+
+Similar to the above, let \(L\) be a language with a constant symbol for every real number, along with function and predicate symbols for common arithmetic operations. Let \(\Sigma\) be the set of all sentences representing valid statements about \(\mathbb{R}\). Clearly, \(\Sigma\) has a model.
+
+Let \(L^{+}\) be an identical languge but with the addition of a new constant symbol \(\omega\). Consider the theory \(\Sigma^{+} = \Sigma \cup \{\omega > r : r \in\mathbb{R}\}\). Every finite subset of \(\mathbb{R}\) has a model, since we can simply interpret every \(\omega\) as a sufficiently large real number. By the compactness theorem, this implies that \(\Sigma^{+}\) has a non-standard model \(M = (\mathbb{R}^{+}, I^{+})\).
+
+It follows that \([\omega]^{M}\) is an ``infinitely large'' number that is greater than any real number \(r \in \mathbb{R}\). Similarly, \([1/\omega]^{M}\) is an ``infinitesimally small'' positive real number.
+
+This introduction of infinitesimals enables us to formalise differential and integral calculus. To begin with, we can show that
+%
+\[\forall x\; ((\abs{x} < r) \rightarrow (x = \text{Standard}(x) + \text{Infinitesimal}(x)))\]
+%
+where \(r\) is a constant for any positive real number, \(\text{Standard}(x)\) is a standard real and \(\text{Infinitesimal}(x)\) is a non-standard (infinitesimal) real. We then define the derivative of a function \(f(x)\) as
+%
+\[f'(x) = \text{Standard}\left(\frac{f(x + \delta x) - f(x)}{\delta x}\right)\]
+%
+where \(x\) is any standard real and \(\delta x\) is any infinitesimal. This formula can only be used if the value of \(f'(x)\) does not depend on the choice of \(\delta x\) --- this corresponds to when \(f\) is differentiable at \(x\).

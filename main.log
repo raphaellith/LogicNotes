@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.8.23)  2 NOV 2025 17:24
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.8.23)  14 NOV 2025 23:22
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -952,7 +952,7 @@ Overfull \hbox (1.48532pt too wide) in paragraph at lines 348--349
  []
 
 [14]) [15] (./Sections/04_PredicateTableau.tex [16] [17] [18]
-<Images/04a_NonterminatingPredicateTableau.png, id=448, 879.285pt x 501.875pt>
+<Images/04a_NonterminatingPredicateTableau.png, id=463, 879.285pt x 501.875pt>
 File: Images/04a_NonterminatingPredicateTableau.png Graphic file (type png)
 <use Images/04a_NonterminatingPredicateTableau.png>
 Package pdftex.def Info: Images/04a_NonterminatingPredicateTableau.png  used on input line 241.
@@ -966,26 +966,23 @@ LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10> not available
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
 (mdframed)              on input line 133.
-Package mdframed Info: Box was splittet wrong
- starting loop to iterate the splitting point
-(mdframed)              on input line 213.
- [31] [32]) [33] (./Sections/07_Entailment.tex [34] [35] [36]) [37] (./Sections/08_Compactness.tex [38]) [39] (./main.aux)
+ [31] [32] [33]) [34] (./Sections/07_Entailment.tex [35] [36]) [37] (./Sections/08_Compactness.tex [38] [39] [40]) [41] (./main.aux)
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: EA6BE603A43DF63DD1EA682B49F7FE9B;10224.
+(rerunfilecheck)             Checksum: 50615A81C65A52D7EDCE16F110C99915;11219.
  ) 
 Here is how much of TeX's memory you used:
- 37084 strings out of 476025
- 833529 string characters out of 5790017
+ 37094 strings out of 476025
+ 833664 string characters out of 5790017
  1900388 words of memory out of 5000000
- 56614 multiletter control sequences out of 15000+600000
+ 56619 multiletter control sequences out of 15000+600000
  524852 words of font info for 80 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,17n,80p,1019b,1282s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on main.pdf (39 pages, 494287 bytes).
+Output written on main.pdf (41 pages, 506192 bytes).
 PDF statistics:
- 890 PDF objects out of 1000 (max. 8388607)
- 788 compressed objects within 8 object streams
- 306 named destinations out of 1000 (max. 500000)
- 410 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 915 PDF objects out of 1000 (max. 8388607)
+ 810 compressed objects within 9 object streams
+ 311 named destinations out of 1000 (max. 500000)
+ 434 words of extra memory for PDF output out of 10000 (max. 10000000)
 
