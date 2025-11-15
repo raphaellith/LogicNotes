@@ -1,0 +1,97 @@
+\section{Gödel's incompleteness theorem}
+
+\begin{theorem}[Gödel's incompleteness theorem, 1931]
+    Let \(\Lambda\) be a formal recursively enumerable logic that is sufficient for arithmetic, i.e.
+    %
+    \begin{enumerate}[(a)]
+        \item Syntax: Its language \(L=(C, F, P)\) should include constant symbols \(0, 1 \in C\), binary function symbols \(+, \times \in F\), and the binary predicate symbol \(= \;\in P\);
+        \item Semantics: Its first-order structure should interpret the aforementioned symbols in accordance with the domain \(\mathbb{N}\); and
+        \item Inference system: There should be an inference system, possibly axiomatic or tableau-based.
+    \end{enumerate}
+    %
+    If \(\Lambda\) is sound, then it is not complete --- in other words, if \(\Lambda\) cannot prove any false statements about arithmetic, then there must be true statements about arithmetic for which there exists no proof.
+\end{theorem}
+\begin{proof}[Informal proof sketch]
+    Notice that any \(n\)-ary function can be rewritten as an \((n+1)\)-ary predicate. For example, the binary addition function, which produces such properties as \(2 + 3 = 5\) and \(4 + 0 = 4\), can be represented as the trinary predicate \(\{(2, 3, 5), (4, 0, 4), \cdots\}\). Hence, for this proof, we may assume without loss of generality that \(\Gamma\) has no function symbols, with \(F = \emptyset\).
+
+    Let \(G: C \cup P \rightarrow \mathbb{N}\setminus \{0\}\) be an injective function that uniquely encodes every symbol in \(\Lambda\) as a positive integer. This enables us to encode any formula of \(\Lambda\) as an integer. For example, if we have
+    %
+    \begin{align*}
+        G(\text{\texttt{+}}) &= 053\\
+        G(\text{\texttt{(}}) &= 050\\
+        G(\text{\texttt{x}}) &= 170\\
+        G(\text{\texttt{,}}) &= 053\\
+        G(\text{\texttt{y}}) &= 171\\
+        G(\text{\texttt{)}}) &= 051\\
+        G(\text{\texttt{=}}) &= 075\\
+        G(\text{\texttt{-}}) &= 055\\
+        G(\text{\texttt{x}}) &= 170
+    \end{align*} 
+    %
+    then the formula
+    %
+    \[+(x, y) = -x\]
+    %
+    can be encoded as the \emph{Gödel number}
+    %
+    \[053 \;050 \;170 \;053 \;171 \;051 \;075 \;055 \;170\text{.}\]
+    %
+    Due to the injective nature of the encoding, it is possible to decode a formula from its Gödel number. Furthermore, we can define string concatenation on Gödel numbers as
+    %
+    \[m \doubleplus n = 10^{\abs{n}} \times m + n\]
+    %
+    where \(\abs{n}\) is the length of the string \(n\). We can also define various string properties on strings using first-order formulas, informally described as follows.
+    %
+    \begin{itemize}
+        \item \(\text{Formula}(n)\) determines whether \(n\) is the Gödel number of an acceptable first-order formula. It is the disjunction of \(\text{Atom}(n)\), \(\text{Neg}(n)\), \(\text{Disj}(n)\) and \(\text{Exist}(n)\), as defined below.
+
+        \item \(\text{Atom}(n)\) determines whether \(n\) is the Gödel number of an atom. It checks whether there exists natural numbers \(y\) and \(z\) such that
+        %
+        \begin{itemize}
+            \item \(n\) is the concatenation of \(y\), \(G(\texttt{(})\), \(z\) and \(G(\texttt{)})\);
+            \item \(y\) is the Gödel number of a predicate symbol; and
+            \item \(z\) is the Gödel number of a term.
+        \end{itemize}
+
+        \item \(\text{Neg}(n)\) determines whether \(n\) is the Gödel number of a negated formula. It checks whether there exists a natural number \(z\) with \(\text{Formula}(z)\) such that \(n\) is the concatenation of \(G(\neg)\) and \(z\).
+        
+        \item \(\text{Disj}(n)\) determines whether \(n\) is the Gödel number of a disjunction. It checks whether there exists natural numbers \(v\) and \(w\) with \(\text{Formula}(v)\) and \(\text{Formula}(w)\) such that \(n\) is the concatenation of \(G(\texttt{(})\), \(v\), \(G(\texttt{,})\), \(w\) and \(G(\texttt{)})\).
+        
+        \item \(\text{Exist}(n)\) determines whether \(n\) is the Gödel number of an existential formula. It checks whether there exists a natural number \(v\) with \(\text{Formula}(v)\) such that \(n\) is the concatenation of \(G(\exists)\), a variable symbol's Gödel number and \(v\).
+    \end{itemize}
+    %
+    This recursion is well-founded.
+
+    Similarly, every axiomatic proof can be represented as a string, using 000 as a delimiter to separate consecutive formulas. Therefore, a unique Gödel number can be assigned to each proof.
+
+    Let
+    %
+    \[A_0(x), A_1(x), A_2(x), \cdots\]
+    %
+    be an enumeration of all formulas in the language with one free variable \(x\). We may then write
+    %
+    \[\theta(n, k, q) = \text{``The Gödel number } n \text{ represents a proof of } A_k(q) \text{''}\]
+    %
+    Now consider the following formula,
+    %
+    \[\neg\exists n\; \theta(n, x, x)\]
+    %
+    which reads as ``there is no natural number \(n\) that represents a proof of \(A_x(x)\)'', or ``there is no proof of \(A_x(x)\)''. Since this formula only has one free variable \(x\), it must appear in the enumeration above. Thus, there exists some \(n_0\) such that
+    %
+    \begin{align*}
+        A_{n_0}(x) &\;\;\;=\;\;\; \neg\exists n\; \theta(n, x, x)\\
+        \mathbb{N}\models A_{n_0}(x) &\iff \mathbb{N}\models \neg\exists n\; \theta(n, x, x)\\
+        \mathbb{N}\models A_{n_0}(x) &\iff \text{there is no proof of \(A_x(x)\)}
+    \end{align*}
+    %
+    If we substitute the free variable \(x\) with \(n_0\), we get
+    %
+    \[\mathbb{N}\models A_{n_0}(n_0) \iff \text{there is no proof of \(A_{n_0}(n_0)\)}\text{.}\]
+    %
+    Therefore, either
+    \begin{itemize}
+        \item \(A_{n_0}(n_0)\) is valid in \(\mathbb{N}\), but it has no proof (incompleteness); or
+        \item \(A_{n_0}(n_0)\) is invalid in \(\mathbb{N}\), but can be proven (inconsistency). \qedhere
+    \end{itemize}
+
+\end{proof}

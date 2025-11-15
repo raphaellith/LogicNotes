@@ -60,7 +60,9 @@ On the contrary, if falsity is not deducible from \(\Sigma\), then \(\Sigma\) is
 
 \subsection{Recursive and recursively enumerable languages}
 
-A \emph{language} refers to a set of strings over a finite alphabet \(\Sigma\).
+A \emph{language} refers to a set \(L\) of strings over a finite alphabet \(\Sigma\).
+%
+\[L \subseteq \Sigma^{*}\]
 
 A language \(L\) is said to be \emph{recursive} (also called \emph{decidable} or \emph{computable}) if there exists a computer program that
 %
@@ -72,7 +74,7 @@ A language \(L\) is said to be \emph{recursive} (also called \emph{decidable} or
 
 For example, the set of all formulas of first-order logic is recursive, since it is possible to write a parser that decides whether a string is a well-formed formula. Meanwhile, the set of valid first-order statements form a language, but it is not recursive.
 
-Moreover, a language \(L\) is \emph{recursively enumerable} (abbreviated \emph{r.e.}) if there exists a computer program that outputs strings from \(L\), only strings from \(L\), and will eventually output any given string from \(L\).
+Moreover, a language \(L\) is \emph{recursively enumerable} (abbreviated \emph{r.e.}, or alternatively \emph{semi-decidable}) if there exists a computer program that outputs strings from \(L\), only strings from \(L\), and will eventually output any given string from \(L\).
 
 \begin{theorem}
     The set of valid statements in first-order logic is recursively enumerable.
@@ -140,3 +142,33 @@ Moreover, a language \(L\) is \emph{recursively enumerable} (abbreviated \emph{r
 \end{proof}
 
 Note that the converse of the above theorem does not hold. While all recursive sets are recursively enumerable, not all recursively enumerable sets are recursive.
+
+If a language \(L \subseteq \Sigma^{*}\) is recursively enumerable, then its complement \(\Sigma^{*}\setminus L\) is said to be \emph{co-recursively enumerable} (abbreviated \emph{co-r.e.}).
+
+
+\begin{theorem}
+    If a set is both recursively enumerable and co-recursively enumerable, then it is decidable.
+\end{theorem}
+\begin{proof}
+    Let \(L\) be a language that is both recursively enumerable and co-recursively enumerable.
+
+    Since \(L\) is recursively enumerable, there exists some program \(A\) that eventually outputs every string in \(L\).
+
+    Since it is also co-recursively enumerable, there exists some program \(B\) that eventually outputs every string not in \(L\).
+
+    We can thus construct the following program.
+    %
+    \begin{lstlisting}[language=python, commentstyle=\color{gray}]
+    def is_in_L(string):
+        for ($i = 0$, $i$++, forever):
+            read $i$-th output from $A$ and store it in $A_i$
+            if $A_i$ matches string:
+                return 1
+            
+            read $i$-th output from $B$ and store it in $B_i$
+            if $B_i$ matches string:
+                return 0
+    \end{lstlisting}
+    %
+    Since \(L \cup (\Sigma^{*}\setminus L) = \Sigma^{*}\), every string in \(\Sigma^{*}\) will eventually be outputted by either \(A\) or \(B\) in finite time. Therefore, the above program always terminates, so \(L\) is decidable.
+\end{proof}
