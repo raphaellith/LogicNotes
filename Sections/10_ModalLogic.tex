@@ -1,0 +1,239 @@
+\section{Modal logic}
+
+\subsection{Syntax}
+
+In modal logic, formulas are constructed by applying negation, conjunction, disjunction, implication, as well as the box and diamond operators to propositions.
+%
+\begin{align*}
+    \text{proposition} &:= p \;|\; q \;|\; r \cdots\\
+    \text{formula} &:= \text{proposition} \;|\; \neg\text{formula} \;|\; (\text{formula} \circ \text{formula}) \;|\; \Box \text{formula} \;|\; \Diamond \text{formula} \tag{where \(\circ\) is \(\land\), \(\lor\) or \(\rightarrow\)}
+\end{align*}
+
+
+\subsection{Semantics}
+
+A \emph{Kripke frame} \(\mathcal{F} = (W, R)\) contains a set \(W\) of worlds and a binary relation \(R \subseteq W \times W\). This can be represented as a directed graph with nodes \(W\) and edges \(R\).
+
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=1.275]
+        \node (w1) at (0, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(w_1\)};
+
+        \node (w2) at (2, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(w_2\)};
+
+        \node (w3) at (1, -1.5)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(w_3\)};
+
+        \node (w4) at (3, -1.5)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(w_4\)};
+
+        \node (w5) at (4, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(w_5\)};
+
+        \draw[black, thick, -Latex] (w1) -- (w2);
+        \draw[black, thick, -Latex] (w2) -- (w3);
+        \draw[black, thick, -Latex] (w2) -- (w5);
+        \draw[black, thick, -Latex] (w3) -- (w1);
+        \draw[black, thick, -Latex] (w4) -- (w5);
+        \draw[black, thick, -Latex] (w5.45) arc (-45:225:10pt);
+    \end{tikzpicture}
+    \caption{A Kripke frame \(\mathcal{F} = (W, R)\) with worlds \(W = \{w_1, w_2, w_3, w_4, w_5\}\) and the relation \(R = \{(w_1, w_2), (w_2, w_3), (w_2, w_5), (w_3, w_1), (w_4, w_5)\}\).}
+    \label{fig:Ch10-frame-example}
+\end{figure}
+
+A valuation \(V\) is a function that maps each propositional letter to a subset of \(W\). For example, we may have
+%
+\begin{align*}
+    V(p) &= \{w_1, w_3, w_5\}\\
+    V(q) &= \{w_1, w_2\}\\
+    V(r) &= \emptyset
+\end{align*}
+%
+A Kripke frame \((W, R)\) combined with a valuation \(V\) gives a \emph{Kripke model} \(\mathcal{M} = (W, R, V)\).
+
+Modal logic is a local logic where formulas are evaluated not just with a model, but at a specific world as well. For any given world \(w \in W\), we define the semantics of modal logic as
+%
+\begin{align*}
+    \mathcal{M}, w \models p &\iff w \in V(p)\\
+    \mathcal{M}, w \models \neg\phi &\iff \mathcal{M}, w \not\models \phi\\
+    \mathcal{M}, w \models (\phi\land\psi) &\iff \mathcal{M}, w \models \phi \text{ and } \mathcal{M}, w \models \psi\\
+    \mathcal{M}, w \models \Diamond\phi &\iff \text{there exists some } w' \in W \text{ such that } (w, w') \in R \text{ and } \mathcal{M}, w' \models\phi\\
+    \mathcal{M}, w \models \Box\phi &\iff \text{for all } w' \in W, \text{ if } (w, w') \in R \text{ then } \mathcal{M}, w' \models\phi
+\end{align*}
+%
+where \(p\) is a propositional letter and \(\phi\) and \(\psi\) are formulas.
+
+A formula may be valid in a model, in a frame, or over a class of frames.
+%
+\begin{align*}
+    (W, R, V) \models \phi &\iff (W, R, V), w \models \phi \text{ for all } w \in W \tag{validity in a model}\\
+    (W, R) \models \phi &\iff (W, R, V) \models \phi \text{ for all valuations } V \tag{validity in a frame}\\
+    \mathcal{K} \models \phi &\iff \mathcal{F} \models \phi \text{ for all frames } \mathcal{F}\in\mathcal{K} \tag{validity over a class of frames}
+\end{align*}
+%
+Any formula that is valid in propositional logic is also valid in modal logic. Other valid formulas include
+%
+\begin{align*}
+    \Box(p \land q) &\rightarrow (\Box p \land \Box q)\\
+    \Box(p \rightarrow q) &\rightarrow (\Box p \rightarrow \Box q)
+\end{align*}
+%
+but not
+%
+\[\Box(p \lor q) \rightarrow (\Box p \lor \Box q)\text{.}\]
+
+
+\subsection{Axiomatic proof system}
+
+In addition to the axioms for propositional logic, an axiomatic proof system for modal logic requires the following axiom.
+%
+\[\Box(p \rightarrow q) \rightarrow (\Box p \rightarrow \Box q)\]
+%
+We also use the following inference rules.
+%
+\[
+    \infer{\psi}{
+        \phi
+        &
+        (\phi\rightarrow\psi)
+    }
+    %
+    \tag{modus ponens}
+\]
+%
+\[\infer{\Box\phi}{\phi} \tag{necessitation}\]
+
+
+
+\subsection{Class of frames, soundness and completeness}
+
+Frames with common properties may be grouped into a class \(\mathcal{K}\). We say that a formula \(\phi\) \emph{defines} \(\mathcal{K}\) if
+%
+\[\mathcal{F} \vdash \phi \iff \mathcal{F}\in\mathcal{K}\text{.}\]
+%
+Table \ref{tab:Ch10-defining-classes} shows several examples of such classes and their defining modal formulas. Moreover, names are often assigned to classes with special properties, as shown in Table \ref{tab:Ch10-class-names}.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Class of...} & \textbf{First-order definition} & \textbf{Defining modal formula}\\
+        \hline
+        Reflexive frames & \(\forall w\; Rww\) & \(\Box p \rightarrow p\)\\
+        \hline
+        Transitive frames & \(\forall u\; \forall v\; \forall w\; ((Ruv \land Rvw) \rightarrow Ruw)\) & \(\Diamond\Diamond p \rightarrow \Diamond p\) or \(\Box p \rightarrow \Box\Box p\)\\
+        \hline
+        Symmetric frames & \(\forall u\; \forall v\; (Ruv \rightarrow Rvu)\) & \(p \rightarrow \Box\Diamond p\)\\
+        \hline
+        Dense frames & \(\forall u\; \forall v\; (Ruv \rightarrow \exists w\; (Ruw \land Rwv))\) & \(\Diamond p \rightarrow \Diamond\Diamond p\) or \(\Box\Box p \rightarrow \Box p\)\\
+        \hline
+    \end{tabular}
+    \caption{Classes of Kripke frames and the modal formulas that define them.}
+    \label{tab:Ch10-defining-classes}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Name} & \textbf{Class of...}\\
+        \hline
+        \(K\) & All frames\\
+        \hline
+        \(T\) & Reflexive frames\\
+        \hline
+        \(S4\) & Reflexive and transitive frames\\
+        \hline
+        \(S5\) & Frames with equivalence relations (reflexive, symmetric and transitive)\\
+        \hline
+    \end{tabular}
+    \caption{Classes of Kripke frames and their names.}
+    \label{tab:Ch10-class-names}
+\end{table}
+
+For a class \(\mathcal{K}\) of frames, let \(A\) be the conjunction of its axioms and defining formulas. For any formula \(\phi\), we write \(\vdash_A \phi\) if \(\phi\) is provable using \(A\) through modus ponens and necessitation. It follows that
+%
+\[\mathcal{K} \models \phi \iff \vdash_A \phi\]
+%
+meaning that \(\vdash_A\) is sound and complete for \(\mathcal{K}\).
+
+
+
+\subsection{Modal tableaus}
+
+Like in propositonal and first-order logic, the satisfiability modal formulas can be verified with tableaus. 
+
+The tableau will consist of a queue of \emph{labelled frames}. A labelled frame \(((W, R), \lambda)\) contains a function \(\lambda\) which maps each world \(W\) to a set of modal formulas. We may visualise this as a frame where each world is labelled with zero or more formulas.
+
+The following algorithm is used to determine the satisfiability of a formula \(\phi\).
+%
+{
+\small
+\begin{lstlisting}[language=python, commentstyle=\color{gray}]
+def is_satisfiable($\phi$):
+    Tableau = Queue()
+    Tableau.enqueue(frame containing only one world labelled $\phi$)
+
+    while Tableau is not empty:
+        # Dequeue a labelled frame from the tableau
+        $((W, R), \lambda)$ = Tableau.dequeue()
+
+        if $\{p, \neg p\} \subseteq \lambda(w)$ for some $w \in W$ and propositional letter $p$:
+            # There is a world with contradictory literals,
+            # so don't enqueue this frame back
+            continue 
+        
+        if for all $w \in W$, each formula $\theta \in \lambda(w)$ is a literal, box or negated diamond:
+            return True
+
+        select a formula $\theta\in\lambda(w)$ ($w\in W$) that is not a literal, box or negated diamond
+
+        if $\theta$ is an $\alpha$-formula:
+            let $\lambda'$ be identical to $\lambda$ except $\lambda'(w) = (\lambda(w)\setminus\{\theta\})\cup\{\alpha_1, \alpha_2\}$
+            Tableau.enqueue($((W, R), \lambda')$)
+        
+        elif $\theta$ is a $\beta$-formula:
+            let $\lambda_1$ be identical to $\lambda$ except $\lambda_1(w) = (\lambda(w)\setminus\{\theta\})\cup\{\beta_1\}$
+            Tableau.enqueue($((W, R), \lambda_1)$)
+
+            let $\lambda_2$ be identical to $\lambda$ except $\lambda_2(w) = (\lambda(w)\setminus\{\theta\})\cup\{\beta_2\}$
+            Tableau.enqueue($((W, R), \lambda_2)$)
+        
+        elif $\theta = \Diamond A$:
+            let $W' = W \cup \{w_{\text{new}}\}$ where $w_{\text{new}}$ is a new world
+            let $R' = R \cup \{(w, w_\text{new})\}$
+            let $\lambda'$ be identical to $\lambda$ except $\lambda'(w_\text{new}) = \{A\}\cup\{B : \Box B \in\lambda(w)\}\cup\{\neg B: \neg\Diamond B \in \lambda(w)\}$
+                                           and $\lambda'(w) = \lambda(w)\setminus\{\theta\}$
+            Tableau.enqueue($((W', R'), \lambda')$)
+        
+        elif $\theta = \neg\Box A$:
+            let $W' = W \cup \{w_{\text{new}}\}$ where $w_{\text{new}}$ is a new world
+            let $R' = R \cup \{(w, w_\text{new})\}$
+            let $\lambda'$ be identical to $\lambda$ except $\lambda'(w_\text{new}) = \{\neg A\}\cup\{B : \Box B \in\lambda(w)\}\cup\{\neg B: \neg\Diamond B \in \lambda(w)\}$
+                                           and $\lambda'(w) = \lambda(w)\setminus\{\theta\}$
+            Tableau.enqueue($((W', R'), \lambda')$)
+    
+    return False
+\end{lstlisting}
+}
+
+We may adapt this tableau algorithm for determining satisfiability in specific classes of frames.
+%
+\begin{itemize}
+    \item To determine satisfiability of a formula \(\phi\) in reflexive frames, initialise the tableau with a frame \((W, R, \lambda)\) where \(W = \{w\}\), \(R = \{(w, w)\}\) and \(\lambda(w) = \phi\). Construct the tableau as usual. Whenever a new world \(w_\text{new}\) is added:
+    \begin{itemize}
+        \item add \((w_\text{new}, w_\text{new})\) to \(R\);
+        \item if \(\Box A \in \lambda(w_\text{new})\), also include \(A \in \lambda(w_\text{new})\); and
+        \item if \(\neg\Diamond A \in \lambda(w_\text{new})\), also include \(\neg A \in \lambda(w_\text{new})\).
+    \end{itemize}
+
+    \item To determine satisfiability of a formula in symmetric frames, construct the tableau as usual. For diamond formulas in world \(w\), when a new world \(w_\text{new}\) is added with a new edge \((w, w_\text{new})\), also include the edge \((w_\text{new}, w)\). Any boxed or negated diamond formulas in \(w_\text{new}\) should propagate back to \(w\).
+    
+    \item To determine satisfiability of a formula in transitive frames, construct the tableau as usual. For diamond formulas in world \(w\), when a new world \(w_\text{new}\) is added with a new edge \((w, w_\text{new})\), then
+    \begin{itemize}
+        \item add the edge \((v, w_\text{new})\);
+        \item if \(\Box A \in \lambda(v)\), include \(A \in \lambda(w)\); and
+        \item if \(\neg\Diamond A \in \lambda(v)\), include \(\neg A \in \lambda(w)\)
+    \end{itemize}
+    for each world \(v\) that has an outgoing edge to \(w\).
+    
+    
+\end{itemize}

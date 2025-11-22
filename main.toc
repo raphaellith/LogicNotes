@@ -52,3 +52,9 @@
 \contentsline {subsubsection}{\numberline {8.3.1}Non-standard model of arithmetic}{40}{subsubsection.8.3.1}%
 \contentsline {subsubsection}{\numberline {8.3.2}Non-standard model of the real numbers (hyperreals)}{41}{subsubsection.8.3.2}%
 \contentsline {section}{\numberline {9}Gödel's incompleteness theorem}{42}{section.9}%
+\contentsline {section}{\numberline {10}Modal logic}{44}{section.10}%
+\contentsline {subsection}{\numberline {10.1}Syntax}{44}{subsection.10.1}%
+\contentsline {subsection}{\numberline {10.2}Semantics}{44}{subsection.10.2}%
+\contentsline {subsection}{\numberline {10.3}Axiomatic proof system}{45}{subsection.10.3}%
+\contentsline {subsection}{\numberline {10.4}Class of frames, soundness and completeness}{45}{subsection.10.4}%
+\contentsline {subsection}{\numberline {10.5}Modal tableaus}{46}{subsection.10.5}%
