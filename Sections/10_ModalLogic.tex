@@ -198,14 +198,14 @@ def is_satisfiable($\phi$):
             Tableau.enqueue($((W, R), \lambda_2)$)
         
         elif $\theta = \Diamond A$:
-            let $W' = W \cup \{w_{\text{new}}\}$ where $w_{\text{new}}$ is a new world
+            let $W' = W \cup \{w_{\text{new}}\}$ with a new world $w_{\text{new}}$
             let $R' = R \cup \{(w, w_\text{new})\}$
             let $\lambda'$ be identical to $\lambda$ except $\lambda'(w_\text{new}) = \{A\}\cup\{B : \Box B \in\lambda(w)\}\cup\{\neg B: \neg\Diamond B \in \lambda(w)\}$
                                            and $\lambda'(w) = \lambda(w)\setminus\{\theta\}$
             Tableau.enqueue($((W', R'), \lambda')$)
         
         elif $\theta = \neg\Box A$:
-            let $W' = W \cup \{w_{\text{new}}\}$ where $w_{\text{new}}$ is a new world
+            let $W' = W \cup \{w_{\text{new}}\}$ with a new world $w_{\text{new}}$
             let $R' = R \cup \{(w, w_\text{new})\}$
             let $\lambda'$ be identical to $\lambda$ except $\lambda'(w_\text{new}) = \{\neg A\}\cup\{B : \Box B \in\lambda(w)\}\cup\{\neg B: \neg\Diamond B \in \lambda(w)\}$
                                            and $\lambda'(w) = \lambda(w)\setminus\{\theta\}$
