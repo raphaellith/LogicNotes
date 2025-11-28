@@ -103,7 +103,7 @@ We also use the following inference rules.
 
 
 
-\subsection{Class of frames, soundness and completeness}
+\subsection{Classes of frames, soundness and completeness}
 
 Frames with common properties may be grouped into a class \(\mathcal{K}\). We say that a formula \(\phi\) \emph{defines} \(\mathcal{K}\) if
 %
@@ -233,7 +233,227 @@ We may adapt this tableau algorithm for determining satisfiability in specific c
         \item if \(\Box A \in \lambda(v)\), include \(A \in \lambda(w)\); and
         \item if \(\neg\Diamond A \in \lambda(v)\), include \(\neg A \in \lambda(w)\)
     \end{itemize}
-    for each world \(v\) that has an outgoing edge to \(w\).
+    for each world \(v\) that has an outgoing edge to \(w\). Note that tableaus for transitive models may not terminate.
     
     
 \end{itemize}
+
+
+
+\subsection{Frame and model p-morphisms}
+
+Let \((W, R)\) and \((W', R')\) be frames. A function \(f : W \rightarrow W'\) is called a \emph{frame p-morphism} if
+%
+\begin{itemize}
+    \item \((x, y) \in R\) implies \((f(x), f(y)) \in R'\) (a homomorphism); and
+    \item if \((f(x), y') \in R'\), then there is some \(y \in W\) such that \(f(y) = y'\) and \((x, y) \in R\).
+\end{itemize}
+%
+Below shows an example of a frame p-morphism between two frames \((W, R)\) and \((W', R')\), with a function \(f\) mapping worlds from \(W = \{A, B, C, D, E\}\) to worlds from \(W' = \{X, Y, Z\}\). Notice that
+%
+\begin{itemize}
+    \item Edges are retained by the mapping. If there are two worlds in \(W\) connected by an edge, they must remain connected after the mapping.
+    \item If an edge connects two worlds in \(W'\), one of which can be ``traced back'' through \(f\) to a world \(w \in W\), then it must also be possible to trace back the other world to some \(w' \in W\) connected to \(w\).
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \node (A) at (0, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(A\)};
+
+        \node (B) at (2, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(B\)};
+
+        \node (C) at (0, -2)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(C\)};
+
+        \node (D) at (2, -2)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(D\)};
+
+        \node (E) at (1, -1)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(E\)};
+
+
+        \draw[black, thick, Latex-Latex] (A) -- (C);
+        \draw[black, thick, -Latex] (A) -- (E);
+        \draw[black, thick, Latex-Latex] (B) -- (E);
+        \draw[black, thick, Latex-Latex] (B) -- (D);
+        \draw[black, thick, -Latex] (C) -- (E);
+        \draw[black, thick, Latex-Latex] (D) -- (E);
+        \draw[black, thick, -Latex] (D.315) arc (-135:135:10pt);
+
+        \begin{scope}[shift={(6, 0)}]
+            \node (X) at (0, -1)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(X\)};
+
+            \node (Y) at (2, -1)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(Y\)};
+
+            \node (Z) at (4, -1)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(Z\)};
+
+            \draw[black, thick, -Latex] (X) -- (Y);
+            \draw[black, thick, Latex-Latex] (Y) -- (Z);
+            \draw[black, thick, -Latex] (X.45) arc (-45:225:10pt);
+            \draw[black, thick, -Latex] (Z.45) arc (-45:225:10pt);
+        \end{scope}
+
+        \draw[red!50, very thick, dashed] (A) to[out=90, in=90] (X);
+        \draw[orange!50, very thick, dashed] (B) to[out=0, in=110] (Z);
+        \draw[teal!50, very thick, dashed] (C) to[out=270, in=270] (X);
+        \draw[blue!50, very thick, dashed] (D) to[out=270, in=225] (Z);
+        \draw[violet!50, very thick, dashed] (E) to[out=0, in=135] (Y);
+    \end{tikzpicture}
+    \caption{A frame p-morphism between a frame \((W, R)\) with worlds \(W = \{A, B, C, D, E\}\) and a frame \((W', R')\) with worlds \(W' = \{X, Y, Z\}\).}
+    \label{fig:Ch10-frame-p-morphism}
+\end{figure}
+
+
+Let \(v\) and \(v'\) be valuations mapping proposition letters to subsets of \(W\) and \(W'\) respectively. If \(f\) is a frame p-morphism from \((W, R)\) to \((W', R')\) and \(w \in v(p) \iff f(w) \in v'(p)\) for all worlds \(w\) and proposition letters \(p\), then \(f\) is said to be a \emph{model p-morphism} from model \((W, R, v)\) to \((W', R', v')\). This is illustrated in Figure \ref{fig:Ch10-model-p-morphism}.
+
+
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=1.5]
+        \node (A) at (0, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(A_{\{\neg p, q\}}\)};
+
+        \node (B) at (2, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(B_{\{p, q\}}\)};
+
+        \node (C) at (0, -2)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(C_{\{\neg p, q\}}\)};
+
+        \node (D) at (2, -2)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(D_{\{p, q\}}\)};
+
+        \node (E) at (1, -1)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(E_{\{p, \neg q\}}\)};
+
+
+        \draw[black, thick, Latex-Latex] (A) -- (C);
+        \draw[black, thick, -Latex] (A) -- (E);
+        \draw[black, thick, Latex-Latex] (B) -- (E);
+        \draw[black, thick, Latex-Latex] (B) -- (D);
+        \draw[black, thick, -Latex] (C) -- (E);
+        \draw[black, thick, Latex-Latex] (D) -- (E);
+        \draw[black, thick, -Latex] (D.315) arc (-135:135:10pt);
+
+        \begin{scope}[shift={(5, 0)}]
+            \node (X) at (0, -1)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(X_{\{\neg p, q\}}\)};
+
+            \node (Y) at (2, -1)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(Y_{\{p, \neg q\}}\)};
+
+            \node (Z) at (4, -1)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(Z_{\{p, q\}}\)};
+
+            \draw[black, thick, -Latex] (X) -- (Y);
+            \draw[black, thick, Latex-Latex] (Y) -- (Z);
+            \draw[black, thick, -Latex] (X.45) arc (-45:225:10pt);
+            \draw[black, thick, -Latex] (Z.45) arc (-45:225:10pt);
+        \end{scope}
+
+        \draw[red!50, very thick, dashed] (A) to[out=90, in=90] (X);
+        \draw[orange!50, very thick, dashed] (B) to[out=0, in=110] (Z);
+        \draw[teal!50, very thick, dashed] (C) to[out=270, in=270] (X);
+        \draw[blue!50, very thick, dashed] (D) to[out=270, in=225] (Z);
+        \draw[violet!50, very thick, dashed] (E) to[out=0, in=135] (Y);
+    \end{tikzpicture}
+    \caption{A model p-morphism between a model with worlds \(W = \{A, B, C, D, E\}\) and a model with worlds \(W' = \{X, Y, Z\}\). Valuations for each model are represented using subscripted curly brackets in each world.}
+    \label{fig:Ch10-model-p-morphism}
+\end{figure}
+
+From this we can prove the following theorem on model p-morphisms.
+%
+\begin{theorem}
+    Let \(f\) be a model p-morphism from model \((W, R, v)\) to model \((W', R', v')\). For any modal formula \(\phi\) and world \(w \in W\), we have
+    %
+    \[W, R, v, w \models \phi \iff W', R', v', f(w) \models \phi\]
+\end{theorem}
+\begin{proof}
+    By structural induction on \(\phi\), with the syntax of modal formulas defined as follows.
+    %
+    \begin{align*}
+        \text{proposition} &:= p \;|\; q \;|\; r \cdots\\
+        \text{formula} &:= \text{proposition} \;|\; \neg\text{formula} \;|\; (\text{formula} \lor \text{formula}) \;|\; \Diamond \text{formula}
+    \end{align*}
+
+    \textbf{Base case.} For any proposition letter \(p\), we have
+    %
+    \begin{align*}
+        W, R, v, w \models p &\iff w \in v(p)\\
+        &\iff f(w) \in v'(p) \tag{by definition of model p-morphism}\\
+        &\iff W', R', v', f(w) \models p
+    \end{align*}
+    %
+    which completes the base case.
+
+    \textbf{Step case for ``\(\neg\)formula''.} Assume \(W, R, v, w \models \phi \iff W', R', v', f(w) \models \phi\) for some formula \(\phi\). Then
+    %
+    \begin{align*}
+        W, R, v, w \models \neg\phi &\iff W, R, v, w \not\models \phi\\
+        &\iff W', R', v', f(w) \not\models \phi \tag{by induction hypothesis}\\
+        &\iff W', R', v', f(w) \models \neg\phi
+    \end{align*}
+    
+    \textbf{Step case for ``formula \(\lor\) formula''.} Assume
+    %
+    \begin{align*}
+        W, R, v, w \models \phi &\iff W', R', v', f(w) \models \phi\\
+        W, R, v, w \models \psi &\iff W', R', v', f(w) \models \psi
+    \end{align*}
+    %
+    for some formulas \(\phi\) and \(\psi\). Then
+    %
+    \begin{align*}
+        W, R, v, w \models \phi\lor\psi &\iff W, R, v, w \models \phi \text{ or } W, R, v, w \models \psi\\
+        &\iff W', R', v', f(w) \models \phi \text{ or } W', R', v', f(w) \models \psi\\ \tag{by induction hypothesis}\\
+        &\iff W', R', v', f(w) \models \phi\lor\psi
+    \end{align*}
+    
+    \textbf{Step case for ``\(\Diamond\)formula''.} Assume \(W, R, v, w \models \phi \iff W', R', v', f(w) \models \phi\) for some formula \(\phi\). We want to prove that
+    %
+    \[W, R, v, w \models \Diamond\phi \iff W', R', v', f(w) \models \Diamond\phi\text{.}\]
+    
+    \((\Rightarrow).\)
+    \begin{align*}
+        W, R, v, w \models \Diamond\phi &\Rightarrow \text{there is some } w' \in W \text{ where } Rww' \text{ and } W, R, v, w' \models \phi\\
+        &\Rightarrow \text{there is some } w' \in W \text{ where } (f(w), f(w')) \in R' \text{ and } W', R', v', f(w') \models \phi \tag{by induction hypothesis and definition of model p-morphism}\\
+        &\Rightarrow W', R', v', f(w) \models \Diamond\phi
+    \end{align*}
+
+    \((\Leftarrow).\)
+    \begin{align*}
+        W', R', v', f(w) \models \Diamond\phi &\Rightarrow \text{there is some } x \in W' \text{ where } (f(w), x) \in R' \text{ and } W', R', v', x \models \phi\\
+        &\Rightarrow \text{there is some } x_0 \in W \text{ where } (f(w), f(x_0)) \in R' \text{ and } W', R', v', f(x_0) \models \phi \tag{by definition of model p-morphism}\\
+        &\Rightarrow \text{there is some } x_0 \in W \text{ where } (w, x_0) \in R \text{ and } W', R', v', f(x_0) \models \phi \tag{by definition of model p-morphism}\\
+        &\Rightarrow \text{there is some } x_0 \in W \text{ where } (w, x_0) \in R \text{ and } W, R, v, x_0 \models \phi \tag{by induction hypothesis}\\
+        &\Rightarrow W, R, v, w \models \Diamond\phi
+    \end{align*}
+
+    \textbf{Conclusion.} By principles of structural induction, the theorem is proved.
+\end{proof}
+
+
+
+\subsection{The class of irreflexive frames is not modally definable}
+
+A frame \((W, R)\) is said to be \emph{irreflexive} if for all worlds \(w\) we have \((w, w) \in R\).
+
+\begin{theorem}
+    There is no modal formula that defines irreflexive flames. In other words, there is no formula \(\phi\) for which
+    %
+    \[(W, R) \models\phi \iff (W, R) \text{ is irreflexive.}\]
+\end{theorem}
+\begin{proof}
+    By contradiction. Suppose there is a modal formula \(\phi\) that satisfies
+    %
+    \[(W, R) \models\phi \iff (W, R) \text{ is irreflexive.}\]
+    %
+    Consider the two-world irreflexive frame
+    %
+    \[\mathcal{F}_2 = (\{a, b\}, \{(a, b), (b, a)\})\]
+    %
+    and the one-world reflexive frame
+    %
+    \[\mathcal{F}_1 = (\{c\}, \{(c, c)\})\text{.}\]
+
+    Let \(f : \mathcal{F}_2 : \mathcal{F}_1\) be a p-morphism where \(f(a) = f(b) = c\).
+
+    Since \(\mathcal{F}_1\) is not irreflexive, we have \(\mathcal{F}_1 \not\models\phi\). Hence, there is some valuation \(v_1\) for which \(\mathcal{F}_1, c, v_1 \not\models\phi\). Define a valuation \(v_2\) over \(\mathcal{F}_2\) as
+    %
+    \[v_2 (p) = \begin{cases}
+        \{a, b\} \text{ if } v(p) = \{c\}\\
+        \emptyset \hspace{2em}\text{ if } v(p) = \emptyset
+    \end{cases}\text{.}\]
+    %
+    Then \(f\) is a model p-morphism from \((\mathcal{F}_2, v_2)\) to \((\mathcal{F}_1, v_1)\). Hence \(\mathcal{F}_2, x, v_2 \not\models\phi\) for all \(x \in \{a, b\}\). This means that \(\mathcal{F}_2 \not\models\phi\), which is absurd as \(\mathcal{F}_2\) is irreflexive.
+\end{proof}
