@@ -249,12 +249,14 @@ Let \((W, R)\) and \((W', R')\) be frames. A function \(f : W \rightarrow W'\) i
     \item if \((f(x), y') \in R'\), then there is some \(y \in W\) such that \(f(y) = y'\) and \((x, y) \in R\).
 \end{itemize}
 %
-Below shows an example of a frame p-morphism between two frames \((W, R)\) and \((W', R')\), with a function \(f\) mapping worlds from \(W = \{A, B, C, D, E\}\) to worlds from \(W' = \{X, Y, Z\}\). Notice that
+Figure \ref{fig:Ch10-frame-p-morphism} shows an example of a frame p-morphism between two frames \((W, R)\) and \((W', R')\), with a function \(f\) mapping worlds from \(W = \{A, B, C, D, E\}\) to worlds from \(W' = \{X, Y, Z\}\). Notice that
 %
 \begin{itemize}
     \item Edges are retained by the mapping. If there are two worlds in \(W\) connected by an edge, they must remain connected after the mapping.
     \item If an edge connects two worlds in \(W'\), one of which can be ``traced back'' through \(f\) to a world \(w \in W\), then it must also be possible to trace back the other world to some \(w' \in W\) connected to \(w\).
 \end{itemize}
+
+Let \(v\) and \(v'\) be valuations mapping proposition letters to subsets of \(W\) and \(W'\) respectively. If \(f\) is a frame p-morphism from \((W, R)\) to \((W', R')\) and \(w \in v(p) \iff f(w) \in v'(p)\) for all worlds \(w\) and proposition letters \(p\), then \(f\) is said to be a \emph{model p-morphism} from model \((W, R, v)\) to \((W', R', v')\). This is illustrated in Figure \ref{fig:Ch10-model-p-morphism}.
 
 \begin{figure}[H]
     \centering
@@ -300,10 +302,6 @@ Below shows an example of a frame p-morphism between two frames \((W, R)\) and \
     \caption{A frame p-morphism between a frame \((W, R)\) with worlds \(W = \{A, B, C, D, E\}\) and a frame \((W', R')\) with worlds \(W' = \{X, Y, Z\}\).}
     \label{fig:Ch10-frame-p-morphism}
 \end{figure}
-
-
-Let \(v\) and \(v'\) be valuations mapping proposition letters to subsets of \(W\) and \(W'\) respectively. If \(f\) is a frame p-morphism from \((W, R)\) to \((W', R')\) and \(w \in v(p) \iff f(w) \in v'(p)\) for all worlds \(w\) and proposition letters \(p\), then \(f\) is said to be a \emph{model p-morphism} from model \((W, R, v)\) to \((W', R', v')\). This is illustrated in Figure \ref{fig:Ch10-model-p-morphism}.
-
 
 
 \begin{figure}[H]
