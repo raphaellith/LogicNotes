@@ -60,3 +60,12 @@
 \contentsline {subsection}{\numberline {10.5}Modal tableaus}{46}{subsection.10.5}%
 \contentsline {subsection}{\numberline {10.6}Frame and model p-morphisms}{47}{subsection.10.6}%
 \contentsline {subsection}{\numberline {10.7}The class of irreflexive frames is not modally definable}{50}{subsection.10.7}%
+\contentsline {section}{\numberline {11}Epistemic, temporal and dynamic logic}{51}{section.11}%
+\contentsline {subsection}{\numberline {11.1}Multimodal logic}{51}{subsection.11.1}%
+\contentsline {subsection}{\numberline {11.2}Introduction to epistemic logic}{51}{subsection.11.2}%
+\contentsline {subsection}{\numberline {11.3}Introduction to temporal logic}{52}{subsection.11.3}%
+\contentsline {subsection}{\numberline {11.4}Introduction to propositional dynamic logic (PDL)}{53}{subsection.11.4}%
+\contentsline {subsubsection}{\numberline {11.4.1}Syntax}{53}{subsubsection.11.4.1}%
+\contentsline {subsubsection}{\numberline {11.4.2}Semantics, as a labelled transition system}{53}{subsubsection.11.4.2}%
+\contentsline {subsubsection}{\numberline {11.4.3}Inference system}{55}{subsubsection.11.4.3}%
+\contentsline {subsubsection}{\numberline {11.4.4}Program correctness}{55}{subsubsection.11.4.4}%

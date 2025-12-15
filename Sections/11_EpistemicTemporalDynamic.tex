@@ -1,0 +1,292 @@
+\section{Epistemic, temporal and dynamic logic}
+
+\subsection{Multimodal logic}
+
+A multimodal logic is similar to ordinary modal logic, except that a frame may simultaneously include several different binary relations. A multimodal logic formula \(\phi\) is defined as follows.
+%
+\[\phi := p \;\vert\; \neg\phi \;\vert\; \phi\lor\phi \;\vert\; \Diamond_i \phi \;\vert\; \Box_i \phi \tag{\(i = 0, 1, 2, \cdots, k-1\)}\]
+%
+A multimodal Kripke frame is a tuple
+%
+\[(W, R_0, R_1, \cdots, R_{k-1})\]
+%
+where \(R_i \subseteq W \times W\). Semantically, we have
+%
+\begin{align*}
+    &(W, R_0, R_1, \cdots, R_{k-1}), v, w \models \Diamond_i \phi\\
+    &\iff \text{there is some } w' \in W \text{ where } (w, w') \in R_i \text{ and } (W, R_0, R_1, \cdots, R_{k-1}), v, w' \models \phi\text{.}
+\end{align*}
+
+
+\subsection{Introduction to epistemic logic}
+
+In philosophy, the word ``epistemic'' refers to the study of cognition, knowledge and how they are acquired. Similarly, \emph{epistemic logic} is a specific type of modal logic that models and reasons about the knowledge and beliefs of an \emph{agent} (e.g. an individual or machine). 
+
+There are many interpretations of what ``knowledge'' means. Here, we select the indistinguishability interpretation.
+
+In epistemic logic, we write \(K_s(\phi)\) and \(B_s(\phi)\) to mean ``the agent \(s\) knows \(\phi\)'' and ``the agent \(s\) believes \(\phi\)'' respectively. Here, knowledge is defined as a belief that is both true and justified.
+
+Consider two propositions as follows. Assume dogs always bark.
+%
+\begin{align*}
+    g &= \text{``there is a grasshopper in the garden''}\\
+    d &= \text{``there is a dog in the garden''}
+\end{align*}
+%
+With these two propositions, let us define a set of four \emph{possible worlds} \(W = \{w_\emptyset, w_{\{g\}}, w_{\{d\}}, w_{\{g,d\}}\}\), where \(g\) is true in worlds \(w_{\{g\}}\) and \(w_{\{g,d\}}\), while \(d\) is true in worlds \(w_{\{d\}}\) and \(w_{\{g,d\}}\). 
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=1.275]
+        \node (w1) at (0, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(w_\emptyset\)};
+
+        \node (w2) at (2, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(w_{\{g\}}\)};
+
+        \node (w3) at (4, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(w_{\{d\}}\)};
+
+        \node (w4) at (6, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(w_{\{g, d\}}\)};
+    \end{tikzpicture}
+    \caption{A set of four possible worlds \(W = \{w_\emptyset, w_{\{g\}}, w_{\{d\}}, w_{\{g,d\}}\}\).}
+    \label{fig:Ch11-possible-worlds}
+\end{figure}
+
+Assume that an agent \(a\) cannot see the garden. They can always tell whether there is a dog in the garden by listening for barks, but cannot do the same with grasshoppers. This means that the agent is unable to distinguish between worlds \(w_\emptyset\) and \(w_{\{g\}}\), since both worlds have no barking. Likewise, the agent cannot distinguish between worlds \(w_{\{d\}}\) and \(w_{\{g, d\}}\), as barking is audible in both worlds.
+
+This notion of indistinguishability from the perspective of an agent can be represented by introducing a binary \emph{indistinguishability relation}\footnote{The relation used in an epistemic frame is known as an \emph{accessibility relation}.} \(R_a\) for agent \(a\), thus creating a modal frame \((W, R_a)\). Since indistinguishability is an equivalence relation with reflexive, symmetric and transitive properties, this is an S5 frame.
+%
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=1.275]
+        \node (w1) at (0, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(w_\emptyset\)};
+
+        \node (w2) at (2, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(w_{\{g\}}\)};
+
+        \node (w3) at (4, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(w_{\{d\}}\)};
+
+        \node (w4) at (6, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(w_{\{g, d\}}\)};
+
+        \draw[black, thick, Latex-Latex] (w1) -- (w2);
+        \draw[black, thick, Latex-Latex] (w3) -- (w4);
+        \draw[black, thick, -Latex] (w1.45) arc (-45:225:10pt);
+        \draw[black, thick, -Latex] (w2.45) arc (-45:225:10pt);
+        \draw[black, thick, -Latex] (w3.45) arc (-45:225:10pt);
+        \draw[black, thick, -Latex] (w4.45) arc (-45:225:10pt);
+    \end{tikzpicture}
+    \caption{An S5 epistemic frame \((W, R_a)\).}
+    \label{fig:Ch11-epistemic-frame}
+\end{figure}
+
+If at some world \(w\) the agent \(a\) ``knows'' that there is a dog in the garden (denoted as \(K_a(d)\)), then \(d\) must be true in all indisguishable worlds from \(w\). On the contrary, if at some world \(w\) the agent \(a\) ``knows'' there is no dog in the garden (denoted as \(K_a(\neg d)\)), then \(d\) must be false in all indisguishable worlds from \(w\).
+
+Formally, the syntax and symantics of epistemic logic may be defined as follows.
+%
+\begin{itemize}
+    \item \textbf{Syntax.} A formula \(\phi\) is defined as
+    \[\phi = p \;\vert\; \neg\phi \;\vert\; (\phi \land \phi) \;\vert\; K_a \phi\]
+    where \(p\) is a propositional letter.
+
+    \item \textbf{Semantics.} A Kripke model \(M\) is a tuple \((W, R_1, R_2, \cdots, R_n, V)\) where \(W\) is a non-empty set of possible worlds, \(R_i \subseteq W \times W\) is a binary indisguishability relation on \(W\) for each agent \(i\), and \(V\) is a valuation function mapping each propositional letter to a subset of \(W\). Let \((w, w') \in R_i\) hold if everything \(i\) knows about \(w\) is also true of \(w'\), and vice versa.
+    
+    \item \textbf{Inference system.} We incorporate the following axioms.
+    %
+    \begin{align*}
+        K_s p &\rightarrow p\\
+        K_s p &\rightarrow K_s K_s p\\
+        p &\rightarrow K_s (\neg K_s (\neg p))
+    \end{align*}
+\end{itemize}
+
+The above framework does not accommodate the concept of belief. However, for those that have this accommodation, the axiom \(\neg B_s (\bot)\) is added.
+
+
+
+\subsection{Introduction to temporal logic}
+
+A temporal formula \(\phi\) is defined as
+%
+\[\phi = p \;\vert\; \neg\phi \;\vert\; (\phi\lor\phi) \;\vert\; F\phi \;\vert\; P\phi\]
+%
+where \(p\) is a propositional letter. \(F\phi\) means that ``\(\phi\) will be true at some point in the future'' while \(P\phi\) means that ``\(\phi\) was true at some point in the past''. Formally, in a Kripke frame \((W, R)\) with valuation \(v\) and world \(w \in W\), we have the following.
+%
+\begin{align*}
+    (W, R), v, w \models F\phi &\iff \text{there is some } w' \in W \text{ with } (w, w') \in R \text{ and } (W, R), v, w' \models \phi\\
+    (W, R), v, w \models P\phi &\iff \text{there is some } w' \in W \text{ with } (w', w) \in R \text{ and } (W, R), v, w' \models \phi
+\end{align*}
+%
+We may then define the following symbols.
+%
+\begin{align*}
+    G\phi &= \neg F \neg\phi \tag{\(\phi\) will always be true in the future}\\
+    H\phi &= \neg P \neg\phi \tag{\(\phi\) was always true in the past}
+\end{align*}
+
+In addition to the axioms for propositional logic, the basic temporal axioms \(K_t\) also include the following.
+%
+\begin{align*}
+    G(p \rightarrow q) &\rightarrow (Gp \rightarrow Gq)\\
+    H(p \rightarrow q) &\rightarrow (Hp \rightarrow Hq)\\
+    p &\rightarrow GPp\\
+    p &\rightarrow HFp
+\end{align*}
+
+To establish linear time, we create the additional axioms below.
+%
+\begin{align*}
+    Gp &\rightarrow GGp \tag{transitivity}\\
+    (Fp \land Fq) &\rightarrow (F(p \land Fq) \lor F(p \land q) \lor F(q \land Fp)) \tag{totality}\\
+    (Pp \land Pq) &\rightarrow (P(p \land Fq) \lor P(p \land q) \lor P(q \land Pp)) \tag{totality}
+\end{align*}
+
+
+\subsection{Introduction to propositional dynamic logic (PDL)}
+
+Propositional dynamic logic (PDL) is a multimodal logic that allows us to evaluate the correctness of programs.
+
+\subsubsection{Syntax}
+
+Let \(P = \{p_0, p_1, p_2, \cdots\}\) be a set of propositions. Let \(\Pi = \{\pi_0, \pi_1, \cdots\}\) be a set of atomic programs.
+
+The syntax of a program \(\pi\) is given by
+%
+\[\pi = \pi_i \;\vert\; (\pi; \pi) \;\vert\; (\pi + \pi) \;\vert\; \pi^{*} \;\vert\; \phi?\]
+%
+where \(\pi_i\) is an atomic program and \(\phi\) is a formula.
+
+The syntax of a formula \(\phi\) is given by
+%
+\[\phi = p \;\vert\; \neg\phi \;\vert\; (\phi\lor\phi) \;\vert\; \langle\pi\rangle\phi \;\vert\; [\pi]\phi\]
+%
+where \(\pi\) is a program.
+
+
+
+\subsubsection{Semantics, as a labelled transition system}
+
+The semantics of PDL is given by a labelled transition system (LTS). Consider a model \((W, R, v)\) where
+%
+\begin{itemize}
+    \item \(W\) is a non-empty set of worlds, each representing a possible program state;
+    \item \(R\) is a function that maps each atomic program to a binary relation over \(W\); and
+    \item \(v\) is a valuation function mapping each propositional letter to a subset of \(W\)
+\end{itemize}
+%
+Intuitively, each atomic program \(\pi_i\) may lead us from one program state to another program state, as directed by the binary relation \(R(\pi_i)\). Propositions may be true in some program states and false in others.
+
+We recursively extend \(R\) to map general programs to binary relations as follows.
+%
+\begin{align*}
+    R(\alpha;\beta) &= \{(w_1, w_2) \in W\times W : \text{there is some } w_3 \in W \text{ with } (w_1, w_3) \in R(\alpha) \text{ and } (w_3, w_2) \in R(\beta)\} \tag{execute \(\alpha\), then execute \(\beta\)}\\
+    R(\alpha + \beta) &= R(\alpha) \cup R(\beta) \tag{execute either \(\alpha\) or \(\beta\)}\\
+    R(\alpha^{*}) &= \cup_{n \in \mathbb{N}} R(\alpha^n) \tag{execute \(\alpha\) any number of times}\\
+    R(\phi?) &= \{(w, w) \in W \times W : (W, R), v, w \models\phi\} \tag{assert \(\phi\) is true at the current program state}
+\end{align*}
+%
+Formulas may be evaluated as follows.
+%
+\begin{align*}
+    (W, R), v, w \models p &\iff w \in v(p)\\
+    (W, R), v, w \models \neg\phi &\iff (W, R), v, w \not\models\phi\\
+    (W, R), v, w \models (\phi_1 \lor\phi_2) &\iff (W, R), v, w \models \phi_1 \text{ or } (W, R), v, w \models \phi_2\\
+    (W, R), v, w \models \langle\alpha\rangle\phi &\iff \text{there is some } w' \in W \text{ where } (w, w') \in R(\alpha) \text{ and } (W, R), v, w' \models\phi\\
+    (W, R), v, w \models [\alpha]\phi &\iff \text{for all } w' \in W \text{ if } (w, w') \in R(\alpha) \text{ then } (W, R), v, w' \models\phi\\
+\end{align*}
+
+For example, consider the model illustrated in Figure \ref{fig:Ch11-pdl}, with propositions \(p\) and \(q\) and atomic programs \(\pi_0\) and \(\pi_1\). Let \(x\) be the world highlighted in red.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=1.275]
+        \node (w1) at (0, 0)[draw=MidnightBlue, circle, very thick, BrickRed, fill=BrickRed!20] {\(p,q\)};
+
+        \node (w2) at (-2, -2)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(p\)};
+
+        \node (w3) at (2, -2)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(q\)};
+
+        \node (w4) at (2, -3)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\;\;};
+
+        \draw[black, thick, -Latex] (w1) -- (w2) node[pos=0.5, right]{\(\pi_0\)};
+        \draw[black, thick, -Latex] (w1) -- (w3) node[pos=0.5, right]{\(\pi_1\)};
+        \draw[black, thick, -Latex] (w2.60) arc (-45:225:10pt) node[pos=0.5, above]{\(\pi_0\)};
+        \draw[black, thick, -Latex] (w2) -- (w3) node[pos=0.5, above]{\(\pi_0\)};
+        \draw[black, thick, -Latex] (w3) -- (w4) node[pos=0.5, right]{\(\pi_1\)};
+    \end{tikzpicture}
+    \caption{A set of four possible worlds \(W = \{w_\emptyset, w_{\{g\}}, w_{\{d\}}, w_{\{g,d\}}\}\).}
+    \label{fig:Ch11-pdl}
+\end{figure}
+
+We then have the formula
+%
+\[(W, R), v, x \models p \land q \land [\pi_0^{*}](p \lor (q \land \langle \pi_1 \rangle (\neg p \land \neg q)))\]
+%
+which can be read as the following.
+%
+\begin{quote}
+    Given the frame \((W, R)\) and valuation \(v\), it is true at world \(x\) that
+    \begin{itemize}
+        \item both \(p\) and hold; and
+        \item from this world, all worlds reachable by executing \(\pi_0^{*}\) (i.e. by executing \(\pi_0\) any number of times) satisfy the following condition:
+        \begin{itemize}
+            \item \(p\) holds; or
+            \item \(q\) holds, and by executing \(\pi_1\) it is possible to reach some world where neither \(p\) nor \(q\) holds.
+        \end{itemize}
+    \end{itemize}
+\end{quote}
+
+
+Common programming constructs can be translated into programs in PDL. For example, the if-else statement
+%
+\begin{lstlisting}[language=python]
+    if $p$:
+        execute $\pi$
+    else:
+        execute $\pi'$
+\end{lstlisting}
+%
+can be written in PDL as
+%
+\[((p?); \pi) + (((\neg p)?); \pi')\text{.}\]
+%
+Meanwhile, the \texttt{while} loop
+%
+\begin{lstlisting}[language=python]
+    while $p$:
+        execute $\pi$
+\end{lstlisting}
+%
+can be written as
+%
+\[(p?; \pi)^{*}; (\neg p)?\text{.}\]
+
+
+
+\subsubsection{Inference system}
+
+In addition to propositional axioms, the inference system for PDL also requires the following axioms:
+%
+\begin{align*}
+    [\pi](A \rightarrow B) &\rightarrow ([\pi]A \rightarrow [\pi] B)\\
+    [\pi_1; \pi_2] A &\leftrightarrow [\pi_1][\pi_2] A\\
+    [\pi_1 + \pi_2] A &\leftrightarrow ([\pi_1]A \land [\pi_2]A)\\
+    [\pi^{*}] A &\leftrightarrow (A \land [\pi][\pi^{*}] A)\\
+    [A?]B &\leftrightarrow (A\rightarrow B)
+\end{align*}
+%
+and the following inference rules.
+%
+\[
+    \infer{B}{A & (A\rightarrow B)} \tag{modus ponens}
+\]
+%
+\[
+    \infer{[\pi]A}{A} \tag{necessitation}
+\]
+%
+\[
+    \infer{A \rightarrow [\pi^{*}] A}{A \rightarrow [\pi]A} \tag{loop invariance}
+\]
+
+
+\subsubsection{Program correctness}
+
+PDL is useful for checking program correctness as the statement ``given a pre-condition \(A\), every terminating execution of \(\pi\) gives a state where the post-condition \(B\) holds'' can be written as the PDL formula \((A \rightarrow [\pi]B)\).
+
