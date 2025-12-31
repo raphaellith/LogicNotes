@@ -1,0 +1,1174 @@
+\section{Algebraic logic}
+
+\subsection{Groups}
+
+A set \(G\) with a binary operation \(\circ\) is said to be a \emph{group} if the following conditions are satisified.
+%
+\begin{itemize}
+    \item \textbf{Closure.} The operation \(\circ\) is closed in \(G\), with \(\circ : G \times G \rightarrow G\).
+    \item \textbf{Associativity.} The operation \(\circ\) is associative, with \((a \circ b) \circ c = a \circ (b \circ c)\) for all elements \(a, b, c \in G\).
+    \item \textbf{Identity.} There exists some identity element \(e \in G\) for which \(e \circ a = a \circ e = a\) for all elements \(a \in G\).
+    \item \textbf{Inverse.} Every element \(a\in G\) has an inverse, denoted \(a^{-1}\), such that \(a \circ a ^{-1} = a^{-1} \circ a = e\).
+\end{itemize}
+%
+Such a group is typically denoted as the tuple
+%
+\[\mathcal{G} = (G, e, ^{-1}, \circ)\]
+%
+where \(e \in G\) is the identity element, \(^{-1} : G \rightarrow G\) is the inverse function, and the \(\circ : G \times G \rightarrow G\) is the group operation. Table \ref{tab:Ch12-groups} lists some examples of groups.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Group} & \textbf{Description}\\
+        \hline
+        \((\mathbb{Z}, 0, -, +)\) & Additive group of integers\\
+        \hline
+        \((\mathbb{Q}\setminus\{0\}, 1, (q \mapsto 1/q), \times)\) & Multiplicative group of nonzero rationals\\
+        \hline
+        \((\{M : M \text{ is a } n \times n \text{ invertible matrix}\}, I_n, ^{-1}, \times)\) & General linear group of degree \(n\)\\
+        \hline
+        \((\{0, 1, \cdots, n - 1\}, 0, -, +)\) & Additive group of integers modulo \(n\)\\
+        \hline
+    \end{tabular}
+    \caption{Examples of groups.}
+    \label{tab:Ch12-groups}
+\end{table}
+
+We now prove the following theorem.
+
+\begin{theorem}[Cayley's theorem]
+    Every group is isomorphic to a group of permutations.
+\end{theorem}
+\begin{proof}
+    Consider a group \(\mathcal{G}\) with set \(G\) and group operation \(\circ\). We want to show that there exists some isomorphic group \(\mathcal{P}\) with a set \(P\) of permutations and a composition operation (also denoted as \(\circ\)).
+
+    Let \(G = \{g_1, g_2, g_3, \cdots, g_n\}\). Tabulate the output of the group operation \(\circ\) by considering all possible pairs of inputs across \(G \times G\).
+    
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{rc}
+            & \textbf{Left argument}\\
+
+            \textbf{Right argument} &
+
+            \begin{tabular}{c|ccccc}
+            \(\circ\) & \(g_1\) & \(g_2\) & \(g_3\) & \(\cdots\) & \(g_n\)\\
+            \hline
+            \(g_1\) & \(g_?\) & \(g_?\) & \(g_?\) & \(\cdots\) & \(g_?\)\\
+            \(g_2\) & \(g_?\) & \(g_?\) & \(g_?\) & \(\cdots\) & \(g_?\)\\
+            \(g_3\) & \(g_?\) & \(g_?\) & \(g_?\) & \(\cdots\) & \(g_?\)\\
+            \(\vdots\) & \(\vdots\) & \(\vdots\) & \(\vdots\) & \(\ddots\) & \(\vdots\)\\
+            \(g_n\) & \(g_?\) & \(g_?\) & \(g_?\) & \(\cdots\) & \(g_?\)
+            \end{tabular}
+        \end{tabular}
+
+        \caption{A tabulation of all possible values of \(g_i \circ g_j\) where \(g_i, g_j \in G\). To look up the result of the binary operation \(g_i \circ g_j\), first search horizontally to locate the column marked with the left argument \(g_i\), then search vertically to locate the row marked with the right argument \(g_j\). Their intersection gives the operation's output.}
+        \label{tab:Ch12-tabulation-of-results-of-group-operation}
+    \end{table}
+
+    Recall that a permutation is defined as the bijection from a set to itself. Hence, each row in this table represents a permutation of \(G\).
+    %
+    \[
+    \begin{pmatrix}
+        g_1 & g_2 & g_3 & \cdots & g_n\\
+        g_? & g_? & g_? & \cdots & g_?\\
+    \end{pmatrix}
+    \]
+    %
+    For example, the uppermost row, which lists all possible outputs of \(\circ\) with \(g_1\) as the right argument, represents the permutation \((h \mapsto h \circ g_1)\). This permutation is a bijection because it has an inverse \((h \mapsto h \circ g_1^{-1})\).
+
+    Let \(e \in G\) be the identity element. Let \(P\) be the set of permutations represented by the rows in this table. Let \(\theta : G \rightarrow P\) be the function mapping each group element \(g_j\) to the permutation represented by its row. By definition, \(\theta\) is surjective. Also, since
+    %
+    \begin{align*}
+        \theta(g_i) = \theta(g_j) &\implies e \circ g_i = e \circ g_j\\
+        &\implies g_i = g_j
+    \end{align*}
+    %
+    \(\theta\) is injective. This means that \(\theta\) is a bijection. Furthermore,
+    %
+    \begin{itemize}
+        \item \(\theta(g_i \circ g_j) = \theta(g_i) \circ \theta(g_j)\) for all \(g_i, g_j \in G\);
+        \item \(\theta(e)\) is the identity permutation; and
+        \item \(\theta(g^{-1}) = \theta(g)^{-1}\) for all \(g \in G\).
+    \end{itemize}
+    %
+    Therefore, \(\theta\) describes an isomorphism from \(\mathcal{G}\) to \(\mathcal{P}\).
+\end{proof}
+
+
+
+\subsection{Boolean algebra}
+
+Let \(B\) be a set of elements including but not limited to \(0\) and \(1\). Let \(+\) and \(\cdot\) be binary operations on \(B\), and let \(-\) be a unary operation on \(B\). We write the expression \(-a\) as \(\overline{a}\) for brevity.
+
+The tuple \((B, 0, 1, +, \cdot, -)\) is a \emph{Boolean algebra} if it satisfies the following axioms.
+%
+\begin{itemize}
+    \item Axioms for \(+\).
+    %
+    \begin{align*}
+        (a + b) + c &= a + (b + c) \tag{associativity}\\
+        a + b &= b + a \tag{commutativity}\\
+        a + a &= a \tag{idempotency}\\
+        a + 0 &= a \tag{zero law}
+    \end{align*}
+
+    \item Axioms for \(-\).
+    %
+    \begin{align*}
+        \overline{\overline{a}} &= a\\
+        a + \overline{a} &= 1\\
+        -1 &= 0\\
+        a \cdot b &= \overline{\overline{a} + \overline{b}} \tag{de Morgan}
+    \end{align*}
+
+    \item Distribution and absorption laws.
+    %
+    \begin{align*}
+        a \cdot (b + c) &= a \cdot b + a \cdot c \tag{distribution law}\\
+        a + (a \cdot b) &= a \tag{absorption law}
+    \end{align*}
+\end{itemize}
+
+The simplest non-trivial Boolean algebra is given by the tuple \((\{0, 1\}, 0, 1, +, \cdot, -)\), where
+%
+\begin{align*}
+    a + b &=
+    \begin{cases}
+        1 \text{ if } a = 1 \text{ or } b = 1\\
+        0 \text{ otherwise}
+    \end{cases}
+    \\
+    a \cdot b &=
+    \begin{cases}
+        1 \text{ if } a = b = 1\\
+        0 \text{ otherwise}
+    \end{cases}
+    \\
+    -a &= \begin{cases}
+        1 \text{ if } a = 0\\
+        0 \text{ otherwise.}
+    \end{cases}
+\end{align*}
+%
+This Boolean algebra as applications in logic, interpreting \(0\) as ``false'', \(1\) as ``true'', \(\cdot\) as ``and'', \(+\) as ``or'', and \(-\) as ``not''.
+
+
+
+
+\subsection{Boolean set algebra and representations}
+
+Let \(X\) be a non-empty set. This serves as our \emph{base}, from which we construct various Boolean algebras. Let \(P(X)\) be its power set.
+
+A \emph{Boolean set algebra} is a special kind of Boolean algebra that consists a subset \(B\) of \(P(X)\) whose elements are closed under the operations of union (\(\cup\)), intersection (\(\cap\)) and complement relative to \(X\).
+%
+\[\mathcal{B}(X) = (B, \emptyset, X, \cup, \cap, \setminus) \tag{\(B \subseteq P(X)\)}\]
+%
+The most typical example uses the entire power set \(P(X)\), but any \emph{subalgebra} (i.e. any Boolean algebra that uses a subset of \(P(X)\)) is also a Boolean set algebra. For example, take \(X = \{1, 2, 3\}\). Its power set
+%
+\[P(X) = \{\emptyset, \{1\}, \{2\}, \{3\}, \{1,2\}, \{1,3\}, \{2,3\}, \{1,2,3\}\}\]
+%
+gives the Boolean set algebra
+%
+\[\{P(X), \emptyset, X, \cup, \cap, \setminus\}\text{.}\]
+%
+Any subalgebra thereof, such as
+%
+\[\{\{\emptyset, \{1, 2\}, \{3\}, X\}, \emptyset, X, \cup, \cap, \setminus\}\]
+%
+is also a Boolean set algebra.
+
+Let \(\mathcal{B} = (B, 0, 1, +, \cdot, -)\) be a Boolean algebra. An injection \(\theta : B \rightarrow P(X)\) for some set \(X\) is called a \emph{representation} if it is an isomorphism from \(\mathcal{B}\) to some Boolean set algebra \((P(X), \emptyset, X, \cup, \cap, \setminus)\).
+%
+\begin{align*}
+    \theta(0) &= \emptyset\\
+    \theta(1) &= X\\
+    \theta(a + b) &= \theta(a) \cup \theta(b)\\
+    \theta(a \cdot b) &= \theta(a) \cap \theta(b)\\
+    \theta(-a) &= X\setminus a
+\end{align*}
+
+
+
+\subsection{Atoms}
+
+Define the transitive relation \(a \leq b\) as \(a + b = b\). In a Boolean set algebra, this is equivalent to saying that \(a \subseteq b\). We also write \(a < b\) if and only if \(a \leq b \land b \not\leq a\).
+
+Let \(\mathcal{B} = (B, 0, 1, +, \cdot, -)\) be a Boolean algebra. An \emph{atom} of \(\mathcal{B}\) is any minimal non-zero element of \(B\), i.e. any element \(a \in B\) such that \(0 < a\) and there is no element \(b \in B\) with \(0 < b < a\). We denote the set of atoms as \(\At(\mathcal{B})\).
+
+In a Boolean set algebra, an atom corresponds to a bounded Venn diagram region that cannot be further subdivided.
+
+A Boolean algebra is said to be \emph{atomic} if every nonzero element is above an atom. All finite Boolean algebras are atomic; but some infinite Boolean algebras may have no atom whatsoever.
+
+\begin{theorem}
+    A Boolean algebra \(\mathcal{B}\) with \(n\) atoms must have \(2^n\) elements.
+\end{theorem}
+\begin{proof}
+    Notice that any element \(b \in\mathcal{B}\) can be expressed uniquely as a sum of zero or more atoms.
+    %
+    \[b = \sum\{a \in \At(\mathcal{B}) : a \leq b\}\]
+    %
+    Hence the number of elements is equal to the number of subsets of the set of atoms, which is \(2^n\).
+\end{proof}
+
+\begin{theorem}
+    All atomic Boolean algebras are representable.
+\end{theorem}
+\begin{proof}
+    For any atomic Boolean algebra \(\mathcal{B}\), we show that the map \(\theta : \mathcal{B} \rightarrow P(\At(\mathcal{B}))\) defined by
+    %
+    \[\theta(b) = \{a \in \At(\mathcal{B}) : a \leq b\}\]
+    %
+    is a representation of \(\mathcal{B}\) over \(\At(\mathcal{B})\). To do this, we must prove that
+    %
+    \begin{enumerate}[(a)]
+        \item \(\theta\) is injective; and
+        \item \(\theta\) is an isomorphism.
+    \end{enumerate}
+    %
+    We start by showing that (a) \(\theta\) is injective. Let \(b\) and \(c\) be two distinct elements in \(\mathcal{B}\). Since \(b \neq c\), we must have either \(b \not\leq c\) or \(c \not\leq b\). We assume the former case without loss of generality.
+    %
+    \begin{align*}
+        b &\not\leq c\\
+        b + c &\neq c
+    \end{align*}
+    %
+    We prove by contradiction that \(b \cdot \overline{c} \neq 0\). 
+    %
+    \begin{quote}
+        \textit{Proof by contradiction:} \(b \cdot \overline{c} \neq 0\).
+
+        Assume that \(b \cdot \overline{c} = 0\). Therefore, by the axioms of Boolean algebra,
+        %
+        \begin{align*}
+            b + c &= (b \cdot 1) + c\\
+            &= (b \cdot (c + \overline{c})) + c\\
+            &= (b \cdot c + b \cdot \overline{c}) + c\\
+            &= (b \cdot c + 0) + c \tag{by assumption}\\
+            &= (b \cdot c) + c\\
+            &= c
+        \end{align*}
+        %
+        which contradicts our previous result of \(b + c \neq c\). Hence we have \(b\cdot\overline{c}\neq 0\).
+    \end{quote}
+    %
+    Since \(b\cdot\overline{c}\neq 0\), there exists some atom \(a \in \At(\mathcal{B})\) where \(a \leq b \cdot\overline{c}\). Therefore, we have \(a \leq b\) but \(a \not\leq c\), which means that \(a \in \theta(b)\) but \(a \notin \theta(c)\). This implies \(\theta(b) \neq \theta(c)\), so \(\theta\) is injective.
+
+    Moreover, it can be shown that (b) \(\theta\) is an isomorphism because
+    %
+    \begin{itemize}
+        \item it preserves the constants \(\theta(0) = \emptyset\) and \(\theta(1) = \At(\mathcal{B})\).
+        
+        \item it preserves the binary operations \(\theta(a + b) = \theta(a) \cup \theta(b)\) and \(\theta(a \cdot b) = \theta(a) \cap \theta(b)\).
+
+        \item it preserves the negation operation \(\theta(-a) = \At(\mathcal{B})\setminus\theta(a)\). \qedhere
+    \end{itemize}
+\end{proof}
+
+In fact, the above theorem can be generalised as follows.
+%
+\begin{theorem}[Stone's Theorem, 1936]
+    All Boolean algebras is representable. In other words, every Boolean algebra, finite or not, is isomorphic to a Boolean set algebra.
+\end{theorem}
+
+
+
+\subsection{Free generation}
+
+Given a base set \(X\) of elements called \emph{generators}, we may \emph{freely generate} a Boolean algebra \(\mathcal{B} = (B, 0, 1, +, \cdot, -)\) where elements of \(B\) are constructed from the generators via operations \(+\), \(\cdot\) and \(-\).
+%
+\[B = \{b : b \text{ can be expressed in terms of generators in } X \text{ and operations } +, \cdot, -\}\]
+%
+No two elements in \(B\) can be equivalent under Boolean algebra axioms. Also, the generators must be as independent as possible with no presumed relationships among them.
+
+For example, taking \(X = \{a, b\}\) produces a set \(B\) with 4 atoms
+%
+\[\At(B) = \{\overline{a} \cdot \overline{b},\; \overline{a} \cdot b,\; a \cdot \overline{b},\; a \cdot b\}\]
+%
+and 16 elements, expressed as sums of products below.
+%
+\begin{align*}
+    B = \{&a \cdot \overline{a}, \tag{equivalent to \(0\) or \(\emptyset\)}\\
+        &\overline{a} \cdot b,\\
+        &a \cdot b,\\
+        &b,\\
+        &a \cdot \overline{b},\\
+        &a \cdot \overline{b} + \overline{a} \cdot b,\\
+        &a,\\
+        &a + b,\\
+        &\overline{a} \cdot \overline{b},\\
+        &\overline{a},\\
+        &a \cdot b + \overline{a} \cdot \overline{b},\\
+        &\overline{a} + b,\\
+        &\overline{b},\\
+        &\overline{a} + \overline{b},\\
+        &a + \overline{b},\\
+        &a + \overline{a} \tag{equivalent to \(1\)}\\
+    \}&
+\end{align*}
+%
+The atoms \(\At(B)\) can be visualised as the four bounded and indivisible regions in a two-set Venn diagram, as shown in Figure \ref{fig:Ch12-atoms-of-boolean-algebra-from-2-element-base-set}. Likewise, \(B\) can be visualised as the set of possible fillings of a 2-set Venn diagram, as illustrated (in the order given above) in Figure \ref{fig:Ch12-2-set-venn-fillings}.
+
+\newcommand{\MyVenn}[1]{%
+    \begin{venndiagram2sets}[labelA={\(a\)}, labelB={\(b\)}, tikzoptions={scale=0.5}]
+        % bit 0: Only B
+        \ifthenelse{\isodd{#1}}{\fillOnlyB}{}
+        % bit 1: A cap B
+        \pgfmathparse{int(#1/2)}
+        \ifthenelse{\isodd{\pgfmathresult}}{\fillACapB}{}
+        % bit 2: Only A
+        \pgfmathparse{int(#1/4)}
+        \ifthenelse{\isodd{\pgfmathresult}}{\fillOnlyA}{}
+        % bit 3: Outside
+        \pgfmathparse{int(#1/8)}
+        \ifthenelse{\isodd{\pgfmathresult}}{\fillNotAorB}{}
+    \end{venndiagram2sets}
+}
+
+\begin{figure}[H]
+    \centering
+    \begin{tabular}{cccc}
+        \MyVenn{2} & \MyVenn{4} & \MyVenn{1} & \MyVenn{8} \\
+        \(a \cdot b\) & \(a \cdot \overline{b}\) & \(\overline{a} \cdot b\) & \(\overline{a} \cdot \overline{b}\)\\
+    \end{tabular}
+    \caption{The 4 atoms of a Boolean algebra freely generated from a two-element base set \(\{a, b\}\). The sets \(a\) and \(b\) are not disjoint since they are assumed to be as independent as possible.}
+    \label{fig:Ch12-atoms-of-boolean-algebra-from-2-element-base-set}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{tabular}{cccc}
+        \MyVenn{0} & \MyVenn{1} & \MyVenn{2} & \MyVenn{3} \\
+        \MyVenn{4} & \MyVenn{5} & \MyVenn{6} & \MyVenn{7} \\
+        \MyVenn{8} & \MyVenn{9} & \MyVenn{10} & \MyVenn{11} \\
+        \MyVenn{12} & \MyVenn{13} & \MyVenn{14} & \MyVenn{15} \\
+    \end{tabular}
+    \caption{Each element of \(B\) corresponds to a possible filling of a 2-set Venn diagram. Read from left to right and from top to bottom.}
+    \label{fig:Ch12-2-set-venn-fillings}
+\end{figure}
+
+\begin{theorem}
+    A Boolean algebra freely generated from a set of \(n\)elements must have \(2^n\) atoms and \(2^{2^n}\) elements.
+\end{theorem}
+\begin{proof}
+    Each atom corresponds to a unique truth assignment to the \(n\) generators. Since there are \(2^n\) such assignments, there must be \(2^n\) atoms. It follows from a previous theorem that such an algebra must have \(2^{2^{n}}\) elements.
+\end{proof}
+
+Note that not all Boolean algebras have to be freely generated from a base set. Hence,
+%
+\begin{itemize}
+    \item In general, the number of atoms in a Boolean algebra is not necessarily a power of \(2\).
+    \item However, the number of elements in a Boolean algebra is always \(2^n\), where \(n\) is the number of atoms.
+\end{itemize}
+
+
+\subsection{Sum of products}
+
+Every Boolean term \(t\), defined by
+%
+\[\text{term} = \text{variable} \;\vert\; 0 \;\vert\; 1 \;\vert\; (\text{term} + \text{term}) \;\vert\; (\text{term} \cdot \text{term}) \;\vert\; -\text{term}\]
+%
+can be expressed as a sum of products using any of the following methods.
+%
+\begin{itemize}
+    \item Treat \(t\) as a propositional formula by replacing the operations \(+\), \(\cdot\) and \(-\) with \(\lor\), \(\land\) and \(\neg\). Using a tableau, to identify an equivalent DNF formula, which is by definition a sum of products.
+    
+    \item Construct a truth table. The sum of products of possibly negated variables in the rows evaluating to \(1\) must equal \(t\).
+    
+    \item Drive down negations by replacing
+    %
+    \begin{itemize}
+        \item \(\overline{a+b}\) by \(\overline{a}\cdot\overline{b}\);
+        \item \(\overline{a\cdot b}\) by \(\overline{a} + \overline{b}\); and
+        \item \(\overline{\overline{a}}\) by \(a\).
+    \end{itemize}
+    %
+    Use the distribution law if \(\cdot\) is above \(+\).
+    %
+    \[(a + b) \cdot (c + d) = a \cdot c + a \cdot d + b \cdot c + b \cdot d\]
+    %
+    This ultimately results in a sum of products.
+\end{itemize}
+
+
+
+\subsection{Relation algebras}
+
+For any base set \(X\), a set \(a \subseteq X \times X\) is said to be a \emph{binary relation} over \(X\).
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=1.275]
+        \node (x) at (0, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(x\)};
+
+        \node (y) at (2, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(y\)};
+
+        \node (z) at (0, -2)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(z\)};
+
+        \node (w) at (2, -2)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(w\)};
+
+        \draw[black, very thick, -Latex] (x) -- (y);
+        \draw[black, very thick, -Latex] (y) -- (w);
+        \draw[black, very thick, Latex-Latex] (z) -- (w);
+    \end{tikzpicture}
+    \caption{A binary relation \(a\) over a base set \(X\) can be visualised as a directed graph \((X, a)\).}
+    \label{fig:Ch12-relation}
+\end{figure}
+
+If \(\Rel(X)\) denotes the set of all possible binary relations over \(X\),
+%
+\[\Rel(X) = \{a : a \subseteq X \times X\} = P(X \times X)\]
+%
+then
+%
+\[(\Rel(X), \emptyset, X \times X, \cup, \cap, \setminus)\]
+%
+is a Boolean set algebra.
+
+We denote the identity relation as \(\text{Id}_X = \{(x, x) : x \in X\}\).
+
+Given a binary relation \(a\), its \emph{converse} is defined as \(a^\smile = \{(x, y) : (y, x) \in a\}\).
+
+Given two binary relations \(a\) and \(b\), we can create a new binary relation using the \emph{composition} operator, denoted using the semicolon.
+%
+\[a; b = \{(x, y) : \exists z\; (((x, z) \in a) \land ((z, y) \in b))\}\]
+
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=1.275]
+        \node (x) at (0, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(x\)};
+
+        \node (y) at (2, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(y\)};
+
+        \node (z) at (4, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(z\)};
+
+        \node (w) at (6, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(w\)};
+
+        \draw[black, thick, -Latex] (x.45) arc (-45:225:10pt);
+        \draw[black, thick, -Latex] (y.45) arc (-45:225:10pt);
+        \draw[black, thick, -Latex] (z.45) arc (-45:225:10pt);
+        \draw[black, thick, -Latex] (w.45) arc (-45:225:10pt);
+    \end{tikzpicture}
+    \caption{The identity relation.}
+    \label{fig:Ch12-id-relation}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=1.275]
+        \node (x) at (0, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(x\)};
+
+        \node (y) at (2, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(y\)};
+
+        \node (z) at (0, -2)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(z\)};
+
+        \node (w) at (2, -2)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(w\)};
+
+        \draw[BrickRed, very thick, -Latex, transform canvas={yshift=0.1cm}] (x) -- (y);
+        \draw[BurntOrange, very thick, Latex-, transform canvas={yshift=-0.1cm}] (x) -- (y);
+
+        \draw[BrickRed, very thick, -Latex, transform canvas={xshift=0.1cm}] (y) -- (w);
+        \draw[BurntOrange, very thick, Latex-, transform canvas={xshift=-0.1cm}] (y) -- (w);
+
+        \draw[BrickRed, very thick, Latex-Latex, transform canvas={yshift=0.1cm}] (z) -- (w);
+        \draw[BurntOrange, very thick, Latex-Latex, transform canvas={yshift=-0.1cm}] (z) -- (w);
+
+        \node[fill=BrickRed!10, draw=BrickRed, thick, rounded corners, text=BrickRed] at (3, -1.5) {\(a\)};
+
+        \node[fill=BurntOrange!10, draw=BurntOrange, thick, rounded corners, text=BurntOrange] at (3, -2) {\(a^\smile\)};
+    \end{tikzpicture}
+    \caption{The converse of a relation can be obtained by reversing the arrows in its directed graph.}
+    \label{fig:Ch12-converse-relation}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=1.275]
+        \node (x) at (0, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(x\)};
+
+        \node (z) at (2, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(z\)};
+
+        \node (y) at (2, -2)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(y\)};
+
+        \draw[BrickRed, very thick, -Latex] (x) -- (z);
+
+        \draw[BurntOrange, very thick, -Latex] (z) -- (y);
+
+        \draw[Fuchsia, very thick, -Latex] (x) -- (y);
+
+        \node[fill=BrickRed!10, draw=BrickRed, thick, rounded corners, text=BrickRed] at (3, -1) {\(a\)};
+
+        \node[fill=BurntOrange!10, draw=BurntOrange, thick, rounded corners, text=BurntOrange] at (3, -1.5) {\(b\)};
+
+        \node[fill=Fuchsia!10, draw=Fuchsia, thick, rounded corners, text=Fuchsia] at (3, -2) {\(a; b\)};
+    \end{tikzpicture}
+    \caption{A composition of two relations.}
+    \label{fig:Ch12-composition-relation}
+\end{figure}
+
+
+A set of relations \(A \in \Rel(X)\) is called a \emph{proper relation algebra} if
+%
+\begin{itemize}
+    \item \(A\) contains a biggest relation \(U \in \Rel(X)\) and a smallest relation \(\emptyset\),
+    \item \((A, \emptyset, U, \cup, \cap, U, \setminus)\) is a Boolean set algebra,
+    \item \(A\) includes \(\text{Id}_X\), and
+    \item for each \(a, b \in A\), we have \(a^\smile \in A\) and \(a; b \in A\).
+\end{itemize}
+
+A tuple
+%
+\[\mathcal{A} = (A, 0, 1, +, \cdot, -, 1', ^\smile, ;)\]
+%
+with
+\begin{itemize}
+    \item a set \(A \subseteq \Rel(X)\),
+    \item Boolean constants \(0\), \(1\) and an identity relation \(1'\),
+    \item unary operations \(-\) and \(^\smile\), and
+    \item binary operations \(+\), \(\cdot\) and \(;\)
+\end{itemize}
+%
+is called an \emph{abstract relation algebra}, or simply a \emph{relation algebra}, if it satisfies the following axioms.
+%
+\begin{itemize}
+    \item \((A, 0, 1, +, \cdot, -)\) is a Boolean algebra.
+    
+    \item \((A, 1', ;)\) is a monoid, i.e.
+    %
+    \begin{itemize}
+        \item \(;\) is associative.
+        \item for all \(a \in A\), we have \(1'; a = a; 1' = a\).
+    \end{itemize}
+    
+    \item Additivity holds for both \(;\) and \(^\smile\).
+    %
+    \begin{align*}
+        (a + b); (c + d) &= a; c + a; d + b; c + b; d\\
+        (a + b)^\smile &= a^\smile + b^\smile
+    \end{align*}
+
+    \item For all \(a \in A\), we have \(0^\smile = 0; a = a; 0 = 0\).
+    
+    \item Convolution: For all \(a, b \in A\), we have
+    %
+    \begin{align*}
+        (a^\smile)^\smile &= a\\
+        (a; b)^\smile &= b^\smile; a^\smile\text{.}
+    \end{align*}
+
+    \item Triangle law: For all \(a, b, c \in A\), we have \((a; b) \cdot c^\smile = 0 \iff (b; c) \cdot a^\smile = 0\).
+\end{itemize}
+
+The triangle law can be explained by considering its contrapositive.
+%
+\[(a; b) \cdot c^\smile \neq 0 \iff (b; c) \cdot a^\smile \neq 0\]
+%
+Suppose we have \((a; b) \cdot c^\smile \neq 0\). Since the relations \(a; b\) and \(c^\smile\) have a nonzero intersection, there must be some element of \((x, z) \in X \times X\) that is in \(a; b\) and \(c^\smile\). Visually, these two relations must share at least one arrow, as shown in Figure \ref{fig:Ch12-triangle-law1}. Using the definition of composition, there must be some element \(y \in X\) such that \((x, y) \in a\) and \((y, z) \in b\). Also, since \((x, z) \in c^\smile\), we have \((z, x) \in c\). This allows us to construct the triangular configuration shown in Figure \ref{fig:Ch12-triangle-law2}.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=1.275]
+        \node (x) at (0, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(x\)};
+
+        \node (z) at (2, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(z\)};
+
+        \draw[BrickRed, very thick, -Latex, transform canvas={yshift=0.1cm}] (x) -- (z);
+        \draw[BurntOrange, very thick, -Latex, transform canvas={yshift=-0.1cm}] (x) -- (z);
+
+        \node[fill=BrickRed!10, draw=BrickRed, thick, rounded corners, text=BrickRed] at (3, 0.5) {\(a;b\)};
+
+        \node[fill=BurntOrange!10, draw=BurntOrange, thick, rounded corners, text=BurntOrange] at (3, 0) {\(c^\smile\)};
+    \end{tikzpicture}
+    \caption{The inequality \((a; b) \cdot c^\smile \neq 0\) holds if and only if \(a; b\) and \(c^\smile\) share at least one arrow.}
+    \label{fig:Ch12-triangle-law1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=1.275]
+        \node (x) at (0, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(x\)};
+
+        \node (y) at (1, 2)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(y\)};
+
+        \node (z) at (2, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(z\)};
+
+        \draw[BrickRed, very thick, -Latex] (x) -- (y);
+        \draw[Fuchsia, very thick, -Latex] (y) -- (z);
+        \draw[BurntOrange, very thick, -Latex] (z) -- (x);
+
+        \node[fill=BrickRed!10, draw=BrickRed, thick, rounded corners, text=BrickRed] at (3, 1) {\(a\)};
+
+        \node[fill=Fuchsia!10, draw=Fuchsia, thick, rounded corners, text=Fuchsia] at (3, 0.5) {\(b\)};
+
+        \node[fill=BurntOrange!10, draw=BurntOrange, thick, rounded corners, text=BurntOrange] at (3, 0) {\(c\)};
+    \end{tikzpicture}
+    \caption{The inequality \((a; b) \cdot c^\smile \neq 0\) gives a triangular arrow configuration.}
+    \label{fig:Ch12-triangle-law2}
+\end{figure}
+
+Since the arrows in Figure \ref{fig:Ch12-triangle-law2} all point in the same clockwise direction, rotating the figure preserves the triangular shape.
+%
+\begin{align*}
+    \text{Arrows in } a, b, c \text{ form a triangle} &\iff \text{Arrows in } b, c, a \text{ form a triangle}\\
+    &\iff \text{Arrows in } c, a, b \text{ form a triangle}
+\end{align*}
+%
+Therefore,
+%
+\begin{align*}
+    (a; b) \cdot c^\smile \neq 0 &\iff (b; c) \cdot a^\smile \neq 0\\
+    &\iff (c; a) \cdot b^\smile \neq 0
+\end{align*}
+%
+which gives the triangle law.
+
+An isomorphism \(\theta\) from an abstract relation algebra \(\mathcal{A} = (A, 0, 1, +, \cdot, -, 1', ^\smile, ;)\) into a proper relation algebra \(\Rel(X)\) (for some non-empty set \(X\)) is called a \emph{representation} of \(\mathcal{A}\). RRA denotes the class of all representable relation algebras.
+
+For example, consider an abstract relation algebra \(\mathcal{P}\) with atoms \(1'\), \(<\) and \(>\). Since there are \(3\) atoms, \(\mathcal{P}\) must have a total of \(2^3 = 8\) elements.
+%
+\begin{itemize}
+    \item Converses are defined as follows.
+    %
+    \begin{align*}
+        <^\smile &= >\\
+        >^\smile &= <\\
+        (1')^\smile &= 1'
+    \end{align*}
+
+    \item Compositions are defined in the following table.
+    
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{l|lll}
+            \(;\) & \(1'\) & \(<\) & \(>\)\\
+            \hline
+            \(1'\) & \(1'\) & \(<\) & \(>\)\\
+            \(<\) & \(<\) & \(<\) & \((1' + < + >)\)\\
+            \(>\) & \(>\) & \((1' + < + >)\) & \(>\)\\
+        \end{tabular}
+    \end{table}
+
+    \item Other converses and compositions are defined on sums of atoms by additivity.
+\end{itemize}
+
+A representation \(\theta\) of \(P\) can be constructed using the set \(\mathbb{Q}\) of rational numbers as a base.
+%
+\begin{align*}
+    \theta(1') &= \text{Id}_\mathbb{Q} = \{(q, q) : q \in \mathbb{Q}\}\\
+    \theta(<) &= \{(q, r) : q < r,\; q, r \in \mathbb{Q}\}\\
+    \theta(>) &= \{(q, r) : q > r,\; q, r \in \mathbb{Q}\}
+\end{align*}
+
+However, \(\mathbb{P}\) has no representation over a finite base. This is because for any base \(X\), there must exist two elements \(x, y \in X\) such that \((x, y) \in \theta(<)\), as \(\theta\) is injective and \(\theta(0)\) gives the empty set. Since \(< \cdot 1' = 0\), this implies that \((x, y) \notin \theta(1')\) and \(x \neq y\). Since \(< = < ; <\), there must be some \(z\) such that \((x, z), (z, y) \in \theta(<)\). It follows that for any \(n \in \mathbb{N}\) there are elements \(z_0, z_1, \cdots, z_{n - 1}\) such that
+%
+\[(x, z_0), (z_i, z_i+1), (z_{n-1}, y) \in \theta(<)\]
+%
+for all \(i < n - 1\), with \(x, z_0, z_1, \cdots, z_{n-1}, y\) all distinct. Therefore, \(X\) must be infinite.
+
+
+
+\subsection{Monk algebra}
+
+Named after logician J. Donald Monk, a \emph{Monk algebra} refers to a specific type of relation algebra used in logic and combinatorics to study representability. For example, consider an abstract relation algebra \(\mathcal{M}\) with the atoms \(1'\), \(r\) and \(b\). Suppose these atoms are \emph{self-converse}, so their converses are themselves.
+%
+\begin{align*}
+    (1')^\smile &= 1'\\
+    r^\smile &= r\\
+    b^\smile &= b
+\end{align*}
+%
+Their compositions are given by the composition table below.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{l|lll}
+        \(;\) & \(1'\) & \(r\) & \(b\)\\
+        \hline
+        \(1'\) & \(1'\) & \(r\) & \(b\)\\
+        \(r\) & \(r\) & \((1' + b)\) & \((r + b)\)\\
+        \(b\) & \(b\) & \((r + b)\) & \((1' + r)\)
+    \end{tabular}
+\end{table}
+
+Using red and blue edges for relations \(r\) and \(b\) respectively, this means that any representation of \(\mathcal{M}\) must not contain any monochromatic triangles, i.e. triangles with either three red edges or three blue edges. This is shown in Figure \ref{fig:Ch12-forbidden-triangles}.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=1.275]
+        \node (x) at (0, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(x\)};
+
+        \node (y) at (1, 2)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(y\)};
+
+        \node (z) at (2, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(z\)};
+
+        \draw[BrickRed, very thick, Latex-Latex] (x) -- (y);
+        \draw[BrickRed, very thick, Latex-Latex] (y) -- (z);
+        \draw[BrickRed, very thick, Latex-Latex] (z) -- (x);
+
+        \begin{scope}[xshift=4cm]
+            \node (x) at (0, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(x\)};
+
+            \node (y) at (1, 2)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(y\)};
+
+            \node (z) at (2, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(z\)};
+
+            \draw[RoyalBlue, very thick, Latex-Latex] (x) -- (y);
+            \draw[RoyalBlue, very thick, Latex-Latex] (y) -- (z);
+            \draw[RoyalBlue, very thick, Latex-Latex] (z) -- (x);
+        \end{scope}
+    \end{tikzpicture}
+    \caption{Monochromatic triangles are forbidden in any representation of \(\mathcal{M}\).}
+    \label{fig:Ch12-forbidden-triangles}
+\end{figure}
+
+
+
+In Ramsey theory, the \emph{representability problem} asks whether Monk algebras, such as the one defined above, can be concretely represented as proper relation algebras. Here, we will specifically consider proper relation algebras that represent an edge coloring of a complete graph\footnote{A graph is said to be \emph{complete} if every distinct pair of vertices is connected by a single unique edge.}. For instance, Figure \ref{fig:Ch12-monk-algebra-representations} shows two base-isomorphic representations of \(\mathcal{M}\) as a complete graph with five vertices.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=1.275]
+        \node (v) at (0, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(v\)};
+
+        \node (w) at (-1, 2)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(w\)};
+
+        \node (x) at (1, 3.5)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(x\)};
+
+        \node (y) at (3, 2)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(y\)};
+
+        \node (z) at (2, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(z\)};
+
+        \draw[BrickRed, very thick, Latex-Latex] (v) -- (w);
+        \draw[BrickRed, very thick, Latex-Latex] (w) -- (x);
+        \draw[BrickRed, very thick, Latex-Latex] (x) -- (y);
+        \draw[BrickRed, very thick, Latex-Latex] (y) -- (z);
+        \draw[BrickRed, very thick, Latex-Latex] (z) -- (v);
+
+        \draw[RoyalBlue, very thick, Latex-Latex] (v) -- (x);
+        \draw[RoyalBlue, very thick, Latex-Latex] (v) -- (y);
+        \draw[RoyalBlue, very thick, Latex-Latex] (w) -- (y);
+        \draw[RoyalBlue, very thick, Latex-Latex] (w) -- (z);
+        \draw[RoyalBlue, very thick, Latex-Latex] (x) -- (z);
+
+        \begin{scope}[xshift=6cm]
+            \node (v) at (0, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(v\)};
+
+            \node (w) at (-1, 2)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(w\)};
+
+            \node (x) at (1, 3.5)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(x\)};
+
+            \node (y) at (3, 2)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(y\)};
+
+            \node (z) at (2, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(z\)};
+
+            \draw[RoyalBlue, very thick, Latex-Latex] (v) -- (w);
+            \draw[RoyalBlue, very thick, Latex-Latex] (w) -- (x);
+            \draw[RoyalBlue, very thick, Latex-Latex] (x) -- (y);
+            \draw[RoyalBlue, very thick, Latex-Latex] (y) -- (z);
+            \draw[RoyalBlue, very thick, Latex-Latex] (z) -- (v);
+
+            \draw[BrickRed, very thick, Latex-Latex] (v) -- (x);
+            \draw[BrickRed, very thick, Latex-Latex] (v) -- (y);
+            \draw[BrickRed, very thick, Latex-Latex] (w) -- (y);
+            \draw[BrickRed, very thick, Latex-Latex] (w) -- (z);
+            \draw[BrickRed, very thick, Latex-Latex] (x) -- (z);
+        \end{scope}
+    \end{tikzpicture}
+    \caption{Two representations of \(\mathcal{M}\), which are base isomorphic to each other.}
+    \label{fig:Ch12-monk-algebra-representations}
+\end{figure}
+
+
+
+\begin{theorem}[Special case of Ramsey's theorem]
+    The Monk algebra \(\mathcal{M}\), as defined above, does not have any representation in a complete graph of six vertices. In other words, it is impossible to colour the edges of a complete graph of six vertices without creating any monochromatic triangles.
+\end{theorem}
+\begin{proof}
+    Proof by contradiction. Assume the contrary, meaning that there is some representation of \(\mathcal{M}\) in a complete graph of six vertices \(\{v_0,\; v_1,\; v_2,\; v_3,\; v_4,\; v_5\}\).
+
+    Since the graph is complete, \(v_0\) must have \(5\) outgoing edges, each of which is either red or blue. By the pigeonhole principle, at least \(3\) of these edges must be the same colour. Without loss of generality, assume that the edges from \(v_0\) to \(v_1\), \(v_2\) and \(v_3\) are all red. See Figure \ref{fig:Ch12-monk-algebra-six-vertices-pigeonhole}.
+
+    Notice that both edges \(v_0 \longleftrightarrow v_1\) and \(v_0 \longleftrightarrow v_2\) are red. To avoid the monochromatic triangles, the edge \(v_1 \longleftrightarrow v_2\) must be blue.
+    
+    Similarly, the edges \(v_2 \longleftrightarrow v_3\) and \(v_1 \longleftrightarrow v_3\) must be blue too. However, this creates a monochromatic triangle with vertices \(v_1\), \(v_2\) and \(v_3\), violating the original assumption. See Figure \ref{fig:Ch12-monk-algebra-six-vertices-monochromatic}.
+\end{proof}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=1.1]
+        \node (v0) at (1, 1.5)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(v_0\)};
+
+        \node (v1) at (0, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(v_1\)};
+
+        \node (v2) at (-1, 2)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(v_2\)};
+
+        \node (v3) at (1, 3.5)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(v_3\)};
+
+        \node (v4) at (3, 2)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(v_4\)};
+
+        \node (v5) at (2, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(v_5\)};
+
+        \draw[BrickRed, very thick, Latex-Latex] (v0) -- (v1);
+        \draw[BrickRed, very thick, Latex-Latex] (v0) -- (v2);
+        \draw[BrickRed, very thick, Latex-Latex] (v0) -- (v3);
+        \draw[gray, very thick, Latex-Latex] (v0) -- (v4);
+        \draw[gray, very thick, Latex-Latex] (v0) -- (v5);
+    \end{tikzpicture}
+    \caption{At least \(3\) of \(5\) outgoing edges from \(v_0\) must be the same colour.}
+    \label{fig:Ch12-monk-algebra-six-vertices-pigeonhole}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=1.1]
+        \node (v0) at (1, 1.5)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(v_0\)};
+
+        \node (v1) at (0, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(v_1\)};
+
+        \node (v2) at (-1, 2)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(v_2\)};
+
+        \node (v3) at (1, 3.5)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(v_3\)};
+
+        \node (v4) at (3, 2)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(v_4\)};
+
+        \node (v5) at (2, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(v_5\)};
+
+        \draw[BrickRed, very thick, Latex-Latex] (v0) -- (v1);
+        \draw[BrickRed, very thick, Latex-Latex] (v0) -- (v2);
+        \draw[BrickRed, very thick, Latex-Latex] (v0) -- (v3);
+        \draw[RoyalBlue, very thick, Latex-Latex] (v1) -- (v2);
+        \draw[RoyalBlue, very thick, Latex-Latex] (v2) -- (v3);
+        \draw[RoyalBlue, very thick, Latex-Latex] (v1) -- (v3);
+        \draw[gray, very thick, Latex-Latex] (v0) -- (v4);
+        \draw[gray, very thick, Latex-Latex] (v0) -- (v5);
+    \end{tikzpicture}
+    \caption{It is impossible to colour the edges of a complete graph of six vertices without creating any monochromatic triangles.}
+    \label{fig:Ch12-monk-algebra-six-vertices-monochromatic}
+\end{figure}
+
+
+Now consider a slightly different Monk algebra \(\mathcal{M}'\) where the red atom \(r\) has been split into two separate atoms \(r_1\) and \(r_2\). This gives a total of four self-converse atoms \(1'\), \(r_1\), \(r_2\) and \(b\), with the following composition table. Like before, this composition table forbids any monochromatic triangles.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{l|llll}
+        \(;\) & \(1'\) & \(r_1\) & \(r_2\) & \(b\)\\
+        \hline
+        \(1'\) & \(1'\) & \(r_1\) & \(r_2\) & \(b\)\\
+        \(r_1\) & \(r_1\) & \((1' + b)\) & \(b\) & \((r_1 + r_2 + b)\)\\
+        \(r_2\) & \(r_2\) & \(b\) & \((1' + b)\) & \((r_1 + r_2 + b)\)\\
+        \(b\) & \(b\) & \((r_1 + r_2 + b)\) & \((r_1 + r_2 + b)\) & \((1' + r_1 + r_2)\)
+    \end{tabular}
+\end{table}
+
+
+\begin{theorem}
+    The Monk algebra \(\mathcal{M}'\), as defined above, has no representation in any complete graph.
+\end{theorem}
+\begin{proof}
+    Proof by contradiction. Assume the contrary that \(\mathcal{M}'\) has a representation in a complete graph with \(n\) vertices.
+
+    Since \(b > 0\), there must be at least one blue edge \(x \longleftrightarrow y\). In order for the composition
+    %
+    \[r_1; r_2 = b\]
+    %
+    to hold, there must be some other vertex \(z_1\) such that the edges \(x \longleftrightarrow z_1\) and \(z_1 \longleftrightarrow y\) have colours \(r_1\) and \(r_2\) respectively. This is shown in Figure \ref{fig:Ch12-unrepresentable-monk-algebra-third-vertex}.
+
+    Similarly, the compositions
+    %
+    \begin{align*}
+        r_1; r_1 &= (1' + b)\\
+        r_1; b &= (r_1 + r_2 + b)\\
+        r_2; r_1 &= b\\
+        r_2; r_2 &= (1' + b)\\
+        r_2; b &= (r_1 + r_2 + b)\\
+        b; r_1 &= (r_1 + r_2 + b)\\
+        b; r_2 &= (r_1 + r_2 + b)
+    \end{align*}
+    %
+    all require distinct intermediate vertices between \(x\) and \(y\), as seen in Figure \ref{fig:Ch12-unrepresentable-monk-algebra-eight-intermediates}.
+    
+    Clearly, this graph must have over six vertices. As previously proved, this graph must contain at least one monochromatic triangle and hence cannot be a representation of \(\mathcal{M}'\), violating our original assumption.
+\end{proof}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=2]
+        \node (x) at (0, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(x\)};
+
+        \node (y) at (1, 0)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(y\)};
+
+        \node (z1) at (0.5, 1)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(z_1\)};
+
+        \draw[RoyalBlue, very thick, Latex-Latex] (x) -- (y);
+
+        \draw[BrickRed, very thick, Latex-Latex] (x) -- (z1) node[pos=0.5, left] {\(r_1\)};
+        \draw[BrickRed, very thick, Latex-Latex] (y) -- (z1) node[pos=0.5, right] {\(r_2\)};
+    \end{tikzpicture}
+    \caption{The presence of a blue edge requires a third intermediate vertex \(z_1\).}
+    \label{fig:Ch12-unrepresentable-monk-algebra-third-vertex}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=2]
+        \node (x) at (0, -1)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(x\)};
+
+        \node (y) at (1, -1)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(y\)};
+
+        \node (z1) at (-3, 2)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(z_1\)};
+
+        \node (z2) at (-2, 2)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(z_2\)};
+
+        \node (z3) at (-1, 2)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(z_3\)};
+
+        \node (z4) at (0, 2)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(z_4\)};
+
+        \node (z5) at (1, 2)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(z_5\)};
+
+        \node (z6) at (2, 2)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(z_6\)};
+
+        \node (z7) at (3, 2)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(z_7\)};
+
+        \node (z8) at (4, 2)[draw=MidnightBlue, circle, very thick, MidnightBlue, fill=MidnightBlue!20] {\(z_8\)};
+
+        \draw[RoyalBlue, very thick, Latex-Latex] (x) -- (y);
+
+        \draw[BrickRed, very thick, Latex-Latex] (x) -- (z1) node[pos=0.85, left] {\(r_1\)};
+        \draw[BrickRed, very thick, Latex-Latex] (y) -- (z1) node[pos=0.85, right] {\(r_2\)};
+
+        \draw[BrickRed, very thick, Latex-Latex] (x) -- (z2) node[pos=0.85, left] {\(r_1\)};
+        \draw[BrickRed, very thick, Latex-Latex] (y) -- (z2) node[pos=0.85, right] {\(r_1\)};
+
+        \draw[BrickRed, very thick, Latex-Latex] (x) -- (z3) node[pos=0.85, left] {\(r_1\)};
+        \draw[RoyalBlue, very thick, Latex-Latex] (y) -- (z3) node[pos=0.85, right] {\(b\)};
+
+        \draw[BrickRed, very thick, Latex-Latex] (x) -- (z4) node[pos=0.85, left] {\(r_2\)};
+        \draw[BrickRed, very thick, Latex-Latex] (y) -- (z4) node[pos=0.85, right] {\(r_1\)};
+
+        \draw[BrickRed, very thick, Latex-Latex] (x) -- (z5) node[pos=0.85, left] {\(r_2\)};
+        \draw[BrickRed, very thick, Latex-Latex] (y) -- (z5) node[pos=0.85, right] {\(r_2\)};
+
+        \draw[BrickRed, very thick, Latex-Latex] (x) -- (z6) node[pos=0.85, left] {\(r_2\)};
+        \draw[RoyalBlue, very thick, Latex-Latex] (y) -- (z6) node[pos=0.85, right] {\(b\)};
+
+        \draw[RoyalBlue, very thick, Latex-Latex] (x) -- (z7) node[pos=0.85, left] {\(b\)};
+        \draw[BrickRed, very thick, Latex-Latex] (y) -- (z7) node[pos=0.85, right] {\(r_1\)};
+
+        \draw[RoyalBlue, very thick, Latex-Latex] (x) -- (z8) node[pos=0.85, left] {\(b\)};
+        \draw[BrickRed, very thick, Latex-Latex] (y) -- (z8) node[pos=0.85, right] {\(r_2\)};
+    \end{tikzpicture}
+    \caption{In total, eight intermediate vertices are required by a blue edge.}
+    \label{fig:Ch12-unrepresentable-monk-algebra-eight-intermediates}
+\end{figure}
+
+As exemplified by the theorem above, not all relation algebras are representable.
+%
+\[\text{RRA} \subsetneq \text{RA}\]
+
+
+
+\subsection{Characterising representability by games}
+
+\textit{Note: This section is written with reference to the article ``Games in Algebraic Logic: Axiomatisations and Beyond'' (2005) by Robin Hirsch and Ian Hodkinson.}
+
+Determining whether a relation algebra is representable is an undecidable problem. Here, we devise a two-player game to test the representability of atomic relation algebras.
+
+Let \(\mathcal{A}\) be a finite atomic relation algebra. Let \(G\) be a complete directed graph with nodes \(X\) and edges \(X \times X\). We may label each edge in this complete graph with the corresponding atom using a labelling function \(N : X \times X \rightarrow \At(\mathcal{A})\). This labelling function (or the resultant labelled graph) is called a \emph{network} and must satisfy the following conditions.
+%
+\begin{align*}
+    N(x, y) \leq 1' &\iff x = y\\
+    N(y, x) &= (N(x, y))^\smile\\
+    N(x, y); N(y, z) &\geq N(x, z)
+\end{align*}
+%
+These may be read as follows.
+%
+\begin{itemize}
+    \item All reflexive edges are labelled with atoms below the identity. Note that the identity does not necessarily have to be an atom.
+    \item Whenever an edge is labelled with an atom, the converse must be labelled with the converse atom.
+    \item No forbidden triangles are allowed.
+\end{itemize}
+
+The game consists of \(n\) \emph{rounds} (where \(n\) is either finite or countably infinite) and has two players: \(\forall\) (male) and \(\exists\) (female).
+%
+\begin{itemize}
+    \item If \(n = 0\), there are no rounds and \(\exists\) is declared the winner.
+    \item In round 0, \(\forall\) selects some atom \(a_0 \in \At(\mathcal{A})\). Then, \(\exists\) responds by playing a network \(N_0\) containing \(a_0\) as a label.
+    \item In round \(t\) (\(1 \leq t < n\)),
+    \begin{itemize}
+        \item Let \(N_{t-1}\) be the current network at the start of the round.
+        \item \(\forall\) selects some existing edge \((x, y)\) in the network with the label \(N_{t-1} (x, y)\). Then, he selects atoms \(a, b \in \At(\mathcal{A})\) such that \(a;b \geq N_{t-1} (x, y)\).
+        \item If there already exists a node \(z\) such that \(N_{t-1} (x, z) = a\) and \(N_{t-1} (z, y) = b\), then \(\exists\) does not have to do anything, resulting in \(N_t = N_{t - 1}\).
+        \item Otherwise, she must begin by adding a new node \(z\) to \(N_{t - 1}\), labelling the edges \((x, z)\) with \(a\) and \((z, y)\) with \(b\). This forms the basis of the new network \(N_t\). Finally, she must complete the labelling of \(N_t\) by defining \(N_t(u, v)\) for all remaining pairs \((u, v)\) of nodes. These are the ones other than \((x, z)\), \((z, y)\) and pairs of nodes of \(N_{t-1}\), whose labels are already fixed.
+        \item If \(\exists\) fails to complete the labelling and create a new network, she loses.
+    \end{itemize}
+
+    \item It can be very hard for \(\exists\) to complete the labelling. \(N_t\) must be a network, so all its triangles must be consistent. Moreover, \(N_t\) is then passed on to the next round (if any), in which \(\forall\) can make new choices and potentially force a loss for \(\exists\).
+    
+    \item If \(\exists\) has a winning strategy where she always responds legally to \(\forall\)'s moves, she wins.
+\end{itemize}
+
+Note the following theorem regarding this game.
+
+\begin{theorem}
+    Let \(\mathcal{A}\) be a finite relation algebra.
+    \begin{itemize}
+        \item \(\mathcal{A}\) is a representable relation algebra if and only if \(\exists\) has a winning strategy in a game of countably infinite rounds.
+        \item \(\exists\) has a winning strategy in a game of countably infinite rounds if and only if she has a winning strategy in a game of \(n\) rounds for all finite \(n\).
+        \item For all finite \(n\), we can construct first-order sentences \(\sigma_n\) such that \(A \models \sigma_n\) if and only if \(\exists\) has a winning strategy in a game of \(n\) rounds.
+    \end{itemize}
+\end{theorem}
+
+It follows from this theorem that for any finite relation algebra \(\mathcal{A}\),
+%
+\[\mathcal{A} \in \text{RRA} \iff \mathcal{A}\models\{\sigma_n : n \in \mathbb{N}\}\text{.}\]
+%
+For any infinite atomic relation algebra \(\mathcal{A}\), we have
+%
+\[\mathcal{A}\models\{\sigma_n : n \in \mathbb{N}\} \Rightarrow \mathcal{A} \in \text{RRA}\text{.}\]
+
+
+
+\subsection{An example of the representability game, using Ramsey numbers}
+
+Let \(K_n\) be the complete irreflexive undirected graph on \(n\) vertices. Given \(k\) colours
+%
+\[C_k = \{C_0, C_1, \cdots, C_{k-1}\}\]
+%
+a \emph{\(k\)-colour edge colouring} of \(K_n\) is a function mapping each edge of \(K_n\) to a colour in \(C_k\) such that there are no monochromatic triangles.
+
+Consider the following sequence.
+%
+\[
+M(k) = \begin{cases}
+    2 \text{\hspace{4cm} if \(k = 0\)}\\
+    2 + k \cdot (M(k - 1) - 1) \text{\hspace{0.75cm} otherwise}
+\end{cases}
+\]
+
+\begin{theorem}
+    For all \(k \in \mathbb{N}\), it is impossible to construct a \(k\)-colour edge colouring for a complete irreflexive undirected graph on \(M(k)\) vertices.
+\end{theorem}
+\begin{proof}
+    Proof by induction.
+
+    \textit{Base case.} For \(k = 0\), a complete irreflexive undirected graph has one edge. Since no colours are available, an edge colouring cannot be constructed.
+
+    \textit{Step case.} Assume for some \(k \in \mathbb{N}\) that it is impossible to construct a \(k\)-colour edge colouring for \(K_{M(k)}\). We want to show that it is also impossible to construct a \((k+1)\)-colour edge colouring for \(K_{M(k+1)}\), where \(M(k+1) = 2 + (k + 1) \cdot (M(k)-1)\).
+
+    Suppose, for contradiction, that such a colouring exists for \(K_{M(k+1)}\).
+    
+    Select any vertex \(v\). As the graph is complete, the vertex \(v\) must be connected to
+    %
+    \begin{align*}
+        M(k+1) - 1 &= 2 + (k + 1) \cdot (M(k)-1) - 1\\
+        &= 1 + (k + 1) \cdot (M(k)-1)
+    \end{align*}
+    %
+    other vertices. By the pigeonhole principle, there must be some colour \(c\) that appears on at least \(M(k)\) of those edges.
+
+    Let \(G\) be the subgraph formed by vertices to which \(v\) is connected via an edge of colour \(c\). Since the original graph forbids any monochromatic triangles, \(G\) must not contain any edge coloured \(c\). (Otherwise, the original graph would have a monochromatic triangle, coloured \(c\), involving the vertex \(v\).) Hence, \(G\) is a complete irreflexive undirected graph which contains \(k\) colours but no monochromatic triangles. This is a contradiction which violates the induction hypothesis.
+
+    It follows that there is no \((k+1)\)-colour edge colouring for \(K_{M(k+1)}\).
+
+    By principles of induction, there is no \(k\)-colour edge colouring in \(K_{M(k)}\) for any \(k \in \mathbb{N}\).
+\end{proof}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+        \(k\) & \(M(k)\)\\
+        \hline
+        0 & 2\\
+        1 & 3\\
+        2 & 6\\
+        3 & 17\\
+        \(\vdots\) & \(\vdots\)\\
+        \hline
+    \end{tabular}
+    \caption{The sequence \(M(k)\) serves upper bounds for Ramsay numbers \(R(k, 3)\).}
+    \label{Ch12-ramsey-nums}
+\end{table}
+
+Now consider a Monk algebra \(\mathcal{M}_n\) with \(n+1\) atoms.
+%
+\[\At(\mathcal{M}_n) = \{1'\} \cup \{a_i : i < n\}\]
+%
+We define composition as follows, forbidding any monochromatic triangles.
+%
+\begin{align*}
+    1';x &= x \tag{for all \(x \in \At(\mathcal{M}_n)\)}\\
+    x;1' &= x \tag{for all \(x \in \At(\mathcal{M}_n)\)}\\
+    a_i; a_j &= \begin{cases*}
+        -a_i \text{ if } i = j\\
+        -1' \text{ otherwise}
+    \end{cases*}
+\end{align*}
+%
+We know from the theorem above that \(\mathcal{M}_n\) has no representation with \(M(n)\) points or more.
+
+Create a new Monk algebra \(\mathcal{M}'_n\) by splitting the atom \(a_0\) into \(M(n)\) atoms. This means that \(\mathcal{M}'_n\) has atoms
+%
+\[\At(\mathcal{M}'_n) = \{a_0^i : i < M(n)\} \cup \{1'\} \cup \{a_i : 1 \leq i < n\}\text{.}\]
+%
+Like \(\mathcal{M}_n\), Any representation of this new algebra \(\mathcal{M}'_n\) must have fewer than \(M(n)\) points. However, this is not enough to witness all these atoms. Hence, \(\mathcal{M}_n\) has no representation whatsoever.
+
+We will investigate this by comparing with the representability game. 
+
+At the start of each round \(t\) (\(1 \leq t < M(n)\)), the network is \(N_{t-1}\). \(\forall\) selects some existing edge \((x, y)\) in the network with the label \(N_{t-1} (x, y)\). Then, he selects atoms \(a, b \in \At(\mathcal{A})\) such that \(a;b \geq N_{t-1} (x, y)\). \(\exists\) must then respond by adding a new node and completing the labelling.
+%
+\begin{itemize}
+    \item \(\exists\) has a winning strategy in \(G_{n}(\mathcal{M}'_n)\). She can simply label new edges with colours that are distinct from each other and also distinct from \(a\) and \(b\). However, this winning strategy only lasts for the first \(n\) rounds, as the colours will eventually run out.
+    \item \(\forall\) has a winning strategy in \(G_{M(n)}(\mathcal{M}'_n)\).
+    \begin{itemize}
+        \item In round 0, \(\forall\) selects the atom \(a_1\). Thus, \(\exists\) must respond with a network with an edge \((x, y)\) labelled \(a_1\).
+        \item In each subsequent round, \(\forall\) selects this edge \((x, y)\). He also selects the atoms \(a_0^i\) and \(a_1\), since \(a_0^i; a_1 \geq a_1\). The value of \(i\) increases from \(0\) to \(M(n) - 1\) as the rounds go on. It can be proven that \(\exists\) must create a monochromatic triangle at some point in these rounds, giving \(\forall\) the victory.
+    \end{itemize}
+\end{itemize}
+
+
+
+\subsection{RRA is not finitely axiomatisable}
+
+\begin{theorem}
+    The class of representable relation algebras, or RRA, is not finitely axiomatisable.
+\end{theorem}
+\begin{proof}
+    Any finite set of axioms can be combined via conjunction to form a single equivalent axiom \(\phi\). Suppose, for contradiction, that there is some axiom \(\phi\) such that for all relation algebras \(\mathcal{A} \in \text{RA}\), we have
+    %
+    \[\mathcal{A} \models \phi \iff \mathcal{A} \in \text{RRA.}\]
+    %
+    Let \(\Sigma\) be the theory
+    %
+    \[
+    \underbrace{\{\neg\phi\}}_{\mathcal{A} \text{ is not representable}}
+    \cup
+    \underbrace{\{\sigma_i : i \in\mathbb{N}\}}_{\exists \text{ has winning strategy }}
+    \cup
+    \underbrace{\{\forall x\; (x \neq 0 \rightarrow \exists y \in \At\; (y \leq x))\}}_{\mathcal{A} \text{ is atomic}}
+    \text{.}
+    \]
+
+    Any finite subset \(S\) of this theory must be contained in
+    %
+    \[
+    \underbrace{\{\neg\phi\}}_{\mathcal{A} \text{ is not representable}}
+    \cup
+    \underbrace{\{\sigma_i : i < n\}}_{\exists \text{ has temporary winning strategy }}
+    \cup
+    \underbrace{\{\forall x\; (x \neq 0 \rightarrow \exists y \in \At\; (y \leq x))\}}_{\mathcal{A} \text{ is atomic}}
+    \]
+    %
+    for some finite \(n\).
+
+    Notice that \(\mathcal{M}'_n\) is atomic, not representable, and provides \(\exists\) with a temporary winning strategy. Therefore, \(\mathcal{M}'_n \models S\).
+
+    By the compactness theorem, \(\Sigma\) has a model \(\mathcal{A}\). By definition of \(\Sigma\), this model \(\mathcal{A}\) is an atomic relation algebra that is not representable but provides \(\exists\) with a winning strategy, which is absurd.
+
+    Hence, RRA cannot be defined by finitely many axioms.
+\end{proof}

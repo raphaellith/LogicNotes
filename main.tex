@@ -26,7 +26,8 @@
 \usetikzlibrary{arrows.meta}
 % \usetikzlibrary{calc}
 % \usetikzlibrary{decorations.pathreplacing,calligraphy}  % Braces
-
+\usepackage{venndiagram}
+\usepackage{ifthen}
 
 % For links
 \PassOptionsToPackage{hyphens}{url}\usepackage[hidelinks]{hyperref}
@@ -73,6 +74,8 @@
 \newtheorem*{lemma}{Lemma}
 
 \DeclareMathOperator{\Rk}{Rk}
+\DeclareMathOperator{\At}{At}
+\DeclareMathOperator{\Rel}{Rel}
 
 \newcommand{\doubleplus}{\mathbin{{+}{+}}}
 
@@ -135,5 +138,8 @@
 
 \newpage
 \input{Sections/11_EpistemicTemporalDynamic.tex}
+
+\newpage
+\input{Sections/12_AlgebraicLogic.tex}
 
 \end{document}

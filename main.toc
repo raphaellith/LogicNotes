@@ -68,4 +68,15 @@
 \contentsline {subsubsection}{\numberline {11.4.1}Syntax}{53}{subsubsection.11.4.1}%
 \contentsline {subsubsection}{\numberline {11.4.2}Semantics, as a labelled transition system}{53}{subsubsection.11.4.2}%
 \contentsline {subsubsection}{\numberline {11.4.3}Inference system}{55}{subsubsection.11.4.3}%
-\contentsline {subsubsection}{\numberline {11.4.4}Program correctness}{55}{subsubsection.11.4.4}%
+\contentsline {section}{\numberline {12}Algebraic logic}{56}{section.12}%
+\contentsline {subsection}{\numberline {12.1}Groups}{56}{subsection.12.1}%
+\contentsline {subsection}{\numberline {12.2}Boolean algebra}{57}{subsection.12.2}%
+\contentsline {subsection}{\numberline {12.3}Boolean set algebra and representations}{58}{subsection.12.3}%
+\contentsline {subsection}{\numberline {12.4}Atoms}{58}{subsection.12.4}%
+\contentsline {subsection}{\numberline {12.5}Free generation}{60}{subsection.12.5}%
+\contentsline {subsection}{\numberline {12.6}Sum of products}{61}{subsection.12.6}%
+\contentsline {subsection}{\numberline {12.7}Relation algebras}{62}{subsection.12.7}%
+\contentsline {subsection}{\numberline {12.8}Monk algebra}{65}{subsection.12.8}%
+\contentsline {subsection}{\numberline {12.9}Characterising representability by games}{68}{subsection.12.9}%
+\contentsline {subsection}{\numberline {12.10}An example of the representability game, using Ramsey numbers}{69}{subsection.12.10}%
+\contentsline {subsection}{\numberline {12.11}RRA is not finitely axiomatisable}{71}{subsection.12.11}%
