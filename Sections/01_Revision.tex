@@ -341,7 +341,7 @@ Formulas are evaluated as follows.
     S \models_A (\text{formula}_0 \lor \text{formula}_1) &\iff S \models_A \text{formula}_0 \text{ or } S \models_A \text{formula}_1\\
     % S \models_A (\text{formula}_0 \land \text{formula}_1) &\iff S \models_A \text{formula}_0 \text{ and } S \models_A \text{formula}_1\\
     % S \models_A (\text{formula}_0 \rightarrow \text{formula}_1) &\iff S \not\models_A \text{formula}_0 \text{ or } S \models_A \text{formula}_1\\
-    S \models_A \exists v\; \text{formula} &\iff S \models_{A[x \mapsto d]} \text{formula for some } d \in D
+    S \models_A \exists v\; \text{formula} &\iff S \models_{A[v \mapsto d]} \text{formula for some } d \in D
 \end{align*}
 
 Given a structure \(S\) and a formula \(\phi\), we say that
